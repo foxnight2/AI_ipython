@@ -6,7 +6,6 @@ import paddle.nn.functional as F
 # from .. import initializer as int
 
 
-
 class HardSigmoid(nn.Layer):
     def __init__(self, ):
         super().__init__()
@@ -29,7 +28,49 @@ class ShiftedSigmoid(nn.Layer):
         x = self.sigmoid(x)
         return 2 * x - 1
         
+
+class DynamicReLUB(nn.Layer):
+    def __init__(self, channels, reduction=4, k=2, conv_type='2d'):
+        super().__init__()
         
+        self.channels = channels
+        self.k = k
+        self.conv_type = conv_type.lower()
+        
+        self.mm_coefs = nn.Sequential(nn.Linear(channels, channels // reduction),
+                                      nn.ReLU(), 
+                                      nn.Linear(channels // reduction, 2 * channels * k),
+                                      ShiftedSigmoid())
+        
+        self.register_buffer('init_w', paddle.to_tensor([1.] * k + [0.5] * k, dtype='float32'))
+        self.register_buffer('init_b', paddle.to_tensor([1.] + [0.] * (2 * k - 1), dtype='float32'))
+
+    def get_params(self, x):
+        # n, c, h, w -> n, c -> n, c * 2k
+        theta = paddle.mean(x, axis=-1)
+        if self.conv_type == '2d':
+            theta = paddle.mean(theta, axis=-1)        
+        return self.mm_coefs(theta)
+
+    def forward(self, x):
+        
+        theta = self.get_params(x)
+        theta = theta.reshape([-1, self.channels, 2 * self.k]) * self.init_w + self.init_b
+    
+        if self.conv_type == '2d':
+            # n c h w -> h w n c 1
+            out = x.transpose([2, 3, 0, 1]).unsqueeze(-1)
+            out = out * theta[:, :, :self.k] + theta[:, :, self.k:]
+            
+            # n w n c 2 -> n c h w
+            out = out.max(axis=-1).transpose([2, 3, 0, 1])
+            
+        return out
+
+
+
+    
+
 class DynamicHeadBlock(nn.Layer):
     def __init__(self, levels=3, channels=8, dim=128):
         super().__init__()
@@ -49,10 +90,11 @@ class DynamicHeadBlock(nn.Layer):
         
         # self.offset_conv = nn.Conv2D(C, 2 * 3 * 3, 3, 1, 1)
         # self.weight_conv = nn.Sequential(nn.Conv2D(C, 3 * 3, 3, 1, 1), nn.Sigmoid())
-        self.offset_conv = nn.Conv2D(C, 2 * k * k + k * k, 3, 1, 1)
-        
-        self.deform_convs = nn.LayerList([paddle.vision.ops.DeformConv2D(C, C, 3, 1, 1) for i in range(L)])
-        
+        # self.deform_convs = nn.LayerList([paddle.vision.ops.DeformConv2D(C, C, 3, 1, 1) for i in range(L)])
+
+        self.offset_conv = nn.Conv2D(C, k * k + 2 * k * k, 3, 1, 1)
+        self.deform_conv = paddle.vision.ops.DeformConv2D(C * L, C * L, 3, 1, 1, groups=L)
+
         self.c_attention = nn.Sequential(nn.AdaptiveAvgPool2D(output_size=1), 
                                          nn.Flatten(),  
                                          nn.Linear(C, dim), 
@@ -61,6 +103,8 @@ class DynamicHeadBlock(nn.Layer):
                                          nn.LayerNorm(C),
                                          ShiftedSigmoid(), )
         
+        self.dynamic_relu = nn.Sequential(nn.AdaptiveAvgPool2D(output_size=1), DynamicReLUB(C))
+    
         # init.reset_initialized_parameter(self)
         
     def forward(self, feat):
@@ -73,26 +117,33 @@ class DynamicHeadBlock(nn.Layer):
         feat = feat.reshape([n, l, c, -1])
         feat = self.l_attention(feat) * feat
         feat = feat.reshape([n, l, c, h, w])
-        
+        print('Layers Attention: ', feat.shape)
         
         # spatial
         # offset = self.offset_conv(feat[:, self.mid_idx])
         # weight = self.weight_conv(feat[:, self.mid_idx])
-        
-        _offset = self.offset_conv(feat[:, self.mid_idx])
-        weight = F.sigmoid(_offset[:, :self.k * self.k])
-        offset = _offset[:, self.k * self.k:]
-                           
-        sptials = []
-        for i in range(l):
-            sptials.append(self.deform_convs[i](feat[:, i], offset, mask=weight))
+        # sptials = []
+        # for i in range(l):
+        #     sptials.append(self.deform_convs[i](feat[:, i], offset, mask=weight))
+        # feat = paddle.concat([s.unsqueeze(0) for s in sptials], axis=0).mean(axis=0)
 
-        feat = paddle.concat([s.unsqueeze(0) for s in sptials], axis=0).mean(axis=0)
-        
+        output = self.offset_conv(feat[:, self.mid_idx])
+        weight = F.sigmoid(output[:, :self.k * self.k])
+        offset = output[:, self.k * self.k:]
+
+        feat = feat.reshape([n, l * c, h, w])
+        feat = self.deform_conv(feat, offset, mask=weight)
+        feat = feat.reshape([n, l, c, h, w])
+        print('Spatial Attention: ', feat.shape)
 
         # channel 
-        feat = self.c_attention(feat).unsqueeze([2, 3]) * feat
-        print(feat.shape)
+        feat = feat.reshape([n, l, c, h * w]).transpose([0, 2, 1, 3])        
+        feat = self.dynamic_relu(feat) * feat
+        print('Channel Attention: ', feat.shape)
+        
+        
+        feat = feat.reshape([n, l, c, h, w])
+        print('Ouput: ', feat.shape)
         
         return feat
         
