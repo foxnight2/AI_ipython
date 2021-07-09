@@ -3,7 +3,10 @@
 syntax = "proto3";
 
 
+
+
 message Conv2dParameter {
+
     uint32 in_channels = 1;
     uint32 out_channels = 2; 
     repeated uint32 kernel = 3; 
@@ -14,6 +17,7 @@ message Conv2dParameter {
 message ResNetParameter {
     optional string layers = 1;
     optional int32 freeze_at = 2;
+    
 }
 
 
@@ -36,3 +40,14 @@ message ModelParameter {
     repeated ModuleParameter module = 100; 
 
 }
+
+
+message SolverParameter {
+    
+    optional string name = 1;
+    optional string model_file = 2;
+    
+    optional ModelParameter model = 100; 
+
+}
+

@@ -18,10 +18,19 @@ module {
   type: "ResNet"
   bottom: "conv1"
   top: "resnet1"
-  top: "resnet2"
   resnet_param {
     layers: "34"
   }
 }
 
 
+
+module {
+  name: "resnet"
+  type: "ResNet"
+  bottom: "resnet1"
+  top: "resnet2"
+  resnet_param {
+    layers: "34"
+  }
+}
