@@ -1,0 +1,38 @@
+// protoc --python_output=. pp.proto
+
+syntax = "proto3";
+
+
+message Conv2dParameter {
+    uint32 in_channels = 1;
+    uint32 out_channels = 2; 
+    repeated uint32 kernel = 3; 
+    repeated uint32 stride = 4;
+    repeated uint32 padding = 5;
+}
+
+message ResNetParameter {
+    optional string layers = 1;
+    optional int32 freeze_at = 2;
+}
+
+
+message ModuleParameter {
+    optional string name = 1; 
+    optional string type = 2; 
+    repeated string bottom = 3;
+    repeated string top = 4;
+    
+    optional Conv2dParameter conv2d_param = 100;
+    optional ResNetParameter resnet_param = 101;
+
+}
+
+
+message ModelParameter {
+    
+    optional string name = 1;
+    
+    repeated ModuleParameter module = 100; 
+
+}
