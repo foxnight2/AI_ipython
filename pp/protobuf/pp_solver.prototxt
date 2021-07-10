@@ -1,6 +1,12 @@
 
 model: "./pp_model.prototxt"
 
+dataloader {
+    batch_size: 32
+    num_workers: 8
+    shuffle: true
+}
+
 optimizer: "SGD"
 learning_rate: 0.1
 

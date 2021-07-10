@@ -81,6 +81,11 @@ class Solver(object):
     
     def test(self, ):
         pass
+    
+    
+    def parse(self, ):
+        pass
+    
 
     
 solver = Solver()

@@ -42,6 +42,8 @@ message SolverParameter {
     optional int32 epoches = 5; 
 
     optional ModelParameter model_param = 100;  // inline
+    optional DataLoaderParameter dataloader = 101;
+
 }
 
 
@@ -62,6 +64,7 @@ message ModuleParameter {
 
     optional Conv2dParameter conv2d_param = 100;
     optional ResNetParameter resnet_param = 101;
+    optional DatasetParameter dataset_param = 102;
 }
 
 message Conv2dParameter {
@@ -79,3 +82,16 @@ message ResNetParameter {
     
 }
 
+message DatasetParameter {
+    optional string type = 1; 
+    
+}
+
+message DataLoaderParameter {
+
+    optional string name = 1; 
+    optional uint32 batch_size = 2;
+    optional uint32 num_workers = 3;
+    optional bool shuffle = 4 [default = false];
+    
+}
