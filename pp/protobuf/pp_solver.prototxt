@@ -1,0 +1,8 @@
+
+model: "./pp_model.prototxt"
+
+optimizer: "SGD"
+learning_rate: 0.1
+
+epoches: 5
+

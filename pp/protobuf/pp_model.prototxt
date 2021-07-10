@@ -1,5 +1,7 @@
 
 
+name: "model"
+
 module {
   name: "conv1"
   type: "Conv2d"
@@ -11,6 +13,7 @@ module {
     kernel: 3
     stride: 2
   }
+  phase: 1
 }
 
 module {

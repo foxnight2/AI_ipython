@@ -12,12 +12,15 @@ from collections import OrderedDict
 
 
 class Model(nn.Module):
-    def __init__(self, config='./pp.prototxt'):
+    def __init__(self, model_param=None, config='./pp_model.prototxt'):
         super().__init__()
-        model_params = pp.ModelParameter()
-        text_format.Merge(open(config, 'rb').read(), model_params)
         
-        self.model = self.parse(model_params)
+        if model_param is None:
+            model_param = pp.ModelParameter()
+            text_format.Merge(open(config, 'rb').read(), model_param)
+        
+        print(model_param)
+        self.model = self.parse(model_param)
 
         
     def forward(self, data):
@@ -54,10 +57,30 @@ class Model(nn.Module):
             
             modules.append( _class(**kwargs) )
             
-            
         return modules
     
     
-model = Model()
+# model = Model()
+print('---------')
 
-print(model)
+
+class Solver(object):
+    def __init__(self, config='./pp_solver.prototxt'):
+        
+        solver_param = pp.SolverParameter()
+        text_format.Merge(open(config, 'rb').read(), solver_param)
+        
+        model = Model(config=solver_param.model)
+        
+        print(model)
+        print(solver_param)
+        
+    def train(self, ):
+        pass
+    
+    
+    def test(self, ):
+        pass
+
+    
+solver = Solver()

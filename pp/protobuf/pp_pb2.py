@@ -16,13 +16,329 @@ _sym_db = _symbol_database.Default()
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='pp.proto',
   package='',
-  syntax='proto3',
+  syntax='proto2',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x08pp.proto\"m\n\x0f\x43onv2dParameter\x12\x13\n\x0bin_channels\x18\x01 \x01(\r\x12\x14\n\x0cout_channels\x18\x02 \x01(\r\x12\x0e\n\x06kernel\x18\x03 \x03(\r\x12\x0e\n\x06stride\x18\x04 \x03(\r\x12\x0f\n\x07padding\x18\x05 \x03(\r\"W\n\x0fResNetParameter\x12\x13\n\x06layers\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x16\n\tfreeze_at\x18\x02 \x01(\x05H\x01\x88\x01\x01\x42\t\n\x07_layersB\x0c\n\n_freeze_at\"\xe2\x01\n\x0fModuleParameter\x12\x11\n\x04name\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x11\n\x04type\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x0e\n\x06\x62ottom\x18\x03 \x03(\t\x12\x0b\n\x03top\x18\x04 \x03(\t\x12+\n\x0c\x63onv2d_param\x18\x64 \x01(\x0b\x32\x10.Conv2dParameterH\x02\x88\x01\x01\x12+\n\x0cresnet_param\x18\x65 \x01(\x0b\x32\x10.ResNetParameterH\x03\x88\x01\x01\x42\x07\n\x05_nameB\x07\n\x05_typeB\x0f\n\r_conv2d_paramB\x0f\n\r_resnet_param\"N\n\x0eModelParameter\x12\x11\n\x04name\x18\x01 \x01(\tH\x00\x88\x01\x01\x12 \n\x06module\x18\x64 \x03(\x0b\x32\x10.ModuleParameterB\x07\n\x05_nameb\x06proto3'
+  serialized_pb=b'\n\x08pp.proto\"\x1a\n\x0bTensorShape\x12\x0b\n\x03\x64im\x18\x01 \x03(\x03\"I\n\x06Tensor\x12\x1b\n\x05shape\x18\x01 \x01(\x0b\x32\x0c.TensorShape\x12\x10\n\x04\x64\x61ta\x18\x02 \x03(\x02\x42\x02\x10\x01\x12\x10\n\x04grad\x18\x03 \x03(\x02\x42\x02\x10\x01\"(\n\x0cTensorVector\x12\x18\n\x07tensors\x18\x01 \x03(\x0b\x32\x07.Tensor\"@\n\x0eModelParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12 \n\x06module\x18\x64 \x03(\x0b\x32\x10.ModuleParameter\"\x8f\x01\n\x0fSolverParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05model\x18\x02 \x01(\t\x12\x11\n\toptimizer\x18\x03 \x01(\t\x12\x15\n\rlearning_rate\x18\x04 \x01(\x01\x12\x0f\n\x07\x65poches\x18\x05 \x01(\x05\x12$\n\x0bmodel_param\x18\x64 \x01(\x0b\x32\x0f.ModelParameter\"\xdf\x01\n\x0fModuleParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0e\n\x06\x62ottom\x18\x03 \x03(\t\x12\x0b\n\x03top\x18\x04 \x03(\t\x12%\n\x05phase\x18\x05 \x01(\x0e\x32\x16.ModuleParameter.Phase\x12&\n\x0c\x63onv2d_param\x18\x64 \x01(\x0b\x32\x10.Conv2dParameter\x12&\n\x0cresnet_param\x18\x65 \x01(\x0b\x32\x10.ResNetParameter\"\x1c\n\x05Phase\x12\t\n\x05TRAIN\x10\x00\x12\x08\n\x04TEST\x10\x01\"m\n\x0f\x43onv2dParameter\x12\x13\n\x0bin_channels\x18\x01 \x01(\r\x12\x14\n\x0cout_channels\x18\x02 \x01(\r\x12\x0e\n\x06kernel\x18\x03 \x03(\r\x12\x0e\n\x06stride\x18\x04 \x03(\r\x12\x0f\n\x07padding\x18\x05 \x03(\r\"4\n\x0fResNetParameter\x12\x0e\n\x06layers\x18\x01 \x01(\t\x12\x11\n\tfreeze_at\x18\x02 \x01(\x05'
 )
 
 
+
+_MODULEPARAMETER_PHASE = _descriptor.EnumDescriptor(
+  name='Phase',
+  full_name='ModuleParameter.Phase',
+  filename=None,
+  file=DESCRIPTOR,
+  create_key=_descriptor._internal_create_key,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='TRAIN', index=0, number=0,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='TEST', index=1, number=1,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+  ],
+  containing_type=None,
+  serialized_options=None,
+  serialized_start=565,
+  serialized_end=593,
+)
+_sym_db.RegisterEnumDescriptor(_MODULEPARAMETER_PHASE)
+
+
+_TENSORSHAPE = _descriptor.Descriptor(
+  name='TensorShape',
+  full_name='TensorShape',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='dim', full_name='TensorShape.dim', index=0,
+      number=1, type=3, cpp_type=2, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=12,
+  serialized_end=38,
+)
+
+
+_TENSOR = _descriptor.Descriptor(
+  name='Tensor',
+  full_name='Tensor',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='shape', full_name='Tensor.shape', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='data', full_name='Tensor.data', index=1,
+      number=2, type=2, cpp_type=6, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=b'\020\001', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='grad', full_name='Tensor.grad', index=2,
+      number=3, type=2, cpp_type=6, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=b'\020\001', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=40,
+  serialized_end=113,
+)
+
+
+_TENSORVECTOR = _descriptor.Descriptor(
+  name='TensorVector',
+  full_name='TensorVector',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='tensors', full_name='TensorVector.tensors', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=115,
+  serialized_end=155,
+)
+
+
+_MODELPARAMETER = _descriptor.Descriptor(
+  name='ModelParameter',
+  full_name='ModelParameter',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='ModelParameter.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='module', full_name='ModelParameter.module', index=1,
+      number=100, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=157,
+  serialized_end=221,
+)
+
+
+_SOLVERPARAMETER = _descriptor.Descriptor(
+  name='SolverParameter',
+  full_name='SolverParameter',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='SolverParameter.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='model', full_name='SolverParameter.model', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='optimizer', full_name='SolverParameter.optimizer', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='learning_rate', full_name='SolverParameter.learning_rate', index=3,
+      number=4, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='epoches', full_name='SolverParameter.epoches', index=4,
+      number=5, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='model_param', full_name='SolverParameter.model_param', index=5,
+      number=100, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=224,
+  serialized_end=367,
+)
+
+
+_MODULEPARAMETER = _descriptor.Descriptor(
+  name='ModuleParameter',
+  full_name='ModuleParameter',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='ModuleParameter.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='type', full_name='ModuleParameter.type', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='bottom', full_name='ModuleParameter.bottom', index=2,
+      number=3, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='top', full_name='ModuleParameter.top', index=3,
+      number=4, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='phase', full_name='ModuleParameter.phase', index=4,
+      number=5, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='conv2d_param', full_name='ModuleParameter.conv2d_param', index=5,
+      number=100, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='resnet_param', full_name='ModuleParameter.resnet_param', index=6,
+      number=101, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+    _MODULEPARAMETER_PHASE,
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=370,
+  serialized_end=593,
+)
 
 
 _CONV2DPARAMETER = _descriptor.Descriptor(
@@ -76,12 +392,12 @@ _CONV2DPARAMETER = _descriptor.Descriptor(
   ],
   serialized_options=None,
   is_extendable=False,
-  syntax='proto3',
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=12,
-  serialized_end=121,
+  serialized_start=595,
+  serialized_end=704,
 )
 
 
@@ -115,184 +431,73 @@ _RESNETPARAMETER = _descriptor.Descriptor(
   ],
   serialized_options=None,
   is_extendable=False,
-  syntax='proto3',
+  syntax='proto2',
   extension_ranges=[],
   oneofs=[
-    _descriptor.OneofDescriptor(
-      name='_layers', full_name='ResNetParameter._layers',
-      index=0, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_freeze_at', full_name='ResNetParameter._freeze_at',
-      index=1, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
   ],
-  serialized_start=123,
-  serialized_end=210,
+  serialized_start=706,
+  serialized_end=758,
 )
 
-
-_MODULEPARAMETER = _descriptor.Descriptor(
-  name='ModuleParameter',
-  full_name='ModuleParameter',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='name', full_name='ModuleParameter.name', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='type', full_name='ModuleParameter.type', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='bottom', full_name='ModuleParameter.bottom', index=2,
-      number=3, type=9, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='top', full_name='ModuleParameter.top', index=3,
-      number=4, type=9, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='conv2d_param', full_name='ModuleParameter.conv2d_param', index=4,
-      number=100, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='resnet_param', full_name='ModuleParameter.resnet_param', index=5,
-      number=101, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-    _descriptor.OneofDescriptor(
-      name='_name', full_name='ModuleParameter._name',
-      index=0, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_type', full_name='ModuleParameter._type',
-      index=1, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_conv2d_param', full_name='ModuleParameter._conv2d_param',
-      index=2, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-    _descriptor.OneofDescriptor(
-      name='_resnet_param', full_name='ModuleParameter._resnet_param',
-      index=3, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-  ],
-  serialized_start=213,
-  serialized_end=439,
-)
-
-
-_MODELPARAMETER = _descriptor.Descriptor(
-  name='ModelParameter',
-  full_name='ModelParameter',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='name', full_name='ModelParameter.name', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='module', full_name='ModelParameter.module', index=1,
-      number=100, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-    _descriptor.OneofDescriptor(
-      name='_name', full_name='ModelParameter._name',
-      index=0, containing_type=None,
-      create_key=_descriptor._internal_create_key,
-    fields=[]),
-  ],
-  serialized_start=441,
-  serialized_end=519,
-)
-
-_RESNETPARAMETER.oneofs_by_name['_layers'].fields.append(
-  _RESNETPARAMETER.fields_by_name['layers'])
-_RESNETPARAMETER.fields_by_name['layers'].containing_oneof = _RESNETPARAMETER.oneofs_by_name['_layers']
-_RESNETPARAMETER.oneofs_by_name['_freeze_at'].fields.append(
-  _RESNETPARAMETER.fields_by_name['freeze_at'])
-_RESNETPARAMETER.fields_by_name['freeze_at'].containing_oneof = _RESNETPARAMETER.oneofs_by_name['_freeze_at']
+_TENSOR.fields_by_name['shape'].message_type = _TENSORSHAPE
+_TENSORVECTOR.fields_by_name['tensors'].message_type = _TENSOR
+_MODELPARAMETER.fields_by_name['module'].message_type = _MODULEPARAMETER
+_SOLVERPARAMETER.fields_by_name['model_param'].message_type = _MODELPARAMETER
+_MODULEPARAMETER.fields_by_name['phase'].enum_type = _MODULEPARAMETER_PHASE
 _MODULEPARAMETER.fields_by_name['conv2d_param'].message_type = _CONV2DPARAMETER
 _MODULEPARAMETER.fields_by_name['resnet_param'].message_type = _RESNETPARAMETER
-_MODULEPARAMETER.oneofs_by_name['_name'].fields.append(
-  _MODULEPARAMETER.fields_by_name['name'])
-_MODULEPARAMETER.fields_by_name['name'].containing_oneof = _MODULEPARAMETER.oneofs_by_name['_name']
-_MODULEPARAMETER.oneofs_by_name['_type'].fields.append(
-  _MODULEPARAMETER.fields_by_name['type'])
-_MODULEPARAMETER.fields_by_name['type'].containing_oneof = _MODULEPARAMETER.oneofs_by_name['_type']
-_MODULEPARAMETER.oneofs_by_name['_conv2d_param'].fields.append(
-  _MODULEPARAMETER.fields_by_name['conv2d_param'])
-_MODULEPARAMETER.fields_by_name['conv2d_param'].containing_oneof = _MODULEPARAMETER.oneofs_by_name['_conv2d_param']
-_MODULEPARAMETER.oneofs_by_name['_resnet_param'].fields.append(
-  _MODULEPARAMETER.fields_by_name['resnet_param'])
-_MODULEPARAMETER.fields_by_name['resnet_param'].containing_oneof = _MODULEPARAMETER.oneofs_by_name['_resnet_param']
-_MODELPARAMETER.fields_by_name['module'].message_type = _MODULEPARAMETER
-_MODELPARAMETER.oneofs_by_name['_name'].fields.append(
-  _MODELPARAMETER.fields_by_name['name'])
-_MODELPARAMETER.fields_by_name['name'].containing_oneof = _MODELPARAMETER.oneofs_by_name['_name']
+_MODULEPARAMETER_PHASE.containing_type = _MODULEPARAMETER
+DESCRIPTOR.message_types_by_name['TensorShape'] = _TENSORSHAPE
+DESCRIPTOR.message_types_by_name['Tensor'] = _TENSOR
+DESCRIPTOR.message_types_by_name['TensorVector'] = _TENSORVECTOR
+DESCRIPTOR.message_types_by_name['ModelParameter'] = _MODELPARAMETER
+DESCRIPTOR.message_types_by_name['SolverParameter'] = _SOLVERPARAMETER
+DESCRIPTOR.message_types_by_name['ModuleParameter'] = _MODULEPARAMETER
 DESCRIPTOR.message_types_by_name['Conv2dParameter'] = _CONV2DPARAMETER
 DESCRIPTOR.message_types_by_name['ResNetParameter'] = _RESNETPARAMETER
-DESCRIPTOR.message_types_by_name['ModuleParameter'] = _MODULEPARAMETER
-DESCRIPTOR.message_types_by_name['ModelParameter'] = _MODELPARAMETER
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+TensorShape = _reflection.GeneratedProtocolMessageType('TensorShape', (_message.Message,), {
+  'DESCRIPTOR' : _TENSORSHAPE,
+  '__module__' : 'pp_pb2'
+  # @@protoc_insertion_point(class_scope:TensorShape)
+  })
+_sym_db.RegisterMessage(TensorShape)
+
+Tensor = _reflection.GeneratedProtocolMessageType('Tensor', (_message.Message,), {
+  'DESCRIPTOR' : _TENSOR,
+  '__module__' : 'pp_pb2'
+  # @@protoc_insertion_point(class_scope:Tensor)
+  })
+_sym_db.RegisterMessage(Tensor)
+
+TensorVector = _reflection.GeneratedProtocolMessageType('TensorVector', (_message.Message,), {
+  'DESCRIPTOR' : _TENSORVECTOR,
+  '__module__' : 'pp_pb2'
+  # @@protoc_insertion_point(class_scope:TensorVector)
+  })
+_sym_db.RegisterMessage(TensorVector)
+
+ModelParameter = _reflection.GeneratedProtocolMessageType('ModelParameter', (_message.Message,), {
+  'DESCRIPTOR' : _MODELPARAMETER,
+  '__module__' : 'pp_pb2'
+  # @@protoc_insertion_point(class_scope:ModelParameter)
+  })
+_sym_db.RegisterMessage(ModelParameter)
+
+SolverParameter = _reflection.GeneratedProtocolMessageType('SolverParameter', (_message.Message,), {
+  'DESCRIPTOR' : _SOLVERPARAMETER,
+  '__module__' : 'pp_pb2'
+  # @@protoc_insertion_point(class_scope:SolverParameter)
+  })
+_sym_db.RegisterMessage(SolverParameter)
+
+ModuleParameter = _reflection.GeneratedProtocolMessageType('ModuleParameter', (_message.Message,), {
+  'DESCRIPTOR' : _MODULEPARAMETER,
+  '__module__' : 'pp_pb2'
+  # @@protoc_insertion_point(class_scope:ModuleParameter)
+  })
+_sym_db.RegisterMessage(ModuleParameter)
 
 Conv2dParameter = _reflection.GeneratedProtocolMessageType('Conv2dParameter', (_message.Message,), {
   'DESCRIPTOR' : _CONV2DPARAMETER,
@@ -308,19 +513,7 @@ ResNetParameter = _reflection.GeneratedProtocolMessageType('ResNetParameter', (_
   })
 _sym_db.RegisterMessage(ResNetParameter)
 
-ModuleParameter = _reflection.GeneratedProtocolMessageType('ModuleParameter', (_message.Message,), {
-  'DESCRIPTOR' : _MODULEPARAMETER,
-  '__module__' : 'pp_pb2'
-  # @@protoc_insertion_point(class_scope:ModuleParameter)
-  })
-_sym_db.RegisterMessage(ModuleParameter)
 
-ModelParameter = _reflection.GeneratedProtocolMessageType('ModelParameter', (_message.Message,), {
-  'DESCRIPTOR' : _MODELPARAMETER,
-  '__module__' : 'pp_pb2'
-  # @@protoc_insertion_point(class_scope:ModelParameter)
-  })
-_sym_db.RegisterMessage(ModelParameter)
-
-
+_TENSOR.fields_by_name['data']._options = None
+_TENSOR.fields_by_name['grad']._options = None
 # @@protoc_insertion_point(module_scope)

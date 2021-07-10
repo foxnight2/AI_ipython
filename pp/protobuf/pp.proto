@@ -1,20 +1,20 @@
-// protoc --python_output=. pp.proto
+// protoc --python_out=. pp.proto
 
 syntax = "proto2";
 
 
-// 
+// tensor
 message TensorShape {
     repeated int64 dim = 1;
 }
 
 message Tensor {
-    TensorShape shape = 1;
+    optional TensorShape shape = 1;
     repeated float data = 2 [packed = true];
     repeated float grad = 3 [packed = true];
-    // repeated double data = 4 [packed = true];
-    // repeated double grad = 5 [packed = true];
-    optional bytes data = 4; // base64.b64encode(numpy.ndarray)
+    // repeated double data_float64 = 4 [packed = true];
+    // repeated double grad_float64 = 5 [packed = true];
+    // optional bytes data_bytes = 4; // base64.b64encode(numpy.ndarray)
 }
 
 message TensorVector {
@@ -22,41 +22,52 @@ message TensorVector {
 }
 
 
-// 
-message SolverParameter {
-    
-    optional string name = 1;
-    optional string model_file = 2;
-    
-    optional ModelParameter model = 100; 
-}
-
+// model
 
 message ModelParameter {
     
     optional string name = 1;
-    
-    repeated ModuleParameter module = 100;
+    repeated ModuleParameter module = 100; // inline
 }
 
 
+// solver 
+message SolverParameter {
+    
+    optional string name = 1;
+    optional string model = 2;
+    optional string optimizer = 3;
+    optional double learning_rate = 4;
+    
+    optional int32 epoches = 5; 
+
+    optional ModelParameter model_param = 100;  // inline
+}
+
+
+// modules
+
 message ModuleParameter {
+
     optional string name = 1; 
     optional string type = 2; 
     repeated string bottom = 3;
     repeated string top = 4;
     
+    enum Phase {
+       TRAIN = 0;
+       TEST = 1;
+    }
+    optional Phase phase = 5;
+
     optional Conv2dParameter conv2d_param = 100;
     optional ResNetParameter resnet_param = 101;
-
 }
-
-
 
 message Conv2dParameter {
 
-    uint32 in_channels = 1;
-    uint32 out_channels = 2; 
+    optional uint32 in_channels = 1;
+    optional uint32 out_channels = 2; 
     repeated uint32 kernel = 3; 
     repeated uint32 stride = 4;
     repeated uint32 padding = 5;
@@ -67,3 +78,4 @@ message ResNetParameter {
     optional int32 freeze_at = 2;
     
 }
+
