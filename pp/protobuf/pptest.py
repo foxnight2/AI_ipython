@@ -16,15 +16,15 @@ class Model(nn.Module):
     def __init__(self, model_param=None, model_file='./pp_model.prototxt'):
         super().__init__()
         
-        model_param = pp.ModelParameter()
-        if model_param is None:
-            # MergeFrom
-            text_format.Merge(open(model_file, 'rb').read(), model_param)
-        else:
-            model_param.CopyFrom(model_param)
+        _model_param = pp.ModelParameter()
 
-        self.model = self.parse(model_param)
-        self.model_param = model_param
+        if model_param is None:
+            text_format.Merge(open(model_file, 'rb').read(), _model_param)
+        else:
+            _model_param.CopyFrom(model_param)
+
+        self.model = self.parse(_model_param)
+        self.model_param = _model_param
         
         
     def forward(self, data):
@@ -62,6 +62,7 @@ class Model(nn.Module):
             argsname = [arg for arg in argspec.args if arg != 'self']
             
             kwargs = {}
+            
             if argspec.defaults is not None:
                 kwargs.update( dict(zip(argsname[::-1], argspec.defaults[::-1])) )
             
@@ -93,12 +94,13 @@ class Solver(object):
         
         solver_param = pp.SolverParameter() 
         text_format.Merge(open(solver_file, 'rb').read(), solver_param)
-        
+                
         if solver_param.model.ByteSize():
             model = Model(model_param=solver_param.model)
         else:
             model = Model(model_file=solver_param.model_file)
         
+        print(model)
         
         self.model = model
         
@@ -115,8 +117,9 @@ class Solver(object):
         pass
     
 
-    
+
 solver = Solver()
+
 data = torch.rand(1, 20, 10, 10)
 solver.model({'data': data})
 

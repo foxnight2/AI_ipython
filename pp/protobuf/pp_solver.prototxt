@@ -2,35 +2,6 @@
 model_file: "./pp_model.prototxt"
 
 
-model {
-    name: "model"
-    
-    module {
-      name: "conv1"
-      type: "Conv2d"
-      bottom: "data"
-      top: "conv1"
-      conv2d_param {
-        in_channels: 20
-        out_channels: 5
-        kernel_size: 3
-      }
-      phase: 1
-    }
-    
-    module {
-      name: "resnet"
-      type: "ResNet"
-      bottom: "conv1"
-      top: "resnet1"
-      resnet_param {
-        layers: "34"
-      }
-    }
-     
-}
-
-
 dataloader {
     batch_size: 32
     num_workers: 8
@@ -42,3 +13,32 @@ learning_rate: 0.1
 
 epoches: 5
 
+
+
+# model {
+#     name: "model"
+#     
+#     module {
+#       name: "conv1"
+#       type: "Conv2d"
+#       bottom: "data"
+#       top: "conv1"
+#       conv2d_param {
+#         in_channels: 20
+#         out_channels: 5
+#         kernel_size: 3
+#       }
+#       phase: 1
+#     }
+#     
+#     module {
+#       name: "resnet"
+#       type: "ResNet"
+#       bottom: "conv1"
+#       top: "resnet1"
+#       resnet_param {
+#         layers: "34"
+#       }
+#     }
+#      
+# }
