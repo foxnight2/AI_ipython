@@ -8,10 +8,15 @@ dataloader {
     shuffle: true
 }
 
+
 optimizer: "SGD"
 learning_rate: 0.1
 
+
 epoches: 5
+snapshot: 10
+
+
 
 
 optimizer_def {

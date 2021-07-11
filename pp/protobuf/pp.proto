@@ -35,13 +35,15 @@ message ModelParameter {
 message SolverParameter {
     
     optional string name = 1;
+    
     optional ModelParameter model = 2;  // inline
     optional string model_file = 3; // file
     
     optional string optimizer = 10;
     optional double learning_rate = 11;
-    optional int32 epoches = 12; 
-
+    optional uint32 epoches = 12; 
+    optional uint32 snapshot = 13 [default = 2];
+    
     optional OptimizerParameter optimizer_def = 20;
     
     optional DataLoaderParameter dataloader = 30;
