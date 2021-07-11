@@ -100,10 +100,12 @@ class Solver(object):
         else:
             model = Model(model_file=solver_param.model_file)
         
-        print(model)
+        optimizer_code = solver_param.optimizer_def.code
+        optimizer = exec(optimizer_code)
+        print(optimizer)
         
         self.model = model
-        
+        self.dataloader = None
         
     def train(self, ):
         pass

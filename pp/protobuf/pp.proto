@@ -38,12 +38,15 @@ message SolverParameter {
     optional ModelParameter model = 2;  // inline
     optional string model_file = 3; // file
     
-    optional string optimizer = 4;
-    optional double learning_rate = 5;
-    
-    optional int32 epoches = 6; 
+    optional string optimizer = 10;
+    optional double learning_rate = 11;
+    optional int32 epoches = 12; 
 
-    optional DataLoaderParameter dataloader = 100;
+    optional OptimizerParameter optimizer_def = 20;
+    
+    optional DataLoaderParameter dataloader = 30;
+    optional DataLoaderParameter train_dataloader = 31;
+    optional DataLoaderParameter test_dataloader = 32;
 
 }
 
@@ -52,6 +55,16 @@ message DataLoaderParameter {
     optional uint32 batch_size = 2;
     optional uint32 num_workers = 3;
     optional bool shuffle = 4 [default = false];
+    
+}
+
+
+message OptimizerParameter {
+    optional string name = 1; 
+    optional string type = 2;
+    optional float lr = 3;
+    
+    optional string code = 10;
     
 }
 

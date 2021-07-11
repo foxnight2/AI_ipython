@@ -14,6 +14,12 @@ learning_rate: 0.1
 epoches: 5
 
 
+optimizer_def {
+    code: """import numpy as np; import torch;\ndef test(a, b): return a+b"""
+}
+
+
+
 
 # model {
 #     name: "model"
