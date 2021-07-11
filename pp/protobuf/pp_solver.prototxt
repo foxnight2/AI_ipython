@@ -16,14 +16,12 @@ epoches: 5
 
 optimizer_def {
     code:
-    "import numpy as np \n"
-    "import torch \n"
-    "def test(a, b): \n"
-    "    return a+b  \n"
+        "import torch \n"
+        "# print('---optmizer-----') \n"
 
+        "def optimizer(model, lr): \n"
+        "    return torch.optim.SGD(model.parameters(), lr=lr) \n"
 }
-
-
 
 
 # model {
