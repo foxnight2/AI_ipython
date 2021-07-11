@@ -15,7 +15,12 @@ epoches: 5
 
 
 optimizer_def {
-    code: """import numpy as np; import torch;\ndef test(a, b): return a+b"""
+    code:
+    "import numpy as np \n"
+    "import torch \n"
+    "def test(a, b): \n"
+    "    return a+b  \n"
+
 }
 
 

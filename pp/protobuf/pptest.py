@@ -100,6 +100,8 @@ class Solver(object):
         else:
             model = Model(model_file=solver_param.model_file)
         
+        print(solver_param)
+        
         optimizer_code = solver_param.optimizer_def.code
         optimizer = exec(optimizer_code)
         print(optimizer)
