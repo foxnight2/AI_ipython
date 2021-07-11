@@ -102,14 +102,12 @@ class Solver(object):
         
         if solver_param.optimizer_def.ByteSize():
             exec(solver_param.optimizer_def.code)
-            self.optimizer = locals()['optimizer']
             # print(list(locals().keys()))
-        else:
-            pass
-        
-        
+            optimizer_def = locals()['optimizer']
+            
         self.model = model
         self.dataloader = None
+        
         
     def train(self, ):
         pass

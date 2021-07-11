@@ -15,12 +15,12 @@ epoches: 5
 
 
 optimizer_def {
-    code:
+    code:"\n"
         "import torch \n"
-        "# print('---optmizer-----') \n"
-
+        "print('---optmizer-----') \n"
         "def optimizer(model, lr): \n"
         "    return torch.optim.SGD(model.parameters(), lr=lr) \n"
+        "\n"
 }
 
 
