@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto2',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x08pp.proto\"\x1a\n\x0bTensorShape\x12\x0b\n\x03\x64im\x18\x01 \x03(\x03\"I\n\x06Tensor\x12\x1b\n\x05shape\x18\x01 \x01(\x0b\x32\x0c.TensorShape\x12\x10\n\x04\x64\x61ta\x18\x02 \x03(\x02\x42\x02\x10\x01\x12\x10\n\x04grad\x18\x03 \x03(\x02\x42\x02\x10\x01\"(\n\x0cTensorVector\x12\x18\n\x07tensors\x18\x01 \x03(\x0b\x32\x07.Tensor\"@\n\x0eModelParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12 \n\x06module\x18\x64 \x03(\x0b\x32\x10.ModuleParameter\"\xb9\x01\n\x0fSolverParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05model\x18\x02 \x01(\t\x12\x11\n\toptimizer\x18\x03 \x01(\t\x12\x15\n\rlearning_rate\x18\x04 \x01(\x01\x12\x0f\n\x07\x65poches\x18\x05 \x01(\x05\x12$\n\x0bmodel_param\x18\x64 \x01(\x0b\x32\x0f.ModelParameter\x12(\n\ndataloader\x18\x65 \x01(\x0b\x32\x14.DataLoaderParameter\"d\n\x13\x44\x61taLoaderParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x12\n\nbatch_size\x18\x02 \x01(\r\x12\x13\n\x0bnum_workers\x18\x03 \x01(\r\x12\x16\n\x07shuffle\x18\x04 \x01(\x08:\x05\x66\x61lse\"\x89\x02\n\x0fModuleParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0e\n\x06\x62ottom\x18\x03 \x03(\t\x12\x0b\n\x03top\x18\x04 \x03(\t\x12%\n\x05phase\x18\x05 \x01(\x0e\x32\x16.ModuleParameter.Phase\x12&\n\x0c\x63onv2d_param\x18\x64 \x01(\x0b\x32\x10.Conv2dParameter\x12&\n\x0cresnet_param\x18\x65 \x01(\x0b\x32\x10.ResNetParameter\x12(\n\rdataset_param\x18\x66 \x01(\x0b\x32\x11.DatasetParameter\"\x1c\n\x05Phase\x12\t\n\x05TRAIN\x10\x00\x12\x08\n\x04TEST\x10\x01\"\xb8\x01\n\x0f\x43onv2dParameter\x12\x13\n\x0bin_channels\x18\x01 \x01(\r\x12\x14\n\x0cout_channels\x18\x02 \x01(\r\x12\x13\n\x0bkernel_size\x18\x03 \x03(\r\x12\x0e\n\x06stride\x18\x04 \x03(\r\x12\x0f\n\x07padding\x18\x05 \x03(\r\x12\x10\n\x08\x64ilation\x18\x06 \x03(\r\x12\x0e\n\x06groups\x18\x07 \x03(\r\x12\x0c\n\x04\x62ias\x18\x08 \x01(\x08\x12\x14\n\x0cpadding_mode\x18\t \x01(\t\"4\n\x0fResNetParameter\x12\x0e\n\x06layers\x18\x01 \x01(\t\x12\x11\n\tfreeze_at\x18\x02 \x01(\x05\" \n\x10\x44\x61tasetParameter\x12\x0c\n\x04type\x18\x01 \x01(\t'
+  serialized_pb=b'\n\x08pp.proto\"\x1a\n\x0bTensorShape\x12\x0b\n\x03\x64im\x18\x01 \x03(\x03\"I\n\x06Tensor\x12\x1b\n\x05shape\x18\x01 \x01(\x0b\x32\x0c.TensorShape\x12\x10\n\x04\x64\x61ta\x18\x02 \x03(\x02\x42\x02\x10\x01\x12\x10\n\x04grad\x18\x03 \x03(\x02\x42\x02\x10\x01\"(\n\x0cTensorVector\x12\x18\n\x07tensors\x18\x01 \x03(\x0b\x32\x07.Tensor\"@\n\x0eModelParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12 \n\x06module\x18\x64 \x03(\x0b\x32\x10.ModuleParameter\"\xb8\x01\n\x0fSolverParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x12\n\nmodel_file\x18\x02 \x01(\t\x12\x11\n\toptimizer\x18\x03 \x01(\t\x12\x15\n\rlearning_rate\x18\x04 \x01(\x01\x12\x0f\n\x07\x65poches\x18\x05 \x01(\x05\x12\x1e\n\x05model\x18\x64 \x01(\x0b\x32\x0f.ModelParameter\x12(\n\ndataloader\x18\x65 \x01(\x0b\x32\x14.DataLoaderParameter\"d\n\x13\x44\x61taLoaderParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x12\n\nbatch_size\x18\x02 \x01(\r\x12\x13\n\x0bnum_workers\x18\x03 \x01(\r\x12\x16\n\x07shuffle\x18\x04 \x01(\x08:\x05\x66\x61lse\"\x89\x02\n\x0fModuleParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0e\n\x06\x62ottom\x18\x03 \x03(\t\x12\x0b\n\x03top\x18\x04 \x03(\t\x12%\n\x05phase\x18\x05 \x01(\x0e\x32\x16.ModuleParameter.Phase\x12&\n\x0c\x63onv2d_param\x18\x64 \x01(\x0b\x32\x10.Conv2dParameter\x12&\n\x0cresnet_param\x18\x65 \x01(\x0b\x32\x10.ResNetParameter\x12(\n\rdataset_param\x18\x66 \x01(\x0b\x32\x11.DatasetParameter\"\x1c\n\x05Phase\x12\t\n\x05TRAIN\x10\x00\x12\x08\n\x04TEST\x10\x01\"\xb8\x01\n\x0f\x43onv2dParameter\x12\x13\n\x0bin_channels\x18\x01 \x01(\r\x12\x14\n\x0cout_channels\x18\x02 \x01(\r\x12\x13\n\x0bkernel_size\x18\x03 \x03(\r\x12\x0e\n\x06stride\x18\x04 \x03(\r\x12\x0f\n\x07padding\x18\x05 \x03(\r\x12\x10\n\x08\x64ilation\x18\x06 \x03(\r\x12\x0e\n\x06groups\x18\x07 \x03(\r\x12\x0c\n\x04\x62ias\x18\x08 \x01(\x08\x12\x14\n\x0cpadding_mode\x18\t \x01(\t\"4\n\x0fResNetParameter\x12\x0e\n\x06layers\x18\x01 \x01(\t\x12\x11\n\tfreeze_at\x18\x02 \x01(\x05\" \n\x10\x44\x61tasetParameter\x12\x0c\n\x04type\x18\x01 \x01(\t'
 )
 
 
@@ -44,8 +44,8 @@ _MODULEPARAMETER_PHASE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=751,
-  serialized_end=779,
+  serialized_start=750,
+  serialized_end=778,
 )
 _sym_db.RegisterEnumDescriptor(_MODULEPARAMETER_PHASE)
 
@@ -215,7 +215,7 @@ _SOLVERPARAMETER = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='model', full_name='SolverParameter.model', index=1,
+      name='model_file', full_name='SolverParameter.model_file', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -243,7 +243,7 @@ _SOLVERPARAMETER = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='model_param', full_name='SolverParameter.model_param', index=5,
+      name='model', full_name='SolverParameter.model', index=5,
       number=100, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -269,7 +269,7 @@ _SOLVERPARAMETER = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=224,
-  serialized_end=409,
+  serialized_end=408,
 )
 
 
@@ -321,8 +321,8 @@ _DATALOADERPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=411,
-  serialized_end=511,
+  serialized_start=410,
+  serialized_end=510,
 )
 
 
@@ -403,8 +403,8 @@ _MODULEPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=514,
-  serialized_end=779,
+  serialized_start=513,
+  serialized_end=778,
 )
 
 
@@ -491,8 +491,8 @@ _CONV2DPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=782,
-  serialized_end=966,
+  serialized_start=781,
+  serialized_end=965,
 )
 
 
@@ -530,8 +530,8 @@ _RESNETPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=968,
-  serialized_end=1020,
+  serialized_start=967,
+  serialized_end=1019,
 )
 
 
@@ -562,14 +562,14 @@ _DATASETPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1022,
-  serialized_end=1054,
+  serialized_start=1021,
+  serialized_end=1053,
 )
 
 _TENSOR.fields_by_name['shape'].message_type = _TENSORSHAPE
 _TENSORVECTOR.fields_by_name['tensors'].message_type = _TENSOR
 _MODELPARAMETER.fields_by_name['module'].message_type = _MODULEPARAMETER
-_SOLVERPARAMETER.fields_by_name['model_param'].message_type = _MODELPARAMETER
+_SOLVERPARAMETER.fields_by_name['model'].message_type = _MODELPARAMETER
 _SOLVERPARAMETER.fields_by_name['dataloader'].message_type = _DATALOADERPARAMETER
 _MODULEPARAMETER.fields_by_name['phase'].enum_type = _MODULEPARAMETER_PHASE
 _MODULEPARAMETER.fields_by_name['conv2d_param'].message_type = _CONV2DPARAMETER

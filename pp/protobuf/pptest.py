@@ -11,15 +11,17 @@ import inspect
 import collections
 from typing import Sequence
 
+
 class Model(nn.Module):
-    def __init__(self, model_param=None, config='./pp_model.prototxt'):
+    def __init__(self, model_param=None, model_file='./pp_model.prototxt'):
         super().__init__()
         
+        model_param = pp.ModelParameter()
         if model_param is None:
-            model_param = pp.ModelParameter()
-            text_format.Merge(open(config, 'rb').read(), model_param)
+            text_format.Merge(open(model_file, 'rb').read(), model_param)
+        else:
+            model_param.CopyFrom(model_param)
         
-        print(model_param)
         self.model = self.parse(model_param)
         self.model_param = model_param
         
@@ -77,22 +79,28 @@ class Model(nn.Module):
     
     
 # model = Model()
+# model = Model()
+# print(model)
+# data = torch.rand(1, 20, 10, 10)
+# model({'data': data})
+
 print('---------')
 
 
 class Solver(object):
-    def __init__(self, config='./pp_solver.prototxt'):
+    def __init__(self, solver_file='./pp_solver.prototxt'):
         
-        solver_param = pp.SolverParameter()
-        text_format.Merge(open(config, 'rb').read(), solver_param)
+        solver_param = pp.SolverParameter() # MergeFrom
+        text_format.Merge(open(solver_file, 'rb').read(), solver_param)
         
-        model = Model(config=solver_param.model)
-        # MergeFrom
+        if solver_param.model.ByteSize():
+            model = Model(model_param=solver_param.model)
+        else:
+            model = Model(model_file=solver_param.model_file)
+        
         
         self.model = model
         
-        print(model)
-        print(solver_param)
         
     def train(self, ):
         pass
@@ -107,10 +115,7 @@ class Solver(object):
     
 
     
-# solver = Solver()
-
-model = Model()
-print(model)
+solver = Solver()
 data = torch.rand(1, 20, 10, 10)
-model({'data': data})
+solver.model({'data': data})
 
