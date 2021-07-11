@@ -18,10 +18,11 @@ class Model(nn.Module):
         
         model_param = pp.ModelParameter()
         if model_param is None:
+            # MergeFrom
             text_format.Merge(open(model_file, 'rb').read(), model_param)
         else:
             model_param.CopyFrom(model_param)
-        
+
         self.model = self.parse(model_param)
         self.model_param = model_param
         
@@ -90,7 +91,7 @@ print('---------')
 class Solver(object):
     def __init__(self, solver_file='./pp_solver.prototxt'):
         
-        solver_param = pp.SolverParameter() # MergeFrom
+        solver_param = pp.SolverParameter() 
         text_format.Merge(open(solver_file, 'rb').read(), solver_param)
         
         if solver_param.model.ByteSize():
