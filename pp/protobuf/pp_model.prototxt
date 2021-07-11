@@ -10,8 +10,9 @@ module {
   conv2d_param {
     in_channels: 20
     out_channels: 5
-    kernel: 3
+    kernel_size: 3
     stride: 2
+    padding: [2, 3]
   }
   phase: 1
 }
@@ -27,7 +28,6 @@ module {
 }
 
 
-
 module {
   name: "resnet"
   type: "ResNet"
@@ -37,4 +37,12 @@ module {
   resnet_param {
     layers: "34"
   }
+}
+
+
+module {
+  name: "relu1"
+  type: "ReLU"
+  bottom: "resnet2"
+  top: "relu1"
 }

@@ -46,6 +46,13 @@ message SolverParameter {
 
 }
 
+message DataLoaderParameter {
+    optional string name = 1; 
+    optional uint32 batch_size = 2;
+    optional uint32 num_workers = 3;
+    optional bool shuffle = 4 [default = false];
+    
+}
 
 // modules
 
@@ -71,9 +78,13 @@ message Conv2dParameter {
 
     optional uint32 in_channels = 1;
     optional uint32 out_channels = 2; 
-    repeated uint32 kernel = 3; 
+    repeated uint32 kernel_size = 3; 
     repeated uint32 stride = 4;
     repeated uint32 padding = 5;
+    repeated uint32 dilation = 6;
+    repeated uint32 groups = 7;
+    optional bool bias = 8;
+    optional string padding_mode = 9;
 }
 
 message ResNetParameter {
@@ -84,14 +95,5 @@ message ResNetParameter {
 
 message DatasetParameter {
     optional string type = 1; 
-    
 }
 
-message DataLoaderParameter {
-
-    optional string name = 1; 
-    optional uint32 batch_size = 2;
-    optional uint32 num_workers = 3;
-    optional bool shuffle = 4 [default = false];
-    
-}
