@@ -21,3 +21,4 @@ modules = {
 
     'ResNet': ResNet,
 }
+

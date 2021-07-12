@@ -46,3 +46,15 @@ module {
   bottom: "resnet2"
   top: "relu1"
 }
+
+module {
+  name: "custom1"
+  type: "Custom"
+  bottom: "resnet2"
+  top: "custom1"
+  
+  custom_param {
+      code_inline: "custom1 = torch.nn.Sigmoid()"
+  }
+  
+}

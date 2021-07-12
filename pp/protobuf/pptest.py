@@ -54,34 +54,50 @@ class Model(nn.Module):
         modules = nn.ModuleList()
         
         for i, m in enumerate(config.module):
-            
-            assert m.type in MODULES, ''
             _name = m.name
-            _type = m.type
-            _class = MODULES[_type]
-
-            argspec = inspect.getfullargspec(_class.__init__)
-            argsname = [arg for arg in argspec.args if arg != 'self']
+            _module = self._parse_module(m, MODULES)
             
-            kwargs = {}
-            
-            if argspec.defaults is not None:
-                kwargs.update( dict(zip(argsname[::-1], argspec.defaults[::-1])) )
-            
-            if hasattr(m, f'{_type.lower()}_param'):
-                _param = getattr(m, f'{_type.lower()}_param')
-                _param = {k.name: v for k, v in _param.ListFields()}
-                _param.update({k: (list(v)[0] if len(v) == 1 else list(v)) \
-                              for k, v in _param.items() if isinstance(v, pyext._message.RepeatedScalarContainer)})
-                
-                kwargs.update({k: _param[k] for k in argsname if k in _param})
-            
-            kwargs = collections.OrderedDict([(k, kwargs[k]) for k in argsname])
-            modules.append( _class(**kwargs) )
+            modules.append( _module )
             
         return modules
     
     
+    @staticmethod
+    def _parse_module(config, classes):
+        '''instantiate a module
+        '''
+
+        if config.type == 'Custom':
+            _code = config.custom_param.code_inline if config.custom_param.code_inline \
+                else open(config.custom_param.code_file, 'r').read()
+            exec(_code)
+            
+            return locals()[config.name]
+            
+        _type = config.type
+        _class = classes[_type]
+        
+        argspec = inspect.getfullargspec(_class.__init__)
+        argsname = [arg for arg in argspec.args if arg != 'self']
+
+        kwargs = {}
+
+        if argspec.defaults is not None:
+            kwargs.update( dict(zip(argsname[::-1], argspec.defaults[::-1])) )
+
+        if hasattr(config, f'{_type.lower()}_param'):
+            _param = getattr(config, f'{_type.lower()}_param')
+            _param = {k.name: v for k, v in _param.ListFields()}
+            _param.update({k: (list(v)[0] if len(v) == 1 else list(v)) \
+                          for k, v in _param.items() if isinstance(v, pyext._message.RepeatedScalarContainer)})
+            
+            kwargs.update({k: _param[k] for k in argsname if k in _param})
+
+        kwargs = collections.OrderedDict([(k, kwargs[k]) for k in argsname])
+
+        return _class(**kwargs)
+
+
 # model = Model()
 # model = Model()
 # print(model)
@@ -163,7 +179,7 @@ class Solver(object):
 
         print(config)
         
-        return _class( **kwargs )        
+        return _class( **kwargs )
 
 
     
