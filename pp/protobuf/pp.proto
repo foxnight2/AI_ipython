@@ -60,9 +60,8 @@ message DataLoaderParameter {
     optional uint32 batch_size = 2;
     optional uint32 num_workers = 3;
     optional bool shuffle = 4 [default = false];
-
-    optional string code_file = 100;
-
+    
+    optional string code_file = 100; // dataset and dataloader
 }
 
 

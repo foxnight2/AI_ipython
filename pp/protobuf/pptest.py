@@ -8,6 +8,7 @@ from google.protobuf import text_format
 from google.protobuf import pyext
 
 import re
+import os
 import inspect
 import collections
 from typing import Sequence
@@ -106,11 +107,8 @@ class Solver(object):
             # exec(solver_param.optimizer.code)
             # optimizer = locals()['optimizer']
             optimizer = self.parse_optimizer(solver_param.optimizer, model=model)
-            
-            
-            
+                        
            
-            
         self.model = model
         self.dataloader = None
         
@@ -158,12 +156,14 @@ class Solver(object):
         _param = {k.name: v for k, v in config.ListFields()}
         kwargs.update({k: _param[k] for k in argsname if k in _param})
 
-        print(config)
-        
-        with open(config.code_file, 'r') as f:
-            exec( f.read() )
-            print( list(locals().keys()) )
+        if config.code_file:
+            with open(config.code_file, 'r') as f:
+                exec( f.read() )
             
+            assert optimizer in locals().keys(), 'make sure var optimizer exists.'
+
+            return locals()['optimizer']
+                        
         return _class( **kwargs )        
 
 
