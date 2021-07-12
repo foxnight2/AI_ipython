@@ -158,6 +158,12 @@ class Solver(object):
         _param = {k.name: v for k, v in config.ListFields()}
         kwargs.update({k: _param[k] for k in argsname if k in _param})
 
+        print(config)
+        
+        with open(config.code_file, 'r') as f:
+            exec( f.read() )
+            print( list(locals().keys()) )
+            
         return _class( **kwargs )        
 
 

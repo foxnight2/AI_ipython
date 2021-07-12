@@ -60,7 +60,9 @@ message DataLoaderParameter {
     optional uint32 batch_size = 2;
     optional uint32 num_workers = 3;
     optional bool shuffle = 4 [default = false];
-    
+
+    optional string code_file = 100;
+
 }
 
 
@@ -72,7 +74,8 @@ message OptimizerParameter {
     optional float momentum = 5;
     optional float weight_decay = 6;
 
-    optional string code = 10;
+    optional string code_file = 100;
+    
 }
 
 

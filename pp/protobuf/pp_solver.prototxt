@@ -21,6 +21,8 @@ optimizer {
         lr: 0.1
         params_inline: "params_2 = [p for n, p in model.named_parameters() if not 'weight' in n]"
     }
+    
+    code_file: "./pp_optimizer.py"
 }
 
 
