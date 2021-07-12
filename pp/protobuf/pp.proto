@@ -39,16 +39,19 @@ message SolverParameter {
     optional ModelParameter model = 2;  // inline
     optional string model_file = 3; // file
     
-    optional string optimizer = 10;
-    optional double learning_rate = 11;
-    optional uint32 epoches = 12; 
-    optional uint32 snapshot = 13 [default = 2];
+    // optional string optimizer = 10;
+    // optional double learning_rate = 11;
+    // optional double base_lr = 12;
+    // repeated ParamsGroupParameter params_group = 13;
     
-    optional OptimizerParameter optimizer_def = 20;
+    optional OptimizerParameter optimizer = 20;
     
     optional DataLoaderParameter dataloader = 30;
     optional DataLoaderParameter train_dataloader = 31;
     optional DataLoaderParameter test_dataloader = 32;
+
+    optional uint32 epoches = 100; 
+    optional uint32 snapshot = 101 [default = 2];
 
 }
 
@@ -64,11 +67,26 @@ message DataLoaderParameter {
 message OptimizerParameter {
     optional string name = 1; 
     optional string type = 2;
-    optional float lr = 3;
-    
+    repeated ParamsGroupParameter params_group = 3;
+    optional float lr = 4;
+    optional float momentum = 5;
+    optional float weight_decay = 6;
+
     optional string code = 10;
+}
+
+
+message ParamsGroupParameter {
+    optional string name = 1; 
+    optional string params = 2;
+    optional string params_inline = 3; // code for exec 
+    
+    optional float lr = 4;
+    optional float momentum = 5;
+    optional float weight_decay = 6;
     
 }
+
 
 // modules
 

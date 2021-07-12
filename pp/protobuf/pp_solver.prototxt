@@ -8,25 +8,35 @@ dataloader {
     shuffle: true
 }
 
+optimizer {
+    type: "SGD"
+    lr: 0.1
+    momentum: 0.3
+    params_group {
+        lr: 0.01
+        momentum: 0.2
+        params_inline: "params_1 = [p for n, p in model.named_parameters() if 'weight' in n]"
+    }
+    params_group {
+        lr: 0.1
+        params_inline: "params_2 = [p for n, p in model.named_parameters() if not 'weight' in n]"
+    }
+}
 
-optimizer: "SGD"
-learning_rate: 0.1
 
 
 epoches: 5
 snapshot: 10
 
 
-
-
-optimizer_def {
-    code:"\n"
-        "import torch \n"
-        "print('---optmizer-----') \n"
-        "def optimizer(model, lr): \n"
-        "    return torch.optim.SGD(model.parameters(), lr=lr) \n"
-        "\n"
-}
+# optimizer_def {
+#     code:"\n"
+#         "import torch \n"
+#         "print('---optmizer-----') \n"
+#         "def optimizer(model, lr): \n"
+#         "    return torch.optim.SGD(model.parameters(), lr=lr) \n"
+#         "\n"
+# }
 
 
 # model {

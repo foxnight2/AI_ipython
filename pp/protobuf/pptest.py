@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.optim as optim
 
 import pp_pb2 as pp
 from ppcore import modules as MODULES
@@ -97,13 +98,18 @@ class Solver(object):
                 
         if solver_param.model.ByteSize():
             model = Model(model_param=solver_param.model)
-        else:
-            model = Model(model_file=solver_param.model_file)
         
-        if solver_param.optimizer_def.ByteSize():
-            exec(solver_param.optimizer_def.code)
-            # print(list(locals().keys()))
-            optimizer_def = locals()['optimizer']
+        model = Model(model_file=solver_param.model_file)
+        
+        
+        if solver_param.optimizer.ByteSize():
+            # exec(solver_param.optimizer.code)
+            # optimizer = locals()['optimizer']
+            optimizer = self.parse_optimizer(solver_param.optimizer, model=model)
+            
+            
+            
+           
             
         self.model = model
         self.dataloader = None
@@ -117,11 +123,46 @@ class Solver(object):
         pass
     
     
-    def parse(self, ):
-        pass
+    def parse_optimizer(self, config, model):
+        '''parse optimizer config
+        '''
+        # print(list(locals().keys()))
+        
+        assert config.type in dir(torch.optim), f'assert {config.type} exists'
+
+        _class = getattr(torch.optim, config.type)
+        
+        argspec = inspect.getfullargspec(_class.__init__)
+        argsname = [arg for arg in argspec.args if arg != 'self']
+
+        kwargs = {}
+
+        if argspec.defaults is not None:
+            kwargs.update( dict(zip(argsname[::-1], argspec.defaults[::-1])) )
+
+        
+        if len(config.params_group):
+            params = []
+            for group in config.params_group:
+                exec(group.params_inline)
+                _var_name = group.params_inline.split('=')[0].strip()                
+                _params = {k.name:v for k, v in group.ListFields() if k.name != 'params_inline'}
+                _params.update({'params': locals()[_var_name]})
+                
+                params.append(_params)
+                
+        else:
+            params = model.parameters()
+
+        kwargs.update( {'params': params})
+        
+        _param = {k.name: v for k, v in config.ListFields()}
+        kwargs.update({k: _param[k] for k in argsname if k in _param})
+
+        return _class( **kwargs )        
+
+
     
-
-
 solver = Solver()
 
 data = torch.rand(1, 20, 10, 10)
