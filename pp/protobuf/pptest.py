@@ -140,7 +140,6 @@ class Solver(object):
         if argspec.defaults is not None:
             kwargs.update( dict(zip(argsname[::-1], argspec.defaults[::-1])) )
 
-        
         if len(config.params_group):
             params = []
             for group in config.params_group:
