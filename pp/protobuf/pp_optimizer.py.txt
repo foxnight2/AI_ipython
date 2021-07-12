@@ -3,3 +3,6 @@
 
 
 optimizer = globals()['optim'].SGD(model.parameters(), lr=0.1)
+
+optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+
