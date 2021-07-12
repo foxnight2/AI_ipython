@@ -146,8 +146,8 @@ message ResNetParameter {
 
 
 message CustomModuleParameter {
-    optional string code_file = 1;
-    optional string code_inline = 2;
+    optional string module_file = 1;
+    optional string module_inline = 2;
 
 }
 

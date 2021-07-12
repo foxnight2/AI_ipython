@@ -54,7 +54,7 @@ module {
   top: "custom1"
   
   custom_param {
-      code_inline: "custom1 = torch.nn.Sigmoid()"
+      module_inline: "custom1 = torch.nn.Sigmoid()"
   }
   
 }

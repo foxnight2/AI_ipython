@@ -68,8 +68,8 @@ class Model(nn.Module):
         '''
 
         if config.type == 'Custom':
-            _code = config.custom_param.code_inline if config.custom_param.code_inline \
-                else open(config.custom_param.code_file, 'r').read()
+            _code = config.custom_param.module_inline if config.custom_param.module_inline \
+                else open(config.custom_param.module_file, 'r').read()
             exec(_code)
             
             return locals()[config.name]
