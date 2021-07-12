@@ -99,17 +99,14 @@ class Solver(object):
                 
         if solver_param.model.ByteSize():
             model = Model(model_param=solver_param.model)
-        
-        model = Model(model_file=solver_param.model_file)
-        
+        else:
+            model = Model(model_file=solver_param.model_file)
         
         if solver_param.optimizer.ByteSize():
-            # exec(solver_param.optimizer.code)
-            # optimizer = locals()['optimizer']
             optimizer = self.parse_optimizer(solver_param.optimizer, model=model)
-                        
-           
+            
         self.model = model
+        self.optimizer = optimizer
         self.dataloader = None
         
         
@@ -145,27 +142,27 @@ class Solver(object):
                 _var_name = group.params_inline.split('=')[0].strip()                
                 _params = {k.name:v for k, v in group.ListFields() if k.name != 'params_inline'}
                 _params.update({'params': locals()[_var_name]})
-                
                 params.append(_params)
-                
         else:
             params = model.parameters()
-
+        
         kwargs.update( {'params': params})
         
         _param = {k.name: v for k, v in config.ListFields()}
         kwargs.update({k: _param[k] for k in argsname if k in _param})
 
-        if config.code_file:
+        if config.code_file and False:
             with open(config.code_file, 'r') as f:
                 exec( f.read() )
             
             assert 'optimizer' in locals().keys(), 'make sure var optimizer exists.'
+
+            print( list(locals().keys()) )
             
-            print(locals()['optimizer'])
-            
-            return locals()['optimizer']
-                        
+            return locals()['optimizer'], locals()['lr_scheduler']
+
+        print(config)
+        
         return _class( **kwargs )        
 
 

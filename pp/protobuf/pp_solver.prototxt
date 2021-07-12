@@ -12,8 +12,10 @@ dataloader {
 
 optimizer {
     type: "SGD"
+    
     lr: 0.1
     momentum: 0.3
+    
     params_group {
         lr: 0.01
         momentum: 0.2
@@ -23,9 +25,16 @@ optimizer {
         lr: 0.1
         params_inline: "params_2 = [p for n, p in model.named_parameters() if not 'weight' in n]"
     }
+
+    lr_scheduler {
+        type: "MultiStepLR"
+        gamma: 0.1
+        milestones: [10, 20]
+    }
     
     code_file: "./pp_optimizer.py.txt"
 }
+
 
 
 

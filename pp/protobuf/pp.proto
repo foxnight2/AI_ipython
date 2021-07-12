@@ -38,17 +38,15 @@ message SolverParameter {
     
     optional ModelParameter model = 2;  // inline
     optional string model_file = 3; // file
-    
-    // optional string optimizer = 10;
-    // optional double learning_rate = 11;
-    // optional double base_lr = 12;
-    // repeated ParamsGroupParameter params_group = 13;
-    
+
     optional OptimizerParameter optimizer = 20;
     
     optional DataLoaderParameter dataloader = 30;
     optional DataLoaderParameter train_dataloader = 31;
     optional DataLoaderParameter test_dataloader = 32;
+    optional DataLoaderParameter val_dataloader = 33;
+
+    optional LRSchedulerParameter lr_scheduler = 40;
 
     optional uint32 epoches = 100; 
     optional uint32 snapshot = 101 [default = 2];
@@ -73,6 +71,8 @@ message OptimizerParameter {
     optional float momentum = 5;
     optional float weight_decay = 6;
 
+    optional LRSchedulerParameter lr_scheduler = 50;
+    
     optional string code_file = 100;
     
 }
@@ -88,6 +88,17 @@ message ParamsGroupParameter {
     optional float weight_decay = 6;
     
 }
+
+
+message LRSchedulerParameter {
+    optional string name = 1;
+    optional string type = 2;
+    
+    repeated float milestones = 10;
+    optional float gamma = 11;
+    optional int32 last_epoch = 12 [default = -1];
+}
+
 
 
 // modules
@@ -110,6 +121,7 @@ message ModuleParameter {
     optional DatasetParameter dataset_param = 102;
 }
 
+
 message Conv2dParameter {
 
     optional uint32 in_channels = 1;
@@ -123,11 +135,13 @@ message Conv2dParameter {
     optional string padding_mode = 9;
 }
 
+
 message ResNetParameter {
     optional string layers = 1;
     optional int32 freeze_at = 2;
     
 }
+
 
 message DatasetParameter {
     optional string type = 1; 
