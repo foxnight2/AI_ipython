@@ -160,8 +160,10 @@ class Solver(object):
             with open(config.code_file, 'r') as f:
                 exec( f.read() )
             
-            assert optimizer in locals().keys(), 'make sure var optimizer exists.'
-
+            assert 'optimizer' in locals().keys(), 'make sure var optimizer exists.'
+            
+            print(locals()['optimizer'])
+            
             return locals()['optimizer']
                         
         return _class( **kwargs )        
