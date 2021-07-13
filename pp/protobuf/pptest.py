@@ -137,18 +137,51 @@ class Solver(object):
         else:
             self.device = torch.device(solver_param.device)
             self.model = model.to(self.device)
-            
-
+        
+        self.last_epoch = 0
+        self.epoches = solver_param.epoches
+        
+        
     def train(self, ):
         self.model.train()
-                
+
         data = torch.rand(1, 20, 10, 10).to(self.device)
-        solver.model({'data': data})
+        
     
+        for e in range(self.last_epoch, self.epoches):
+            
+            self.model({'data': data})
+            
+            
     
     def test(self, ):
         pass
     
+    
+
+
+    def save(self, prefix=''):
+        '''save state
+        '''
+        state = {
+            'model': self.model.state_dict(),
+            'optimizer': self.optimizer.state_dict(),
+            # 'solver': self.state_dict(),
+            'last_epoch': self.last_epoch
+        }
+        torch.save(state, prefix+'.pt')
+
+
+    def restore(self, path):
+        '''restore
+        '''
+        state = torch.load(path)
+        self.optimizer.load_state_dict(state['optimizer'])
+        self.model.load_state_dict(state['model'])
+        # self.load_state_dict(state['solver'])
+        self.last_epoch = state['last_epoch']
+        
+
     
     def parse(self, config, classes):
         '''parse optimizer lr_scheduler 
@@ -194,7 +227,7 @@ class Solver(object):
         kwargs.update({k: _param[k] for k in argsname if k in _param})
         
         return _class( **kwargs )
-    
+
 
     @staticmethod
     def parse_optimizer(config, model, classes=torch.optim):
