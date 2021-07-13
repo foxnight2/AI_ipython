@@ -123,11 +123,9 @@ message DistributedParameter {
     optional string name = 1;
     optional string type = 2;
     optional string backend = 3;
-    optional string url = 4;
+    optional string init_method = 4;
     optional uint32 world_size = 5;
-    optional uint32 rank = 6;
-    optional uint32 nodes = 7;
-    optional string init_method = 8;
+    optional uint32 nnodes = 6;
     
 }
 

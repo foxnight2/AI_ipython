@@ -69,7 +69,6 @@ class Model(nn.Module):
     def _parse_module(config, classes):
         '''instantiate a module
         '''
-
         if config.type == 'Custom':
             _code = config.custom_param.module_inline if config.custom_param.module_inline \
                 else open(config.custom_param.module_file, 'r').read()
@@ -97,9 +96,16 @@ class Model(nn.Module):
             kwargs.update({k: _param[k] for k in argsname if k in _param})
 
         kwargs = collections.OrderedDict([(k, kwargs[k]) for k in argsname])
-
-        return _class(**kwargs)
-
+        module = _class(**kwargs)
+        
+        if config.reset_inline or config.reset_file:
+            _code = config.reset_inline if config.reset_inline \
+                                        else open(config.reset_file, 'r').read()
+            exec( _code )
+        
+        return locals()['module']
+        
+        
 
 # model = Model()
 # model = Model()
@@ -179,52 +185,6 @@ class Solver(object):
         self.optimizer.load_state_dict(state['optimizer'])
         self.model.load_state_dict(state['lr_scheduler'])
         self.last_epoch = state['last_epoch']
-        
-    
-    def parse(self, config, classes):
-        '''parse optimizer lr_scheduler 
-        '''
-        if config.module_file or config.module_inline:
-            _code = config.module_inline if config.module_inline else open(config.module_file, 'r').read()
-            exec( _code )            
-            return locals()[config.name]
-        
-        _class = getattr(classes, config.type)
-        
-        argspec = inspect.getfullargspec(_class.__init__)
-        argsname = [arg for arg in argspec.args if arg != 'self']
-
-        kwargs = {}
-
-        if argspec.defaults is not None:
-            kwargs.update( dict(zip(argsname[::-1], argspec.defaults[::-1])) )
-        
-        _param = {k.name: v for k, v in config.ListFields()}
-        
-        if 'params' in argsname:
-            if 'params_group' in _param and len(_param['params_group']):
-                params = []
-                for group in config.params_group:
-                    exec(group.params_inline)
-                    _var_name = group.params_inline.split('=')[0].strip()                
-                    _params = {k.name:v for k, v in group.ListFields() if k.name != 'params_inline'}
-                    _params.update({'params': locals()[_var_name]})
-                    params.append(_params)
-            else:
-                params = self.model.parameters()
-            
-            kwargs.update( {'params': params})
-
-        elif 'optimizer' in argsname:
-            
-            kwargs.update( {'optimizer': self.optimizer} )
-
-        else:
-            pass
-        
-        kwargs.update({k: _param[k] for k in argsname if k in _param})
-        
-        return _class( **kwargs )
 
 
     @staticmethod
@@ -300,7 +260,11 @@ class Solver(object):
     def setup_distributed(self, config):
         '''distributed setup
         '''
-        dist.init_process_group(backend='nccl', init_method='env://')
+        
+        dist.init_process_group(backend = (config.backend if config.backend else 'nccl'),
+                                init_method = (config.init_method if config.init_method else 'env://' ), 
+                                # world_size = config.world_size, 
+                                rank = args.local_rank )
         
         torch.cuda.set_device(args.local_rank)
         
@@ -316,11 +280,11 @@ class Solver(object):
         
         # others
         torch.distributed.barrier()
-        self.setup_print(args.local_rank == 0)
+        self.setup_distributed_print(args.local_rank == 0)
 
     
     @staticmethod
-    def setup_print(is_master):
+    def setup_distributed_print(is_master):
         """
         reference: https://github.com/facebookresearch/detr/blob/master/util/misc.py
         This function disables printing when not in master process

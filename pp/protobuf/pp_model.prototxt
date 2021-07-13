@@ -15,6 +15,9 @@ module {
     padding: [2, 3]
   }
   phase: 1
+  
+  reset_inline: "nn.init.ones_(module.weight.data)"
+
 }
 
 module {
@@ -25,6 +28,7 @@ module {
   resnet_param {
     layers: "34"
   }
+    
 }
 
 
