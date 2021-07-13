@@ -167,17 +167,15 @@ class Solver(object):
         _param = {k.name: v for k, v in config.ListFields()}
         kwargs.update({k: _param[k] for k in argsname if k in _param})
 
-        if config.code_file and False:
-            with open(config.code_file, 'r') as f:
+        if config.module_file and True:
+            with open(config.module_file, 'r') as f:
                 exec( f.read() )
             
             assert 'optimizer' in locals().keys(), 'make sure var optimizer exists.'
 
             print( list(locals().keys()) )
             
-            return locals()['optimizer'], locals()['lr_scheduler']
-
-        print(config)
+            return locals()['optimizer']
         
         return _class( **kwargs )
 

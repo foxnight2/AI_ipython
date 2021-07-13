@@ -40,13 +40,12 @@ message SolverParameter {
     optional string model_file = 3; // file
 
     optional OptimizerParameter optimizer = 20;
-    
+    optional LRSchedulerParameter lr_scheduler = 21;
+
     optional DataLoaderParameter dataloader = 30;
     optional DataLoaderParameter train_dataloader = 31;
     optional DataLoaderParameter test_dataloader = 32;
     optional DataLoaderParameter val_dataloader = 33;
-
-    optional LRSchedulerParameter lr_scheduler = 40;
 
     optional uint32 epoches = 100; 
     optional uint32 snapshot = 101 [default = 2];
@@ -59,7 +58,9 @@ message DataLoaderParameter {
     optional uint32 num_workers = 3;
     optional bool shuffle = 4 [default = false];
     
-    optional string code_file = 100; // dataset and dataloader
+    optional string module_file = 100; // dataset and dataloader
+    optional string module_inline = 101; // dataset and dataloader
+
 }
 
 
@@ -71,10 +72,11 @@ message OptimizerParameter {
     optional float momentum = 5;
     optional float weight_decay = 6;
 
-    optional LRSchedulerParameter lr_scheduler = 50;
+    // optional LRSchedulerParameter lr_scheduler = 50;
     
-    optional string code_file = 100;
-    
+    optional string module_file = 100;
+    optional string module_inline = 101;
+
 }
 
 
@@ -87,6 +89,9 @@ message ParamsGroupParameter {
     optional float momentum = 5;
     optional float weight_decay = 6;
     
+    optional string module_file = 100;
+    optional string module_inline = 101;
+
 }
 
 
@@ -97,6 +102,10 @@ message LRSchedulerParameter {
     repeated float milestones = 10;
     optional float gamma = 11;
     optional int32 last_epoch = 12 [default = -1];
+    
+    optional string module_file = 100;
+    optional string module_inline = 101;
+
 }
 
 
