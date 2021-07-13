@@ -145,7 +145,12 @@ message ModuleParameter {
     optional string type = 2; 
     repeated string bottom = 3;
     repeated string top = 4;
+    
     optional string pretrained = 5;
+    optional bool is_pretrained = 6 [default = true];
+    
+    optional string reset_inline = 7;
+    optional string reset_file = 8;
     
     enum Phase {
        TRAIN = 0;
