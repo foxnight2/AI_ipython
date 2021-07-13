@@ -89,8 +89,8 @@ message ParamsGroupParameter {
     optional float momentum = 5;
     optional float weight_decay = 6;
     
-    optional string module_file = 100;
-    optional string module_inline = 101;
+    // optional string module_file = 100;
+    // optional string module_inline = 101;
 
 }
 

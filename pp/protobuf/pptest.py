@@ -20,10 +20,10 @@ class Model(nn.Module):
         
         _model_param = pp.ModelParameter()
 
-        if model_param is None:
-            text_format.Merge(open(model_file, 'rb').read(), _model_param)
+        if model_param is not None and model_param.ByteSize():
+            _model_param.CopyFrom(model_param) 
         else:
-            _model_param.CopyFrom(model_param)
+            text_format.Merge(open(model_file, 'rb').read(), _model_param)
 
         self.model = self.parse(_model_param)
         self.model_param = _model_param
@@ -112,19 +112,27 @@ class Solver(object):
         
         solver_param = pp.SolverParameter() 
         text_format.Merge(open(solver_file, 'rb').read(), solver_param)
-                
-        if solver_param.model.ByteSize():
-            model = Model(model_param=solver_param.model)
-        else:
-            model = Model(model_file=solver_param.model_file)
+
+        model = Model(solver_param.model, solver_param.model_file)
+        # self.model = model
         
         if solver_param.optimizer.ByteSize():
             optimizer = self.parse_optimizer(solver_param.optimizer, model=model)
+            # optimizer = self.parse(solver_param.optimizer, torch.optim)
+            # self.optimizer = optimizer
             
+        if solver_param.lr_scheduler.ByteSize():
+            lr_scheduler = self.parse_lr_scheduler(solver_param.lr_scheduler, optimizer)
+            # lr_scheduler = self.parse(solver_param.lr_scheduler, torch.optim.lr_scheduler)
+            # self.lr_scheduler = lr_scheduler
+        
+        
         self.model = model
         self.optimizer = optimizer
+        self.lr_scheduler = lr_scheduler
         self.dataloader = None
         
+        print(model, optimizer, lr_scheduler)
         
     def train(self, ):
         pass
@@ -134,13 +142,61 @@ class Solver(object):
         pass
     
     
-    def parse_optimizer(self, config, model):
+    def parse(self, config, classes):
+        '''parse optimizer lr_scheduler 
+        '''
+        if config.module_file or config.module_inline:
+            _code = config.module_inline if config.module_inline else open(config.module_file, 'r').read()
+            exec( _code )            
+            return locals()[config.name]
+        
+        _class = getattr(classes, config.type)
+        
+        argspec = inspect.getfullargspec(_class.__init__)
+        argsname = [arg for arg in argspec.args if arg != 'self']
+
+        kwargs = {}
+
+        if argspec.defaults is not None:
+            kwargs.update( dict(zip(argsname[::-1], argspec.defaults[::-1])) )
+        
+        _param = {k.name: v for k, v in config.ListFields()}
+        
+        if 'params' in argsname:
+            if 'params_group' in _param and len(_param['params_group']):
+                params = []
+                for group in config.params_group:
+                    exec(group.params_inline)
+                    _var_name = group.params_inline.split('=')[0].strip()                
+                    _params = {k.name:v for k, v in group.ListFields() if k.name != 'params_inline'}
+                    _params.update({'params': locals()[_var_name]})
+                    params.append(_params)
+            else:
+                params = self.model.parameters()
+            
+            kwargs.update( {'params': params})
+
+        elif 'optimizer' in argsname:
+            
+            kwargs.update( {'optimizer': self.optimizer} )
+
+        else:
+            pass
+        
+        kwargs.update({k: _param[k] for k in argsname if k in _param})
+        
+        return _class( **kwargs )
+    
+
+    @staticmethod
+    def parse_optimizer(config, model):
         '''parse optimizer config
         '''
-        # print(list(locals().keys()))
+        if config.module_file or config.module_inline:
+            _code = config.module_inline if config.module_inline else open(config.module_file, 'r').read()
+            exec( _code )            
+            return locals()['optimizer']
         
-        assert config.type in dir(torch.optim), f'assert {config.type} exists'
-
         _class = getattr(torch.optim, config.type)
         
         argspec = inspect.getfullargspec(_class.__init__)
@@ -150,7 +206,7 @@ class Solver(object):
 
         if argspec.defaults is not None:
             kwargs.update( dict(zip(argsname[::-1], argspec.defaults[::-1])) )
-
+        
         if len(config.params_group):
             params = []
             for group in config.params_group:
@@ -166,19 +222,39 @@ class Solver(object):
         
         _param = {k.name: v for k, v in config.ListFields()}
         kwargs.update({k: _param[k] for k in argsname if k in _param})
-
-        if config.module_file and True:
-            with open(config.module_file, 'r') as f:
-                exec( f.read() )
-            
-            assert 'optimizer' in locals().keys(), 'make sure var optimizer exists.'
-
-            print( list(locals().keys()) )
-            
-            return locals()['optimizer']
         
-        return _class( **kwargs )
+        _optimizer = _class( **kwargs )
+        
+        return _optimizer
 
+    
+    @staticmethod
+    def parse_lr_scheduler(config, optimizer):
+        '''parse lr_scheduler config
+        '''
+        if config.module_file or config.module_inline:
+            _code = config.module_inline if config.module_inline else open(config.module_file, 'r').read()
+            exec( _code )            
+            return locals()['lr_scheduler']
+        
+        _class = getattr(torch.optim.lr_scheduler, config.type)
+        
+        argspec = inspect.getfullargspec(_class.__init__)
+        argsname = [arg for arg in argspec.args if arg != 'self']
+
+        kwargs = {}
+
+        if argspec.defaults is not None:
+            kwargs.update( dict(zip(argsname[::-1], argspec.defaults[::-1])) )
+
+        kwargs.update( {'optimizer': optimizer} )
+        
+        _param = {k.name: v for k, v in config.ListFields()}
+        kwargs.update({k: _param[k] for k in argsname if k in _param})
+        
+        _lr_scheduler = _class( **kwargs )
+        
+        return _lr_scheduler    
 
     
 solver = Solver()
