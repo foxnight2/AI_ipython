@@ -147,7 +147,6 @@ class Solver(object):
 
         data = torch.rand(1, 20, 10, 10).to(self.device)
         
-    
         for e in range(self.last_epoch, self.epoches):
             
             self.model({'data': data})
@@ -166,22 +165,21 @@ class Solver(object):
         state = {
             'model': self.model.state_dict(),
             'optimizer': self.optimizer.state_dict(),
-            # 'solver': self.state_dict(),
+            'lr_scheduler': self.lr_scheduler.state_dict(),
             'last_epoch': self.last_epoch
         }
-        torch.save(state, prefix+'.pt')
+        torch.save(state, prefix + '.pt')
 
 
     def restore(self, path):
         '''restore
         '''
         state = torch.load(path)
-        self.optimizer.load_state_dict(state['optimizer'])
         self.model.load_state_dict(state['model'])
-        # self.load_state_dict(state['solver'])
+        self.optimizer.load_state_dict(state['optimizer'])
+        self.model.load_state_dict(state['lr_scheduler'])
         self.last_epoch = state['last_epoch']
         
-
     
     def parse(self, config, classes):
         '''parse optimizer lr_scheduler 

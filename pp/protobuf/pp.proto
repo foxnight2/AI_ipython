@@ -53,12 +53,15 @@ message SolverParameter {
     optional uint32 epoches = 100; 
     
     optional uint32 snapshot = 200 [default = 2];
-    optional string log_dir = 201 [default = "./logs/"];
-    optional PrintoptionsParameter printoptions = 202;
+    optional string log_dir = 201 [default = "./logs"];
+    optional string prefix = 202;
+    optional string resume = 203;
 
     optional int32 seed = 300;
+    optional PrintoptionsParameter printoptions = 301;
 
 }
+
 
 message DataLoaderParameter {
     optional string name = 1; 
@@ -74,10 +77,10 @@ message DataLoaderParameter {
 message OptimizerParameter {
     optional string name = 1; 
     optional string type = 2;
-    repeated ParamsGroupParameter params_group = 3;
     optional float lr = 4;
     optional float momentum = 5;
     optional float weight_decay = 6;
+    repeated ParamsGroupParameter params_group = 7;
 
     // optional LRSchedulerParameter lr_scheduler = 50;
     
@@ -125,6 +128,7 @@ message DistributedParameter {
     optional uint32 rank = 6;
     optional uint32 nodes = 7;
     optional string init_method = 8;
+    
 }
 
 
@@ -137,22 +141,21 @@ message PrintoptionsParameter {
 // modules
 
 message ModuleParameter {
-
     optional string name = 1; 
     optional string type = 2; 
     repeated string bottom = 3;
     repeated string top = 4;
+    optional string pretrained = 5;
     
     enum Phase {
        TRAIN = 0;
        TEST = 1;
     }
-    optional Phase phase = 5;
+    optional Phase phase = 10;
 
     optional Conv2dParameter conv2d_param = 100;
     optional ResNetParameter resnet_param = 101;
     optional CustomModuleParameter custom_param = 102;
-    
     optional DatasetParameter dataset_param = 200;
 }
 

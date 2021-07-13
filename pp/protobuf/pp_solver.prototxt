@@ -49,10 +49,11 @@ device: "cuda:0"
 # }
 
 
-epoches: 5
+epoches: 3
 
 snapshot: 10
-log_dir: "./logs/"
+log_dir: "./logs"
+prefix: "pp_model"
 
 
 
