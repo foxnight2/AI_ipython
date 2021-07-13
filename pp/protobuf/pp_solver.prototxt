@@ -11,8 +11,8 @@ dataloader {
 
 optimizer {
     name: "optimizer"
-    type: "SGD"
     
+    type: "SGD"
     lr: 0.1
     momentum: 0.3
     
@@ -32,19 +32,27 @@ optimizer {
 
 
 lr_scheduler {
-    name: "lr_scheduler"
+    name: "lr_scheduler_1"
     
     type: "MultiStepLR"
     gamma: 0.1
     milestones: [10, 20]
     
-    # module_inline: "lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[1, 2], gamma=0.1)"
+    # module_inline: "lr_scheduler_1 = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[1, 2], gamma=0.1)"
 }
     
 
-epoches: 5
-snapshot: 10
+device: "cuda:0"
 
+# distributed {
+#     backend: "nccl"
+# }
+
+
+epoches: 5
+
+snapshot: 10
+log_dir: "./logs/"
 
 
 

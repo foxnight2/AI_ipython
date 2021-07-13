@@ -38,17 +38,25 @@ message SolverParameter {
     
     optional ModelParameter model = 2;  // inline
     optional string model_file = 3; // file
-
+    
+    optional string device = 10 [default = "cpu"];
+    
     optional OptimizerParameter optimizer = 20;
     optional LRSchedulerParameter lr_scheduler = 21;
+    optional DistributedParameter distributed = 22;
 
     optional DataLoaderParameter dataloader = 30;
     optional DataLoaderParameter train_dataloader = 31;
     optional DataLoaderParameter test_dataloader = 32;
     optional DataLoaderParameter val_dataloader = 33;
-
+    
     optional uint32 epoches = 100; 
-    optional uint32 snapshot = 101 [default = 2];
+    
+    optional uint32 snapshot = 200 [default = 2];
+    optional string log_dir = 201 [default = "./logs/"];
+    optional PrintoptionsParameter printoptions = 202;
+
+    optional int32 seed = 300;
 
 }
 
@@ -60,7 +68,6 @@ message DataLoaderParameter {
     
     optional string module_file = 100; // dataset and dataloader
     optional string module_inline = 101; // dataset and dataloader
-
 }
 
 
@@ -109,6 +116,23 @@ message LRSchedulerParameter {
 }
 
 
+message DistributedParameter {
+    optional string name = 1;
+    optional string type = 2;
+    optional string backend = 3;
+    optional string url = 4;
+    optional uint32 world_size = 5;
+    optional uint32 rank = 6;
+    optional uint32 nodes = 7;
+    optional string init_method = 8;
+}
+
+
+message PrintoptionsParameter {
+    optional uint32 precision = 1;
+    optional uint32 threshold = 2;
+    optional uint32 linewidth = 3;
+}
 
 // modules
 

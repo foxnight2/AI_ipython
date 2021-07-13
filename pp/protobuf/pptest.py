@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import torch.distributed as dist
+from torch.nn.parallel import DistributedDataParallel as DDP
 
 import pp_pb2 as pp
 from ppcore import modules as MODULES
@@ -14,6 +16,7 @@ import collections
 from typing import Sequence
 
 
+    
 class Model(nn.Module):
     def __init__(self, model_param=None, model_file='./pp_model.prototxt'):
         super().__init__()
@@ -104,8 +107,6 @@ class Model(nn.Module):
 # data = torch.rand(1, 20, 10, 10)
 # model({'data': data})
 
-print('---------')
-
 
 class Solver(object):
     def __init__(self, solver_file='./pp_solver.prototxt'):
@@ -117,7 +118,7 @@ class Solver(object):
         # self.model = model
         
         if solver_param.optimizer.ByteSize():
-            optimizer = self.parse_optimizer(solver_param.optimizer, model=model)
+            optimizer = self.parse_optimizer(solver_param.optimizer, model)
             # optimizer = self.parse(solver_param.optimizer, torch.optim)
             # self.optimizer = optimizer
             
@@ -126,16 +127,23 @@ class Solver(object):
             # lr_scheduler = self.parse(solver_param.lr_scheduler, torch.optim.lr_scheduler)
             # self.lr_scheduler = lr_scheduler
         
-        
         self.model = model
         self.optimizer = optimizer
         self.lr_scheduler = lr_scheduler
         self.dataloader = None
-        
-        print(model, optimizer, lr_scheduler)
-        
+
+        if solver_param.distributed.ByteSize():
+            self.setup_distributed(solver_param.distributed)
+        else:
+            self.device = torch.device(solver_param.device)
+            self.model = model.to(self.device)
+            
+
     def train(self, ):
-        pass
+        self.model.train()
+                
+        data = torch.rand(1, 20, 10, 10).to(self.device)
+        solver.model({'data': data})
     
     
     def test(self, ):
@@ -189,7 +197,7 @@ class Solver(object):
     
 
     @staticmethod
-    def parse_optimizer(config, model):
+    def parse_optimizer(config, model, classes=torch.optim):
         '''parse optimizer config
         '''
         if config.module_file or config.module_inline:
@@ -197,7 +205,7 @@ class Solver(object):
             exec( _code )            
             return locals()['optimizer']
         
-        _class = getattr(torch.optim, config.type)
+        _class = getattr(classes, config.type)
         
         argspec = inspect.getfullargspec(_class.__init__)
         argsname = [arg for arg in argspec.args if arg != 'self']
@@ -229,7 +237,7 @@ class Solver(object):
 
     
     @staticmethod
-    def parse_lr_scheduler(config, optimizer):
+    def parse_lr_scheduler(config, optimizer, classes=torch.optim.lr_scheduler):
         '''parse lr_scheduler config
         '''
         if config.module_file or config.module_inline:
@@ -237,7 +245,7 @@ class Solver(object):
             exec( _code )            
             return locals()['lr_scheduler']
         
-        _class = getattr(torch.optim.lr_scheduler, config.type)
+        _class = getattr(classes, config.type)
         
         argspec = inspect.getfullargspec(_class.__init__)
         argsname = [arg for arg in argspec.args if arg != 'self']
@@ -248,7 +256,7 @@ class Solver(object):
             kwargs.update( dict(zip(argsname[::-1], argspec.defaults[::-1])) )
 
         kwargs.update( {'optimizer': optimizer} )
-        
+
         _param = {k.name: v for k, v in config.ListFields()}
         kwargs.update({k: _param[k] for k in argsname if k in _param})
         
@@ -256,9 +264,57 @@ class Solver(object):
         
         return _lr_scheduler    
 
+
     
-solver = Solver()
+    def setup_distributed(self, config):
+        '''distributed setup
+        '''
+        dist.init_process_group(backend='nccl', init_method='env://')
+        
+        torch.cuda.set_device(args.local_rank)
+        
+        # device
+        self.device = torch.device(f'cuda:{args.local_rank}')
+        
+        # model
+        self.model.to(self.device)
+        self.model = DDP(self.model, device_ids=[args.local_rank], output_device=args.local_rank)
+        
+        # dataloader
+        pass
+        
+        # others
+        torch.distributed.barrier()
+        self.setup_print(args.local_rank == 0)
 
-data = torch.rand(1, 20, 10, 10)
-solver.model({'data': data})
+    
+    @staticmethod
+    def setup_print(is_master):
+        """
+        reference: https://github.com/facebookresearch/detr/blob/master/util/misc.py
+        This function disables printing when not in master process
+        """
+        import builtins as __builtin__
+        builtin_print = __builtin__.print
 
+        def print(*args, **kwargs):
+            force = kwargs.pop('force', False)
+            if is_master or force:
+                builtin_print(*args, **kwargs)
+
+        __builtin__.print = print
+
+
+if __name__ == '__main__':
+    
+    # python -m torch.distributed.launch --nproc_per_node=2 pptest.py
+    
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--local_rank', type=int, ) # torch.distributed.launch
+    args = parser.parse_args()
+
+    solver = Solver()
+    solver.train()
+
+    
