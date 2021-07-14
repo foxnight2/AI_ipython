@@ -147,11 +147,14 @@ class Solver(object):
         self.last_epoch = 0
         self.epoches = solver_param.epoches
         
+        print(solver_param)
+        
+        
         
     def train(self, ):
         self.model.train()
 
-        data = torch.rand(1, 20, 10, 10).to(self.device)
+        data = torch.rand(1, 3, 10, 10).to(self.device)
         
         for e in range(self.last_epoch, self.epoches):
             
@@ -161,7 +164,6 @@ class Solver(object):
     
     def test(self, ):
         pass
-    
     
 
 

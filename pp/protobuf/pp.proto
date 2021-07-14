@@ -45,11 +45,16 @@ message SolverParameter {
     optional LRSchedulerParameter lr_scheduler = 21;
     optional DistributedParameter distributed = 22;
 
-    optional DataLoaderParameter dataloader = 30;
+    repeated DataLoaderParameter dataloader = 30;
     optional DataLoaderParameter train_dataloader = 31;
     optional DataLoaderParameter test_dataloader = 32;
     optional DataLoaderParameter val_dataloader = 33;
     
+    repeated ModuleParameter dataset = 34;
+    optional ModuleParameter train_dataset = 35;
+    optional ModuleParameter test_dataset = 36;
+    optional ModuleParameter val_dataset = 37;
+
     optional uint32 epoches = 100; 
     
     optional uint32 snapshot = 200 [default = 2];
@@ -159,7 +164,8 @@ message ModuleParameter {
     optional Conv2dParameter conv2d_param = 100;
     optional ResNetParameter resnet_param = 101;
     optional CustomModuleParameter custom_param = 102;
-    optional DatasetParameter dataset_param = 200;
+    optional DummyDatasetParameter dummydataset_param = 200;
+    
 }
 
 
@@ -190,7 +196,7 @@ message CustomModuleParameter {
 
 }
 
-message DatasetParameter {
-    optional string type = 1; 
+message DummyDatasetParameter {
+    optional uint32 n = 1; 
 }
 
