@@ -35,7 +35,7 @@ dataset {
 dataloader {
     name: "train_dataloader"
     batch_size: 2
-    num_workers: 8
+    num_workers: 2
     shuffle: true
     dataset: "train_dataset"
 }
@@ -82,7 +82,7 @@ distributed {
 }
 
 
-epoches: 3
+epoches: 10
 
 snapshot: 10
 log_dir: "./logs"

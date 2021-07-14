@@ -209,9 +209,6 @@ class Model(nn.Module):
                 _outputs = (_outputs, )
                 
             outputs.update({t:_outputs[i] for i, t in enumerate(param.top) if len(param.top)})
-
-        for k in outputs:
-            print(k, outputs[k].shape)
             
         return outputs
     
@@ -285,6 +282,8 @@ class Solver(object):
                 
             for _, blob in enumerate(self.dataloader['train_dataloader']):
                 
+                print(blob.sum())
+
                 if not isinstance(blob, dict):
                     blob = blob if isinstance(blob, Sequence) else (blob, )
                     blob = {n: d for n, d in zip(self.dataset_tops['train_dataset'], blob)}
@@ -293,6 +292,7 @@ class Solver(object):
                 
                 output = self.model(blob)
             
+            print('--------')
             
     def test(self, ):
         pass
@@ -335,11 +335,13 @@ class Solver(object):
         self.device = torch.device(f'cuda:{args.local_rank}')
         
         torch.cuda.set_device(self.device)
-        
+        torch.distributed.barrier()
+
         # model
         self.model.to(self.device)
         self.model = DDP(self.model, device_ids=[args.local_rank], output_device=args.local_rank)
-        
+
+
         # dataloader            
         _sampler = {k: DistributedSampler(v.dataset, shuffle=v.shuffle) for k, v in self.dataloader.items()}
         _dataloader = {k: DataLoader(v.dataset, 
@@ -351,10 +353,8 @@ class Solver(object):
         
         self.dataloader = _dataloader
         
-        # others
-        torch.distributed.barrier()
         distributed_print(args.local_rank == 0)
-        
+
                 
 if __name__ == '__main__':
     

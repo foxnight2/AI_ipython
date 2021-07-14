@@ -18,8 +18,7 @@ class ResNet(nn.Module):
     
 class DummyDataset(Dataset):
     def __init__(self, ):
-        
-        self.data = torch.rand(3, 3, 10, 10)
+        self.data = torch.rand(50, 3, 10, 10)
         
     def __len__(self, ):
         return self.data.shape[0]
