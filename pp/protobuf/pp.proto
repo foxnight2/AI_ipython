@@ -45,16 +45,9 @@ message SolverParameter {
     optional OptimizerParameter optimizer = 20;
     optional LRSchedulerParameter lr_scheduler = 21;
 
-    repeated DataLoaderParameter dataloader = 30;
-    optional DataLoaderParameter train_dataloader = 31;
-    optional DataLoaderParameter test_dataloader = 32;
-    optional DataLoaderParameter val_dataloader = 33;
+    repeated ModuleParameter dataset = 30;
+    repeated DataLoaderParameter dataloader = 31;
     
-    repeated ModuleParameter dataset = 34;
-    optional ModuleParameter train_dataset = 35;
-    optional ModuleParameter test_dataset = 36;
-    optional ModuleParameter val_dataset = 37;
-
     optional uint32 epoches = 100; 
     
     optional uint32 snapshot = 200 [default = 2];
@@ -75,9 +68,10 @@ message DataLoaderParameter {
     optional bool shuffle = 4 [default = false];
     
     optional string dataset = 10;
+    optional Phase phase = 11;
     
-    optional string module_file = 100; // dataset and dataloader
-    optional string module_inline = 101; // dataset and dataloader
+    optional string module_file = 100; // dataloader
+    optional string module_inline = 101; // dataloader
 }
 
 
@@ -146,6 +140,10 @@ message PrintOptionsParameter {
 
 
 // modules
+enum Phase {
+   TRAIN = 0;
+   EVAL = 1;
+}
 
 message ModuleParameter {
     optional string name = 1; 
@@ -159,10 +157,6 @@ message ModuleParameter {
     optional string reset_inline = 7;
     optional string reset_file = 8;
     
-    enum Phase {
-       TRAIN = 0;
-       TEST = 1;
-    }
     optional Phase phase = 10;
 
     optional Conv2dParameter conv2d_param = 100;
