@@ -277,7 +277,9 @@ class Solver(object):
         data = torch.rand(1, 3, 10, 10).to(self.device)
         
         for e in range(self.last_epoch, self.epoches):
-            
+            if hasattr(self, 'distributed') and self.distributed is True:
+                self.dataloader['train_dataloader'].sampler.set_epoch(e)
+                
             for _, blob in enumerate(self.dataloader['train_dataloader']):
                 
                 if not isinstance(blob, dict):
