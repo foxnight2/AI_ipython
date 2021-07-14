@@ -63,7 +63,7 @@ message SolverParameter {
     optional string resume = 203;
 
     optional int32 seed = 300;
-    optional PrintoptionsParameter printoptions = 301;
+    optional PrintOptionsParameter printoptions = 301;
 
 }
 
@@ -87,7 +87,7 @@ message OptimizerParameter {
     optional float weight_decay = 6;
     repeated ParamsGroupParameter params_group = 7;
 
-    // optional LRSchedulerParameter lr_scheduler = 50;
+    optional LRSchedulerParameter lr_scheduler = 50;
     
     optional string module_file = 100;
     optional string module_inline = 101;
@@ -135,11 +135,12 @@ message DistributedParameter {
 }
 
 
-message PrintoptionsParameter {
+message PrintOptionsParameter {
     optional uint32 precision = 1;
     optional uint32 threshold = 2;
     optional uint32 linewidth = 3;
 }
+
 
 // modules
 

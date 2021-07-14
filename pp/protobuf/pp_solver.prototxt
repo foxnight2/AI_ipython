@@ -3,7 +3,7 @@ model_file: "./pp_model.prototxt"
 
 
 dataset {
-    name: "dummydataset_test"
+    name: "dummydataset"
     phase: 1
     type: "DummyDataset"
     
@@ -42,12 +42,12 @@ optimizer {
     }
     
     # module_file: "./pp_optimizer.py.txt"
+    
 }
 
 
 lr_scheduler {
     name: "lr_scheduler_1"
-    
     type: "MultiStepLR"
     gamma: 0.1
     milestones: [10, 20]
