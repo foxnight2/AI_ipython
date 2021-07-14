@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
-from torch.utils.data import DataLoader, DistributedSampler
+from torch.utils.data import DataLoader, DistributedSampler, SequentialSampler
 
 import pp_pb2 as pp
 from ppcore import modules as MODULES
@@ -155,10 +155,12 @@ def _parse_dataloader(config, dataset, ):
     _param = {k.name: v for k, v in config.ListFields()}
     kwargs.update({k: _param[k] for k in argsname if k in _param})
 
-    kwargs.update( {'dataset': dataset} )
-
+    kwargs.update( {'dataset': dataset} )        
+    
     _dataloader = _class( **kwargs )
 
+    _dataloader.shuffle = _param['shuffle'] if 'shuffle' in _param else False
+    
     return _dataloader
     
     
@@ -271,6 +273,7 @@ class Solver(object):
         self.last_epoch = 0
         self.epoches = solver_param.epoches
         
+        
     def train(self, ):
         self.model.train()
 
@@ -288,13 +291,12 @@ class Solver(object):
                     
                 blob.update({k: t.to(self.device) for k, t in blob.items() if isinstance(t, torch.Tensor)})
                 
-                self.model(blob)
+                output = self.model(blob)
             
             
     def test(self, ):
         pass
     
-
 
     def save(self, prefix=''):
         '''save state
@@ -318,7 +320,7 @@ class Solver(object):
         self.last_epoch = state['last_epoch']
     
     
-    
+
     def setup_distributed(self, config):
         '''distributed setup
         reference: https://github.com/facebookresearch/detr/blob/master/util/misc.py#L406
@@ -328,18 +330,17 @@ class Solver(object):
                                 # world_size = (config.world_size if config.init_method else args.world_size), 
                                 # rank = args.local_rank 
                                )
+        
         self.distributed = True
-        
-        torch.cuda.set_device(args.local_rank)
-        
-        # device
         self.device = torch.device(f'cuda:{args.local_rank}')
+        
+        torch.cuda.set_device(self.device)
         
         # model
         self.model.to(self.device)
         self.model = DDP(self.model, device_ids=[args.local_rank], output_device=args.local_rank)
         
-        # dataloader
+        # dataloader            
         _sampler = {k: DistributedSampler(v.dataset, shuffle=v.shuffle) for k, v in self.dataloader.items()}
         _dataloader = {k: DataLoader(v.dataset, 
                                      v.batch_size, 
@@ -347,15 +348,14 @@ class Solver(object):
                                      drop_last=v.drop_last, 
                                      collate_fn=v.collate_fn, 
                                      num_workers=v.num_workers) for k, v in self.dataloader.items()}
+        
         self.dataloader = _dataloader
         
         # others
         torch.distributed.barrier()
         distributed_print(args.local_rank == 0)
         
-        
-        
-        
+                
 if __name__ == '__main__':
     
     # python -m torch.distributed.launch --nproc_per_node=2 pptest.py
