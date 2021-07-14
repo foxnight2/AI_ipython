@@ -3,23 +3,22 @@ model_file: "./pp_model.prototxt"
 
 
 dataset {
-    name: "dummydataset"
+    name: "dummy_dataset"
     phase: 1
     type: "DummyDataset"
-    
     top: "data"
     top: "label"
-    
     dummydataset_param {
         n: 10
     }
 }
 
-
 dataloader {
     batch_size: 32
     num_workers: 8
     shuffle: true
+    
+    # dataset: "dummy_dataset"
 }
 
 
@@ -33,7 +32,6 @@ optimizer {
     params_group {
         lr: 0.01
         momentum: 0.2
-        # params_inline: "params_1 = [p for n, p in self.model.named_parameters() if 'weight' in n]"
         params_inline: "params_1 = [p for n, p in model.named_parameters() if 'weight' in n]"
     }
     params_group {
@@ -52,6 +50,8 @@ lr_scheduler {
     gamma: 0.1
     milestones: [10, 20]
     
+    # optimizer: "optimizer"
+
     # module_inline: "lr_scheduler_1 = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[1, 2], gamma=0.1)"
 }
     
@@ -74,6 +74,13 @@ prefix: "pp_model"
 
 
 
+
+
+
+
+
+
+
 # optimizer {
 #     code:"\n"
 #         "import torch \n"
@@ -86,19 +93,6 @@ prefix: "pp_model"
 
 # model {
 #     name: "model"
-#     
-#     module {
-#       name: "conv1"
-#       type: "Conv2d"
-#       bottom: "data"
-#       top: "conv1"
-#       conv2d_param {
-#         in_channels: 20
-#         out_channels: 5
-#         kernel_size: 3
-#       }
-#       phase: 1
-#     }
 #     
 #     module {
 #       name: "resnet"
