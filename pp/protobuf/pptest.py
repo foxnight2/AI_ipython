@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
+from torch.utils.data import DataLoader, DistributedSampler
 
 import pp_pb2 as pp
 from ppcore import modules as MODULES
@@ -161,6 +162,22 @@ def _parse_dataloader(config, dataset, ):
     return _dataloader
     
     
+# ---
+def distributed_print(is_master):
+    """
+    reference: https://github.com/facebookresearch/detr/blob/master/util/misc.py
+    This function disables printing when not in master process
+    """
+    import builtins as __builtin__
+    builtin_print = __builtin__.print
+
+    def print(*args, **kwargs):
+        force = kwargs.pop('force', False)
+        if is_master or force:
+            builtin_print(*args, **kwargs)
+
+    __builtin__.print = print
+    
     
     
 class Model(nn.Module):
@@ -239,11 +256,11 @@ class Solver(object):
             
         if len(solver_param.dataset):
             dataset = {_m.name: _parse_module(_m, MODULES) for _m in solver_param.dataset}
-
+            self.dataset_tops = {_m.name: _m.top for _m in solver_param.dataset}
+            
         if len(solver_param.dataloader):
             dataloader = {_m.name: _parse_dataloader(_m, dataset[_m.dataset]) for _m in solver_param.dataloader}
             self.dataloader = dataloader
-        
         
         if solver_param.distributed.ByteSize():
             self.setup_distributed(solver_param.distributed)
@@ -254,7 +271,6 @@ class Solver(object):
         self.last_epoch = 0
         self.epoches = solver_param.epoches
         
-        
     def train(self, ):
         self.model.train()
 
@@ -262,10 +278,17 @@ class Solver(object):
         
         for e in range(self.last_epoch, self.epoches):
             
-            self.model({'data': data})
+            for _, blob in enumerate(self.dataloader['train_dataloader']):
+                
+                if not isinstance(blob, dict):
+                    blob = blob if isinstance(blob, Sequence) else (blob, )
+                    blob = {n: d for n, d in zip(self.dataset_tops['train_dataset'], blob)}
+                    
+                blob.update({k: t.to(self.device) for k, t in blob.items() if isinstance(t, torch.Tensor)})
+                
+                self.model(blob)
             
             
-    
     def test(self, ):
         pass
     
@@ -294,7 +317,6 @@ class Solver(object):
     
     
     
-    
     def setup_distributed(self, config):
         '''distributed setup
         reference: https://github.com/facebookresearch/detr/blob/master/util/misc.py#L406
@@ -304,6 +326,7 @@ class Solver(object):
                                 # world_size = (config.world_size if config.init_method else args.world_size), 
                                 # rank = args.local_rank 
                                )
+        self.distributed = True
         
         torch.cuda.set_device(args.local_rank)
         
@@ -315,30 +338,20 @@ class Solver(object):
         self.model = DDP(self.model, device_ids=[args.local_rank], output_device=args.local_rank)
         
         # dataloader
-        pass
+        _sampler = {k: DistributedSampler(v.dataset, shuffle=v.shuffle) for k, v in self.dataloader.items()}
+        _dataloader = {k: DataLoader(v.dataset, 
+                                     v.batch_size, 
+                                     sampler=_sampler[k], 
+                                     drop_last=v.drop_last, 
+                                     collate_fn=v.collate_fn, 
+                                     num_workers=v.num_workers) for k, v in self.dataloader.items()}
+        self.dataloader = _dataloader
         
         # others
         torch.distributed.barrier()
-        self.setup_distributed_print(args.local_rank == 0)
-
-    
-    @staticmethod
-    def setup_distributed_print(is_master):
-        """
-        reference: https://github.com/facebookresearch/detr/blob/master/util/misc.py
-        This function disables printing when not in master process
-        """
-        import builtins as __builtin__
-        builtin_print = __builtin__.print
-
-        def print(*args, **kwargs):
-            force = kwargs.pop('force', False)
-            if is_master or force:
-                builtin_print(*args, **kwargs)
-
-        __builtin__.print = print
-
-
+        distributed_print(args.local_rank == 0)
+        
+        
         
         
 if __name__ == '__main__':

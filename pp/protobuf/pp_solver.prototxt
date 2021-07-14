@@ -9,14 +9,15 @@ dataset {
     dummydataset_param {
         n: 20
     }
+    phase: EVAL
 }
+
 dataloader {
     name: "test_dataloader"
     batch_size: 2
     num_workers: 8
     shuffle: false
     dataset: "test_dataset"
-    phase: TEST
 }
 
 
@@ -28,6 +29,8 @@ dataset {
     dummydataset_param {
         n: 100
     }
+    phase: TRAIN
+
 }
 dataloader {
     name: "train_dataloader"
@@ -35,7 +38,6 @@ dataloader {
     num_workers: 8
     shuffle: true
     dataset: "train_dataset"
-    phase: TRAIN
 }
 
 
@@ -71,13 +73,13 @@ lr_scheduler {
 }
     
 
-device: "cpu"
+device: "cuda:1"
 
-# distributed {
-#     backend: "nccl"
-#     init_method: "env://"
-#     # world_size: 4
-# }
+distributed {
+    backend: "nccl"
+    init_method: "env://"
+    # world_size: 4
+}
 
 
 epoches: 3
