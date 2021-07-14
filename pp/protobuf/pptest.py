@@ -261,11 +261,11 @@ class Solver(object):
     
     def setup_distributed(self, config):
         '''distributed setup
+        reference: https://github.com/facebookresearch/detr/blob/master/util/misc.py#L406
         '''
-        
         dist.init_process_group(backend = (config.backend if config.backend else 'nccl'),
                                 init_method = (config.init_method if config.init_method else 'env://' ), 
-                                # world_size = config.world_size, 
+                                # world_size = args.world_size, 
                                 rank = args.local_rank )
         
         torch.cuda.set_device(args.local_rank)
@@ -305,10 +305,11 @@ class Solver(object):
 if __name__ == '__main__':
     
     # python -m torch.distributed.launch --nproc_per_node=2 pptest.py
-    
+
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--local_rank', type=int, ) # torch.distributed.launch
+    parser.add_argument('--world_size', default=1, type=int, help='number of distributed processes')
     args = parser.parse_args()
 
     solver = Solver()
