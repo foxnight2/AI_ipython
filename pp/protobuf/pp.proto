@@ -49,11 +49,13 @@ message SolverParameter {
     repeated DataLoaderParameter dataloader = 31;
     
     optional uint32 epoches = 100; 
-    
+    optional bool fp16 = 101 [default = false]; 
+
     optional uint32 snapshot = 200 [default = 2];
     optional string log_dir = 201 [default = "./logs"];
     optional string prefix = 202;
     optional string resume = 203;
+    
 
     optional int32 seed = 300;
     optional PrintOptionsParameter printoptions = 301;

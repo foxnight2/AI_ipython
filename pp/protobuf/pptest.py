@@ -62,7 +62,6 @@ def _parse_module(config, classes):
     
     
 
-
 # parse optimizer
 def _parse_optimizer(config, model, classes=torch.optim):
     '''parse optimizer config
@@ -133,6 +132,7 @@ def _parse_lr_scheduler(config, optimizer, classes=torch.optim.lr_scheduler):
     return _lr_scheduler    
 
 
+
 # parse dataloader
 def _parse_dataloader(config, dataset, ):
     '''parse dataloader
@@ -164,7 +164,41 @@ def _parse_dataloader(config, dataset, ):
     return _dataloader
     
     
-# ---
+    
+# distributed
+def _setup_distributed(config, model=None, dataloader=None):
+    '''distributed setup
+    reference: https://github.com/facebookresearch/detr/blob/master/util/misc.py#L406
+    '''
+    dist.init_process_group(backend = (config.backend if config.backend else 'nccl'),
+                            init_method = (config.init_method if config.init_method else 'env://' ), 
+                            # world_size = (config.world_size if config.init_method else args.world_size), 
+                            # rank = args.local_rank 
+                           )
+
+    device = torch.device(f'cuda:{args.local_rank}')
+
+    torch.cuda.set_device(device)
+    torch.distributed.barrier()
+    distributed_print(args.local_rank == 0)
+
+    # model
+    if model is not None:
+        model.to(device)
+        model = DDP(model, device_ids=[args.local_rank], output_device=args.local_rank)
+
+    if dataloader is not None:         
+        _sampler = {k: DistributedSampler(v.dataset, shuffle=v.shuffle) for k, v in dataloader.items()}
+        dataloader = {k: DataLoader(v.dataset, 
+                                    v.batch_size, 
+                                    sampler=_sampler[k], 
+                                    drop_last=v.drop_last, 
+                                    collate_fn=v.collate_fn, 
+                                    num_workers=v.num_workers) for k, v in dataloader.items()}
+
+    return device, model, dataloader
+    
+    
 def distributed_print(is_master):
     """
     reference: https://github.com/facebookresearch/detr/blob/master/util/misc.py
@@ -179,6 +213,8 @@ def distributed_print(is_master):
             builtin_print(*args, **kwargs)
 
     __builtin__.print = print
+    
+    
     
     
     
@@ -243,29 +279,35 @@ class Solver(object):
         text_format.Merge(open(solver_file, 'rb').read(), solver_param)
 
         model = Model(solver_param.model, solver_param.model_file)
-        self.model = model
         
         if solver_param.optimizer.ByteSize():
             optimizer = _parse_optimizer(solver_param.optimizer, model)
-            self.optimizer = optimizer
             
         if solver_param.lr_scheduler.ByteSize():
             lr_scheduler = _parse_lr_scheduler(solver_param.lr_scheduler, optimizer)
-            self.lr_scheduler = lr_scheduler
             
         if len(solver_param.dataset):
             dataset = {_m.name: _parse_module(_m, MODULES) for _m in solver_param.dataset}
-            self.dataset_tops = {_m.name: _m.top for _m in solver_param.dataset}
+            dataset_tops = {_m.name: _m.top for _m in solver_param.dataset}
             
         if len(solver_param.dataloader):
             dataloader = {_m.name: _parse_dataloader(_m, dataset[_m.dataset]) for _m in solver_param.dataloader}
-            self.dataloader = dataloader
         
         if solver_param.distributed.ByteSize():
-            self.setup_distributed(solver_param.distributed)
+            device, model, dataloader = _setup_distributed(solver_param.distributed, model, (dataloader if dataloader else None))
         else:
-            self.device = torch.device(solver_param.device)
-            self.model = self.model.to(self.device)
+            device = torch.device(solver_param.device)
+            model = model.to(device)
+        
+        [setattr(self, k, m) for k, m in locals().items() if k in ['model', 'device', 
+                                                                   'dataloader', 'dataset_tops',
+                                                                   'optimizer', 'lr_scheduler']]
+        
+        # self.model = model
+        # self.device = device
+        # self.optimizer = optimizer
+        # self.lr_scheduler = lr_scheduler
+        # self.dataloader = dataloader
         
         self.last_epoch = 0
         self.epoches = solver_param.epoches
@@ -321,41 +363,10 @@ class Solver(object):
     
     
 
-    def setup_distributed(self, config):
-        '''distributed setup
-        reference: https://github.com/facebookresearch/detr/blob/master/util/misc.py#L406
-        '''
-        dist.init_process_group(backend = (config.backend if config.backend else 'nccl'),
-                                init_method = (config.init_method if config.init_method else 'env://' ), 
-                                # world_size = (config.world_size if config.init_method else args.world_size), 
-                                # rank = args.local_rank 
-                               )
-        
-        self.distributed = True
-        self.device = torch.device(f'cuda:{args.local_rank}')
-        
-        torch.cuda.set_device(self.device)
-        torch.distributed.barrier()
 
-        # model
-        self.model.to(self.device)
-        self.model = DDP(self.model, device_ids=[args.local_rank], output_device=args.local_rank)
-
-
-        # dataloader            
-        _sampler = {k: DistributedSampler(v.dataset, shuffle=v.shuffle) for k, v in self.dataloader.items()}
-        _dataloader = {k: DataLoader(v.dataset, 
-                                     v.batch_size, 
-                                     sampler=_sampler[k], 
-                                     drop_last=v.drop_last, 
-                                     collate_fn=v.collate_fn, 
-                                     num_workers=v.num_workers) for k, v in self.dataloader.items()}
-        
-        self.dataloader = _dataloader
-        
-        distributed_print(args.local_rank == 0)
-
-                
+    
+    
+    
 if __name__ == '__main__':
     
     # python -m torch.distributed.launch --nproc_per_node=2 pptest.py
