@@ -1,6 +1,6 @@
 
 
-## detection
+## Detection
 - [Focal Loss for Dense Object Detection](./1708.02002.pdf)
 - [Feature Pyramid Networks for Object Detection](./1612.03144.pdf)
 - [YOLOv4: Optimal Speed and Accuracy of Object Detection](./2004.10934.pdf)
@@ -24,15 +24,15 @@
 - [YOLOX: Exceeding YOLO Series in 2021](https://arxiv.org/pdf/2107.08430.pdf)
 
 
-## gan
+## GAN
 - [TransGAN: Two Transformers Can Make One Strong GAN](./2102.07074.pdf)
 
 
-## transfer
+## Transfer
 - [Learning Transferable Visual Models From Natural Language Supervision](./2103.00020.pdf)
 
 
-## network
+## Network
 - [Rethinking ResNets: Improved Stacking Strategies With High Order Schemes](./2103.15244.pdf)
 - [Revisiting ResNets: Improved Training and Scaling Strategies](./2103.07579.pdf)
 - [High-Performance Large-Scale Image Recognition Without Normalization](./2102.06171.pdf)
@@ -54,7 +54,7 @@
 - [Post-Training Quantization for Vision Transformer](https://arxiv.org/pdf/2106.14156.pdf)
  
 
-# 3d
+# 3D
 - [KITTI Dataset](http://www.cvlibs.net/publications/Geiger2013IJRR.pdf)
 - [nuScenes: A multimodal dataset for autonomous driving](https://arxiv.org/pdf/1903.11027.pdf)
 - [ViP-DeepLab: Learning Visual Perception with Depth-aware Video Panoptic Segmentation](https://arxiv.org/pdf/2012.05258.pdf)
@@ -75,7 +75,7 @@
 - [Full Surround Monodepth from Multiple Cameras](https://arxiv.org/pdf/2104.00152.pdf)
 
 
-# optimizer
+# Optimizer
 - [DECOUPLED WEIGHT DECAY REGULARIZATION, AdamW](./1711.05101.pdf)
 
 
