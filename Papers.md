@@ -60,7 +60,7 @@
 - [ViP-DeepLab: Learning Visual Perception with Depth-aware Video Panoptic Segmentation](https://arxiv.org/pdf/2012.05258.pdf)
 - [Bidirectional Attention Network for Monocular Depth Estimation](https://arxiv.org/pdf/2009.00743.pdf)
 - [H-Net: Unsupervised Attention-based Stereo Depth Estimation Leveraging Epipolar Geometry](./2104.11288.pdf)
-- [Fast and Accurate Single-Image Depth Estimation on Mobile Devices, Mobile AI 2021 Challenge: Report][./2105.08630.pdf]
+- [Fast and Accurate Single-Image Depth Estimation on Mobile Devices, Mobile AI 2021 Challenge: Report](./2105.08630.pdf)
 - [The Temporal Opportunist: Self-Supervised Multi-Frame Monocular Depth](https://arxiv.org/pdf/2104.14540.pdf)
 - [Disentangling Monocular 3D Object Detection](https://arxiv.org/pdf/1905.12365.pdf)
 - [FCOS3D: Fully Convolutional One-Stage Monocular 3D Object Detection](https://arxiv.org/pdf/2104.10956.pdf)
