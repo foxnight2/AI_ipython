@@ -163,8 +163,8 @@ message ModuleParameter {
 
     optional Conv2dParameter conv2d_param = 100;
     optional ResNetParameter resnet_param = 101;
-    optional CustomModuleParameter custom_param = 102;
-    optional DummyDatasetParameter dummydataset_param = 200;
+    optional CustomParameter custom_param = 102;
+    optional DummyDatasetParameter dummy_dataset_param = 200;
     
 }
 
@@ -190,7 +190,7 @@ message ResNetParameter {
 }
 
 
-message CustomModuleParameter {
+message CustomParameter {
     optional string module_file = 1;
     optional string module_inline = 2;
 

@@ -6,7 +6,7 @@ dataset {
     name: "test_dataset"
     type: "DummyDataset"
     top: "data"
-    dummydataset_param {
+    dummy_dataset_param {
         n: 20
     }
     phase: EVAL
@@ -26,7 +26,7 @@ dataset {
     type: "DummyDataset"
     top: "data"
     top: "label"
-    dummydataset_param {
+    dummy_dataset_param {
         n: 100
     }
     phase: TRAIN
@@ -67,8 +67,7 @@ lr_scheduler {
     name: "lr_scheduler_1"
     type: "MultiStepLR"
     gamma: 0.1
-    milestones: [10, 20]
-    
+    milestones: [10, 20]    
     # module_inline: "lr_scheduler_1 = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[1, 2], gamma=0.1)"
 }
     
@@ -80,13 +79,11 @@ distributed {
     init_method: "env://"
 }
 
-epoches: 10
+epoches: 2
 
 snapshot: 10
 log_dir: "./logs"
 prefix: "pp_model"
-
-
 
 
 
@@ -104,7 +101,7 @@ prefix: "pp_model"
 
 # model {
 #     name: "model"
-#     
+#
 #     module {
 #       name: "resnet"
 #       type: "ResNet"

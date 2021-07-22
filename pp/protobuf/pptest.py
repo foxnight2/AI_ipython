@@ -18,8 +18,33 @@ from typing import Sequence
 
 
 
+def camel_to_underscore(name, suffix='param'):
+    '''DummyDataset -> dummy_dataset_param
+    '''
+    _splits = re.findall('[A-Z][^A-Z]*', name)
+    _splits = [_s.lower() for _s in _splits]
+    
+    if suffix is not None:
+        _splits.append(suffix)
+    
+    return '_'.join(_splits)
 
 
+def get_module_param(_type, config,):
+    '''get_module_param
+    '''
+    _param_name = [k.name for k, _ in config.ListFields() 
+                   if '_param' in k.name and f'{_type.lower()}param' == k.name.replace('_', '')]
+    assert len(_param_name) <= 1, ''
+    
+    params = {}
+    
+    if len(_param_name) == 1:
+        return getattr(config, _param_name[0])
+    
+    return params
+
+    
 # parse module
 def _parse_module(config, classes):
     '''instantiate a module
@@ -42,9 +67,18 @@ def _parse_module(config, classes):
     if argspec.defaults is not None:
         kwargs.update( dict(zip(argsname[::-1], argspec.defaults[::-1])) )
 
-    if hasattr(config, f'{_type.lower()}_param'):
-        _param = getattr(config, f'{_type.lower()}_param')
+    _param_name = [k.name for k, _ in config.ListFields() 
+                   if '_param' in k.name and f'{_type.lower()}param' == k.name.replace('_', '')]
+    assert len(_param_name) <= 1, ''
+    
+    # if hasattr(config, f'{_type.lower()}_param'):
+    if len(_param_name):
+        # _param = getattr(config, f'{_type.lower()}_param')
+        _param = getattr(config, _param_name[0])
         _param = {k.name: v for k, v in _param.ListFields()}
+        if isinstance(_class, (nn.Conv2d, nn.Pooling2d)):
+            pass
+        
         _param.update({k: (list(v)[0] if len(v) == 1 else list(v)) \
                       for k, v in _param.items() if isinstance(v, pyext._message.RepeatedScalarContainer)})
 
@@ -277,7 +311,10 @@ class Solver(object):
         
         solver_param = pp.SolverParameter() 
         text_format.Merge(open(solver_file, 'rb').read(), solver_param)
-
+        
+        print(solver_param)
+        
+        
         model = Model(solver_param.model, solver_param.model_file)
         
         if solver_param.optimizer.ByteSize():
