@@ -22,6 +22,10 @@
 - [SSPNet: Scale Selection Pyramid Network for Tiny Person Detection from UAV Images](https://arxiv.org/pdf/2107.01548.pdf)
 - [Awesome-tiny-object-detection](https://github.com/kuanhungchen/awesome-tiny-object-detection)
 - [YOLOX: Exceeding YOLO Series in 2021](https://arxiv.org/pdf/2107.08430.pdf)
+- [Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection](https://arxiv.org/pdf/1912.02424.pdf)
+- [Generalized Focal Loss: Learning Qualified and Distributed Bounding Boxes for Dense Object Detection](https://arxiv.org/pdf/2006.04388.pdf)
+- [SOLQ: Segmenting Objects by Learning Queries](https://arxiv.org/pdf/2106.02351.pdf)
+- [PVTv2: Improved Baselines with Pyramid Vision Transformer](https://arxiv.org/pdf/2106.13797.pdf)
 
 
 ## GAN
@@ -52,7 +56,9 @@
 - [BERT: Pre-training of Deep Bidirectional Transformers](https://arxiv.org/pdf/1810.04805.pdf)
 - [Dynamic ReLU](https://arxiv.org/pdf/2003.10027.pdf)
 - [Post-Training Quantization for Vision Transformer](https://arxiv.org/pdf/2106.14156.pdf)
- 
+- [Efficient Self-supervised Vision Transformers for Representation Learning
+](https://arxiv.org/pdf/2106.09785.pdf)
+
 
 # 3D
 - [KITTI Dataset](http://www.cvlibs.net/publications/Geiger2013IJRR.pdf)
