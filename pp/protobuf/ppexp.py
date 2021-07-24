@@ -3,9 +3,9 @@
 
 
 class EXP(object):
-    def __init__(self, pb_solver=None):
+    def __init__(self, ):
         pass
-
+    
     @property
     def model(self, ):
         return build_model()
@@ -27,18 +27,12 @@ class EXP(object):
 
 
 
-class LogRecoder(object):
-    def __init__(self, ):
-        pass
-
-
-
-class Solver(object):
-    
-    def __init__(self, ):
+class PBEXP(EXP):
+    def __init__(self, pb_solver):
         pass
     
-
-    def train(self, ):
-        pass
     
+    
+class PYEXP(EXP):
+    def __init__(self, pb_solver):
+        pass

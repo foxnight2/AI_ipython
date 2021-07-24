@@ -5,21 +5,12 @@ import inspect
 from collections import OrderedDict
 from google.protobuf import pyext
 
-from typing import Dict, Any
+from ppexp import EXP
 
-        
-    
+
 def _build_module(clss, params):
-    '''build protobuf module
-    {
-        name: "conv2d"
-        type: Conv2d
-        top: "data"
-        conv2d_param {
-            kernerl_size: 1
-        }
-    }
-    '''    
+    '''_build_module
+    '''
     argspec = inspect.getfullargspec(clss.__init__)
     argsname = [arg for arg in argspec.args if arg != 'self']
 
@@ -59,8 +50,16 @@ def _module_param(config,):
 
 
 def build_module(config, modules):
-    '''module/layer
-    '''
+    '''build protobuf module module/layer
+    {
+        name: "conv2d"
+        type: Conv2d
+        top: "data"
+        conv2d_param {
+            kernerl_size: 1
+        }
+    }
+    ''' 
     if config.type == 'Custom':
         _code = config.custom_param.module_inline if config.custom_param.module_inline \
             else open(config.custom_param.module_file, 'r').read()
@@ -138,6 +137,7 @@ def build_dataloader(config, dataset, modules={'DataLoader': torch.utils.data.Da
     
     return _dataloader
     
+
     
 
 if __name__ == '__main__':
