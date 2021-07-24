@@ -3,7 +3,6 @@
 
 
 class EXP(object):
-    
     def __init__(self, pb_solver=None):
         pass
 

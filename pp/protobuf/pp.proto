@@ -65,9 +65,11 @@ message SolverParameter {
 
 message DataLoaderParameter {
     optional string name = 1; 
-    optional uint32 batch_size = 2;
-    optional uint32 num_workers = 3;
-    optional bool shuffle = 4 [default = false];
+    optional string type = 2 [default = "DataLoader"];
+    
+    optional uint32 batch_size = 3;
+    optional uint32 num_workers = 4;
+    optional bool shuffle = 5 [default = false];
     
     optional string dataset = 10;
     optional Phase phase = 11;

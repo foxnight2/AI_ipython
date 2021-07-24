@@ -5,7 +5,7 @@ import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader
 from torch.utils.data import DistributedSampler, SequentialSampler
-from torch.utils.tensorboard import SummaryWriter
+# from torch.utils.tensorboard import SummaryWriter
 
 from ppcore import modules as MODULES
 
@@ -19,6 +19,9 @@ import inspect
 import collections
 from typing import Sequence
 from tqdm import tqdm
+
+
+import pp_utils as utils
 
 
 def camel_to_underscore(name, suffix='param'):
@@ -102,8 +105,6 @@ def _parse_module(config, classes):
         # _param = getattr(config, f'{_type.lower()}_param')
         _param = getattr(config, _param_name[0])
         _param = {k.name: v for k, v in _param.ListFields()}
-        if isinstance(_class, (nn.Conv2d, nn.Pooling2d)):
-            pass
         
         _param.update({k: (list(v)[0] if len(v) == 1 else list(v)) \
                       for k, v in _param.items() if isinstance(v, pyext._message.RepeatedScalarContainer)})
@@ -316,7 +317,8 @@ class Model(nn.Module):
         
         for i, m in enumerate(config.module):
             _name = m.name
-            _module = _parse_module(m, MODULES)
+            # _module = _parse_module(m, MODULES)
+            _module = utils.build_module(m, MODULES)
 
             modules.append( _module )
             
@@ -344,18 +346,23 @@ class Solver(object):
         model = Model(solver_param.model, solver_param.model_file)
         
         if solver_param.optimizer.ByteSize():
-            optimizer = _parse_optimizer(solver_param.optimizer, model)
+            # optimizer = _parse_optimizer(solver_param.optimizer, model)
+            optimizer = utils.build_optimizer(solver_param.optimizer, model)
             
         if solver_param.lr_scheduler.ByteSize():
-            lr_scheduler = _parse_lr_scheduler(solver_param.lr_scheduler, optimizer)
-            
+            # lr_scheduler = _parse_lr_scheduler(solver_param.lr_scheduler, optimizer)
+            lr_scheduler = utils.build_lr_scheduler(solver_param.lr_scheduler, optimizer)
+
         if len(solver_param.dataset):
-            dataset = {_m.name: _parse_module(_m, MODULES) for _m in solver_param.dataset}
+            # dataset = {_m.name: _parse_module(_m, MODULES) for _m in solver_param.dataset}
+            dataset = {_m.name: utils.build_module(_m, MODULES) for _m in solver_param.dataset}
+
             dataset_tops = {_m.name: _m.top for _m in solver_param.dataset}
             
         if len(solver_param.dataloader):
-            dataloader = {_m.name: _parse_dataloader(_m, dataset[_m.dataset]) for _m in solver_param.dataloader}
-        
+            # dataloader = {_m.name: _parse_dataloader(_m, dataset[_m.dataset]) for _m in solver_param.dataloader}
+            dataloader = {_m.name: utils.build_dataloader(_m, dataset[_m.dataset]) for _m in solver_param.dataloader}
+
         if solver_param.distributed.ByteSize():
             device, model, dataloader = _setup_distributed(solver_param.distributed, model, (dataloader if dataloader else None))
         else:
