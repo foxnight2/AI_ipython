@@ -3,10 +3,13 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
-from torch.utils.data import DataLoader, DistributedSampler, SequentialSampler
+from torch.utils.data import DataLoader
+from torch.utils.data import DistributedSampler, SequentialSampler
+from torch.utils.tensorboard import SummaryWriter
+
+from ppcore import modules as MODULES
 
 import pp_pb2 as pp
-from ppcore import modules as MODULES
 from google.protobuf import text_format
 from google.protobuf import pyext
 
@@ -15,7 +18,7 @@ import os
 import inspect
 import collections
 from typing import Sequence
-
+from tqdm import tqdm
 
 
 def camel_to_underscore(name, suffix='param'):
@@ -43,6 +46,29 @@ def get_module_param(_type, config,):
         return getattr(config, _param_name[0])
     
     return params
+
+
+def build_module(config):
+    '''
+    {
+        type: Conv2d
+        top: data
+        conv2d_param {
+            kernerl_size: 1
+            
+            filter {
+                type: Constant
+                value: 0.1
+            }
+            filter {
+                type: Constant
+                value: 0.1
+            }
+        }
+    }   
+    '''
+    _type = config.type
+
 
     
 # parse module
@@ -401,9 +427,6 @@ class Solver(object):
     
 
 
-    
-    
-    
 if __name__ == '__main__':
     
     # python -m torch.distributed.launch --nproc_per_node=2 pptest.py
