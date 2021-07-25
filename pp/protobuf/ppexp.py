@@ -1,8 +1,10 @@
 
 
+import pp_pb2 as pp
+from google.protobuf import text_format
 
 
-class EXP(object):
+class _EXP(object):
     def __init__(self, ):
         pass
     
@@ -27,12 +29,17 @@ class EXP(object):
 
 
 
-class PBEXP(EXP):
+class PBEXP(_EXP):
+    def __init__(self, pb_solver):
+        solver = pp.SolverParameter() 
+        text_format.Merge(open(pb_solver, 'rb').read(), solver)
+    
+        print(text_format)
+        
+    
+class PYEXP(_EXP):
     def __init__(self, pb_solver):
         pass
+
     
-    
-    
-class PYEXP(EXP):
-    def __init__(self, pb_solver):
-        pass
+

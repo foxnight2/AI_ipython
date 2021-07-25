@@ -21,7 +21,7 @@ from typing import Sequence
 from tqdm import tqdm
 
 
-import pp_utils as utils
+import ppb_utils as utils
 
 
 def camel_to_underscore(name, suffix='param'):

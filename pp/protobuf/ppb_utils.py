@@ -8,6 +8,7 @@ from google.protobuf import pyext
 from ppexp import EXP
 
 
+
 def _build_module(clss, params):
     '''_build_module
     '''
@@ -86,7 +87,7 @@ def build_optimizer(config, model, modules=torch.optim):
         for group in config.params_group:
             exec(group.params_inline)
             _var_name = group.params_inline.split('=')[0].strip()                
-            _params = {k.name:v for k, v in group.ListFields() if k.name != 'params_inline'}
+            _params = {k.name: v for k, v in group.ListFields() if k.name != 'params_inline'}
             _params.update({'params': locals()[_var_name]})
             params.append(_params)
     else:
@@ -125,17 +126,17 @@ def build_dataloader(config, dataset, modules={'DataLoader': torch.utils.data.Da
 
     if config.module_file or config.module_inline:
         _code = config.module_inline if config.module_inline else open(config.module_file, 'r').read()
-        exec( _code )            
+        exec( _code )
         return locals()['dataloader']
 
     _param = {k.name: v for k, v in config.ListFields()}
     _param.update( {'dataset': dataset} )     
 
-    _dataloader = _build_module(modules[config.type], _param)
+    dataloader = _build_module(modules[config.type], _param)
 
-    _dataloader.shuffle = _param['shuffle'] if 'shuffle' in _param else False
+    dataloader.shuffle = _param['shuffle'] if 'shuffle' in _param else False
     
-    return _dataloader
+    return dataloader
     
 
     
