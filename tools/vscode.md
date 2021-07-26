@@ -18,6 +18,9 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
+            
+            // "program": "./tools/test.py",
+            
             "console": "integratedTerminal",
             
             "justMyCode": false,
