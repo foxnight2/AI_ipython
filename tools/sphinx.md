@@ -16,6 +16,12 @@ make html
 
 ```
 
+- docs
+  - https://github.com/lyuwenyu/PaddleDetection/blob/ppdet-doc/docs/requirements.txt
+  
+- .readthedocs.yaml
+  - https://github.com/lyuwenyu/PaddleDetection/blob/ppdet-doc/.readthedocs.yaml
+
 - cofig.py
   - https://github.com/lyuwenyu/PaddleDetection/blob/ppdet-doc/docs/conf.py
 
@@ -25,6 +31,8 @@ make html
   - extensions = ['sphinx_rtd_theme']
   - https://pypi.org/project/sphinx-rtd-theme/
 
+- nbsphinx
+  - notebook
 
 - reference
   - https://docs.readthedocs.io/en/stable/index.html
