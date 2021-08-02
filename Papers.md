@@ -82,7 +82,7 @@
 - [RTM3D: Real-time Monocular 3D Detection from Object Keypoints for Autonomous Driving](https://arxiv.org/pdf/2001.03343.pdf)
 - [2021-cvpr](https://zhuanlan.zhihu.com/p/389319123)
 - [2021-aaai](https://zhuanlan.zhihu.com/p/345240056)
-
+- [Improving Monocular Depth Estimation by Leveraging Structural Awareness and Complementary Datasets](https://arxiv.org/pdf/2007.11256.pdf)
 
 # Optimizer
 - [DECOUPLED WEIGHT DECAY REGULARIZATION, AdamW](./1711.05101.pdf)
