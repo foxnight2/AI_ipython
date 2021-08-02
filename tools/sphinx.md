@@ -4,6 +4,9 @@
 ```
 
 pip install sphinx
+pip install myst-parser
+pip install sphinx_rtd_theme
+
 mkdir docs; cd docs
 sphinx-quickstart
 
@@ -21,6 +24,7 @@ make html
   - html_theme = 'sphinx_rtd_theme'
   - extensions = ['sphinx_rtd_theme']
   - https://pypi.org/project/sphinx-rtd-theme/
- 
 
-- https://docs.readthedocs.io/en/stable/intro/getting-started-with-sphinx.html#using-markdown-with-sphinx
+
+- reference
+  - https://docs.readthedocs.io/en/stable/index.html
