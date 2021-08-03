@@ -1,0 +1,107 @@
+coco
+https://cocodataset.org/
+json
+80类， 人-xx、车	det, seg, <cls, bbox >	
+
+voc	
+http://host.robots.ox.ac.uk/pascal/VOC/
+xml
+21类，人、车	det, <cls, bbox>
+
+Open Images	
+https://storage.googleapis.com/openimages/web/index.html
+csv，1.9M
+600类，通用物体（包括人）	det, <cls, bbox>	每张图片平均8个标注物体，Person类别中包括玩偶，画像，人体部位，各种类型的人都有（老人，孩子，妇女等）
+
+objects365	
+https://www.objects365.org/overview.html
+json，200万
+365类，通用物体（包括人）	det, <cls, bbox>	
+
+kitti	
+http://www.cvlibs.net/datasets/kitti/
+txt, 5k+
+8类，人，车	3D det, <类别, 遮挡程度, 观察角度，bbox，长宽高，location>
+
+CityPersons	
+https://www.cityscapes-dataset.com/
+mat, 5k+
+30类，不同场景的人，例如pedestrian(walking, running),  rider(riding bi- cycles or motorbikes), sitting person	det, seg, <cls, bbox >	
+
+WiderPerson	
+http://www.cbsr.ia.ac.cn/users/sfzhang/WiderPerson/
+txt, 13k+
+5类，分别是pedestrians，riders，partially-visible persons，ignore regions，crowd	det, <cls, bbox>	13k张图片大约400k个标注，平均每张图片大约30个标注，属于密集行人数据集
+
+BDD100K	
+https://www.bdd100k.com/
+json,
+10类，检测任务包括 人，车...等10类
+https://doc.bdd100k.com/format.html
+det,	
+
+nuscene	
+https://www.nuscenes.org/
+1.4M 
+23类， 1,000 scence，	auto driving	
+human.pedestrian(adult， child， construction_worker， personal_mobility，police_officer，stroller，wheelchair）
+
+waymo open	
+https://waymo.com/open/data/perception/
+proto
+3类 vehicles, pedestrians, cyclists, sign
+
+cityspace	
+https://www.cityscapes-dataset.com/	
+30类
+5 000 fine annotations
+20 000 coarse annotations
+
+
+person search	
+http://www.ee.cuhk.edu.hk/~xgwang/PS/dataset.html
+
+数据需要联系作者
+
+18,184 images, 8,432 persons, and 99,809 annotated bounding boxes
+
+Person Re-identification in the Wild	
+https://openaccess.thecvf.com/content_cvpr_2017/papers/Zheng_Person_Re-Identification_in_CVPR_2017_paper.pdf
+ 932 identities and 11,816 frames
+
+The EuroCity Persons Dataset	
+https://eurocity-dataset.tudelft.nl/	
+
+
+
+HDA Person Dataset
+https://vislab.isr.tecnico.ulisboa.pt/hda-dataset/
+Video Surveillance
+ 80 persons
+18 camera， 30min
+
+
+ExDark	
+https://github.com/cs-chan/Exclusively-Dark-Image-Dataset
+12 object classes
+7,363 low-light images
+
+
+Kaggle-01
+https://www.kaggle.com/karthika95/pedestrian-detection	2k+	
+
+Kaggle-02	
+https://www.kaggle.com/ialimustufa/object-detection-for-ppe-covid19-dataset	
+
+kaggle-03
+https://www.kaggle.com/aryashah2k/large-scale-multicamera-detection-dataset
+
+Large Scale Multi-Camera Detection Dataset
+11G	
+
+kaggle-04	
+https://www.kaggle.com/saravananchandran/pedestrian-detection-data-set	190M	
+
+
+kaggle-05	
+https://www.kaggle.com/psvishnu/pennfudan-database-for-pedestrian-detection-zip
