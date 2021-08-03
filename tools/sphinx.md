@@ -19,8 +19,8 @@ make html
 - docs
   - https://github.com/lyuwenyu/PaddleDetection/blob/ppdet-doc/docs/requirements.txt
   
-- .readthedocs.yaml
-  - https://github.com/lyuwenyu/PaddleDetection/blob/ppdet-doc/.readthedocs.yaml
+- .readthedocs.yml
+  - https://github.com/lyuwenyu/PaddleDetection/blob/ppdet-doc/.readthedocs.yml
 
 - cofig.py
   - https://github.com/lyuwenyu/PaddleDetection/blob/ppdet-doc/docs/conf.py
