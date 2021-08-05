@@ -317,7 +317,7 @@ def get_label_anno(label_path, pred=False):
     annotations['dimensions'] = np.array([[float(info) for info in x[8:11]] for x in content]).reshape(-1, 3)[:, [2, 0, 1]]
     annotations['location'] = np.array([[float(info) for info in x[11:14]] for x in content]).reshape(-1, 3)
     annotations['rotation_y'] = np.array([float(x[14]) for x in content]).reshape(-1)
-    
+
     if len(content) != 0 and len(content[0]) == 16:  # have score
         annotations['score'] = np.array([float(x[15]) for x in content])
     else:
@@ -327,11 +327,12 @@ def get_label_anno(label_path, pred=False):
         annotations['truncated'] = -np.ones_like(annotations['truncated'])
         annotations['occluded'] = -np.ones_like(annotations['occluded'])
         annotations['score'] = np.ones_like(annotations['score'])
-        
         # -np.sign(np.arctan2(x, z)) * np.pi / 2 + np.arctan2(x, z)
-        _t = np.array([-np.arctan2(x, z) + annotations['rotation_y'][i] for i, (x, _, z) in enumerate(annotations['location'])])
-        annotations['alpha'] = _t
-
+        # _t = np.array([-np.arctan2(x, z) + annotations['rotation_y'][i] for i, (x, _, z) in enumerate(annotations['location'])])
+        # annotations['alpha'] = _t
+        # annotations['rotation_y'] = -annotations['rotation_y']
+        
+        
     return annotations
 
 

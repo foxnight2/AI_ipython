@@ -10,7 +10,7 @@ def _read_imageset_file(path):
     return [int(line) for line in lines]
 
 # from https://xiaozhichen.github.io/files/mv3d/imagesets.tar.gz
-gt_split_file = "../../../kitti/ImageSets/train.txt"
+gt_split_file = "../../../kitti/ImageSets/val.txt"
 val_image_ids = _read_imageset_file(gt_split_file)
 
 
@@ -21,5 +21,5 @@ pred_path = "../../../kitti/training/label_2/"
 pred_annos = kitti.get_label_annos(pred_path, val_image_ids, pred=True)
 
 
-print(kitti_eval(gt_annos, pred_annos, 0,)) # 6s in my computer
+print(*kitti_eval(gt_annos, pred_annos, [0, 1])) # 6s in my computer
 
