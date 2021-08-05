@@ -63,6 +63,7 @@
 # 3D
 - [KITTI Dataset](http://www.cvlibs.net/publications/Geiger2013IJRR.pdf)
 - [nuScenes: A multimodal dataset for autonomous driving](https://arxiv.org/pdf/1903.11027.pdf)
+- [https://web.eecs.umich.edu/~justincj/slides/eecs498/498_FA2019_lecture17.pdf](https://web.eecs.umich.edu/~justincj/slides/eecs498/498_FA2019_lecture17.pdf)
 - [ViP-DeepLab: Learning Visual Perception with Depth-aware Video Panoptic Segmentation](https://arxiv.org/pdf/2012.05258.pdf)
 - [Bidirectional Attention Network for Monocular Depth Estimation](https://arxiv.org/pdf/2009.00743.pdf)
 - [H-Net: Unsupervised Attention-based Stereo Depth Estimation Leveraging Epipolar Geometry](./2104.11288.pdf)
@@ -83,6 +84,9 @@
 - [2021-cvpr](https://zhuanlan.zhihu.com/p/389319123)
 - [2021-aaai](https://zhuanlan.zhihu.com/p/345240056)
 - [Improving Monocular Depth Estimation by Leveraging Structural Awareness and Complementary Datasets](https://arxiv.org/pdf/2007.11256.pdf)
+- [3D Semantic Segmentation with Submanifold Sparse Convolutional Networks](https://arxiv.org/pdf/1711.10275.pdf)
+- [SECOND: Sparsely Embedded Convolutional Detection](https://pdfs.semanticscholar.org/5125/a16039cabc6320c908a4764f32596e018ad3.pdf)
+
 
 # Optimizer
 - [DECOUPLED WEIGHT DECAY REGULARIZATION, AdamW](./1711.05101.pdf)

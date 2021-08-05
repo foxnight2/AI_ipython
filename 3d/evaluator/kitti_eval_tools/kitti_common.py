@@ -330,7 +330,11 @@ def get_label_anno(label_path, pred=False):
         # -np.sign(np.arctan2(x, z)) * np.pi / 2 + np.arctan2(x, z)
         # _t = np.array([-np.arctan2(x, z) + annotations['rotation_y'][i] for i, (x, _, z) in enumerate(annotations['location'])])
         # annotations['alpha'] = _t
-        # annotations['rotation_y'] = -annotations['rotation_y']
+        
+        # https://github.com/open-mmlab/mmdetection3d/issues/838
+        annotations['dimensions'] = 0.001 * np.random.rand(*annotations['dimensions'].shape) + annotations['dimensions']
+        annotations['location'] = 0.001 * np.random.rand(*annotations['location'].shape) + annotations['location']
+
         
         
     return annotations
