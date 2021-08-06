@@ -5,7 +5,6 @@ import inspect
 from collections import OrderedDict
 from google.protobuf import pyext
 
-from ppexp import EXP
 
 
 

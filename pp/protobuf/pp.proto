@@ -36,18 +36,23 @@ message SolverParameter {
     
     optional string name = 1;
     
+    //required oneof model {
+    //    optional ModelParameter model = 2;  // inline
+    //    optional string model_file = 3; // file
+    //}
+    
     optional ModelParameter model = 2;  // inline
     optional string model_file = 3; // file
     
-    optional string device = 10 [default = "cpu"];
-    optional DistributedParameter distributed = 11;
-
     optional OptimizerParameter optimizer = 20;
     optional LRSchedulerParameter lr_scheduler = 21;
 
     repeated ModuleParameter dataset = 30;
     repeated DataLoaderParameter dataloader = 31;
     
+    optional string device = 40 [default = "cpu"];
+    optional DistributedParameter distributed = 41;
+
     optional uint32 epoches = 100; 
     optional bool fp16 = 101 [default = false]; 
 
@@ -56,10 +61,8 @@ message SolverParameter {
     optional string prefix = 202;
     optional string resume = 203;
     
-
     optional int32 seed = 300;
     optional PrintOptionsParameter printoptions = 301;
-
 }
 
 

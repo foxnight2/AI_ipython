@@ -338,10 +338,7 @@ class Solver(object):
     def __init__(self, solver_file='./pp_solver.prototxt'):
         
         solver_param = pp.SolverParameter() 
-        text_format.Merge(open(solver_file, 'rb').read(), solver_param)
-        
-        print(solver_param)
-        
+        text_format.Merge(open(solver_file, 'rb').read(), solver_param)        
         
         model = Model(solver_param.model, solver_param.model_file)
         
@@ -382,7 +379,8 @@ class Solver(object):
         self.last_epoch = 0
         self.epoches = solver_param.epoches
         
-        
+        print(solver_param)
+
     def train(self, ):
         self.model.train()
 

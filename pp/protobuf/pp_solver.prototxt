@@ -1,6 +1,66 @@
+# model_file: "./pp_model.prototxt"
 
-model_file: "./pp_model.prototxt"
+model {
 
+    name: "model"
+    
+    module {
+      name: "conv1"
+      type: "Conv2d"
+      bottom: "data"
+      top: "conv1"
+      conv2d_param {
+        in_channels: 3
+        out_channels: 5
+        kernel_size: 3
+        stride: 2
+        padding: [2, 3]
+      }
+      phase: 1
+      reset_inline: "nn.init.ones_(module.weight.data)"
+    }
+
+    module {
+      name: "resnet"
+      type: "ResNet"
+      bottom: "conv1"
+      top: "resnet1"
+      resnet_param {
+        layers: "34"
+      }
+
+    }
+
+    module {
+      name: "resnet"
+      type: "ResNet"
+      bottom: "conv1"
+      bottom: "resnet1"
+      top: "resnet2"
+      resnet_param {
+        layers: "34"
+      }
+    }
+
+    module {
+      name: "relu1"
+      type: "ReLU"
+      bottom: "resnet2"
+      top: "relu1"
+    }
+
+    module {
+      name: "custom1"
+      type: "Custom"
+      bottom: "resnet2"
+      top: "custom1"
+
+      custom_param {
+          module_inline: "custom1 = torch.nn.Sigmoid()"
+      }
+    }
+    
+}
 
 dataset {
     name: "test_dataset"
@@ -41,7 +101,6 @@ dataloader {
 }
 
 
-
 optimizer {
     name: "optimizer"
     
@@ -70,7 +129,8 @@ lr_scheduler {
     milestones: [10, 20]    
     # module_inline: "lr_scheduler_1 = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[1, 2], gamma=0.1)"
 }
-    
+
+
 
 device: "cuda:1"
 
@@ -86,30 +146,3 @@ log_dir: "./logs"
 prefix: "pp_model"
 
 
-
-
-
-# optimizer {
-#     code:"\n"
-#         "import torch \n"
-#         "print('---optmizer-----') \n"
-#         "def optimizer(model, lr): \n"
-#         "    return torch.optim.SGD(model.parameters(), lr=lr) \n"
-#         "\n"
-# }
-
-
-# model {
-#     name: "model"
-#
-#     module {
-#       name: "resnet"
-#       type: "ResNet"
-#       bottom: "conv1"
-#       top: "resnet1"
-#       resnet_param {
-#         layers: "34"
-#       }
-#     }
-#      
-# }
