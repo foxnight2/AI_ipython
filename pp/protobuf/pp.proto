@@ -171,6 +171,9 @@ message ModuleParameter {
     optional CustomParameter custom_param = 102;
     optional DummyDatasetParameter dummy_dataset_param = 200;
     
+    optional Yolov3TargetParameter yolov3_target_param = 300;
+    optional Yolov3LossParameter yolov3_loss_param = 301;
+
 }
 
 
@@ -191,7 +194,15 @@ message Conv2dParameter {
 message ResNetParameter {
     optional string layers = 1;
     optional int32 freeze_at = 2;
-    
+}
+
+
+message Yolov3TargetParameter {
+    repeated uint32 strides = 1;
+}
+
+message Yolov3LossParameter {
+    repeated uint32 strides = 1;
 }
 
 
