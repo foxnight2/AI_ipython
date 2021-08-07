@@ -16,7 +16,6 @@ model {
         stride: 2
         padding: [2, 3]
       }
-      phase: 1
       reset_inline: "nn.init.ones_(module.weight.data)"
     }
 
@@ -69,7 +68,6 @@ dataset {
     dummy_dataset_param {
         n: 20
     }
-    phase: EVAL
 }
 
 dataloader {
@@ -78,6 +76,7 @@ dataloader {
     num_workers: 8
     shuffle: false
     dataset: "test_dataset"
+    phase: EVAL
 }
 
 
@@ -89,15 +88,16 @@ dataset {
     dummy_dataset_param {
         n: 100
     }
-    phase: TRAIN
-
 }
+
 dataloader {
     name: "train_dataloader"
     batch_size: 2
     num_workers: 2
     shuffle: true
     dataset: "train_dataset"
+    phase: TRAIN
+
 }
 
 

@@ -295,12 +295,13 @@ class Model(nn.Module):
         
         
     def forward(self, data):
-        
+                
         outputs = {}
         outputs.update(data)
 
         for module, param in zip(self.model, self.model_param.module,):
-            
+                            
+            # if param.phase 
             _outputs = module(*[outputs[b] for b in param.bottom])
             if not isinstance(_outputs, Sequence):
                 _outputs = (_outputs, )
@@ -327,13 +328,6 @@ class Model(nn.Module):
     
 
 
-# model = Model()
-# model = Model()
-# print(model)
-# data = torch.rand(1, 20, 10, 10)
-# model({'data': data})
-
-
 class Solver(object):
     def __init__(self, solver_file='./pp_solver.prototxt'):
         
@@ -341,7 +335,7 @@ class Solver(object):
         text_format.Merge(open(solver_file, 'rb').read(), solver_param)        
         
         model = Model(solver_param.model, solver_param.model_file)
-        
+
         if solver_param.optimizer.ByteSize():
             # optimizer = _parse_optimizer(solver_param.optimizer, model)
             optimizer = utils.build_optimizer(solver_param.optimizer, model)
@@ -353,12 +347,11 @@ class Solver(object):
         if len(solver_param.dataset):
             # dataset = {_m.name: _parse_module(_m, MODULES) for _m in solver_param.dataset}
             dataset = {_m.name: utils.build_module(_m, MODULES) for _m in solver_param.dataset}
-
             dataset_tops = {_m.name: _m.top for _m in solver_param.dataset}
             
         if len(solver_param.dataloader):
             # dataloader = {_m.name: _parse_dataloader(_m, dataset[_m.dataset]) for _m in solver_param.dataloader}
-            dataloader = {_m.name: utils.build_dataloader(_m, dataset[_m.dataset]) for _m in solver_param.dataloader}
+            dataloader = {_m.phase: utils.build_dataloader(_m, dataset[_m.dataset]) for _m in solver_param.dataloader}
 
         if solver_param.distributed.ByteSize():
             device, model, dataloader = _setup_distributed(solver_param.distributed, model, (dataloader if dataloader else None))
@@ -381,28 +374,31 @@ class Solver(object):
         
         print(solver_param)
 
+        
     def train(self, ):
         self.model.train()
-
+        dataloader = self.dataloader[0] # phase 0 - train
+        
         data = torch.rand(1, 3, 10, 10).to(self.device)
         
         for e in range(self.last_epoch, self.epoches):
             if hasattr(self, 'distributed') and self.distributed is True:
-                self.dataloader['train_dataloader'].sampler.set_epoch(e)
+                dataloader.sampler.set_epoch(e)
                 
-            for _, blob in enumerate(self.dataloader['train_dataloader']):
+            for _, blob in enumerate(dataloader):
                 
                 print(blob.sum())
 
                 if not isinstance(blob, dict):
                     blob = blob if isinstance(blob, Sequence) else (blob, )
-                    blob = {n: d for n, d in zip(self.dataset_tops['train_dataset'], blob)}
-                    
+                    blob = {n: d for n, d in zip(dataloader.dataset.top, blob)}
+
                 blob.update({k: t.to(self.device) for k, t in blob.items() if isinstance(t, torch.Tensor)})
                 
                 output = self.model(blob)
             
             print('--------')
+            
             
     def test(self, ):
         pass

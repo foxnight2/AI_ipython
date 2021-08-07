@@ -70,6 +70,9 @@ def build_module(config, modules):
     _param = _module_param(config)
     module = _build_module(modules[config.type], _param)
     
+    module.top = list(config.top) if config.top else []
+    module.bottom = list(config.bottom) if config.bottom else []
+    
     return module
 
 
