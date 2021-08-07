@@ -81,7 +81,7 @@ def build_optimizer(config, model, modules=torch.optim):
     '''
     if config.module_file or config.module_inline:
         _code = config.module_inline if config.module_inline else open(config.module_file, 'r').read()
-        exec( _code )            
+        exec( _code )
         return locals()['optimizer']
 
     if len(config.params_group):
@@ -125,7 +125,6 @@ def build_lr_scheduler(config, optimizer, modules=torch.optim.lr_scheduler):
 def build_dataloader(config, dataset, modules={'DataLoader': torch.utils.data.DataLoader}):
     '''parse dataloader
     '''
-
     if config.module_file or config.module_inline:
         _code = config.module_inline if config.module_inline else open(config.module_file, 'r').read()
         exec( _code )
