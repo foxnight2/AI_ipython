@@ -87,7 +87,6 @@ class Model(nn.Module):
             _module = utils.build_module(m, MODULES)
             
             modules.append( _module )
-            
         
         return modules
     
@@ -176,6 +175,7 @@ class Solver(object):
                 
                     outputs = self.model(blob)
                     print([(k, v.dtype) for k, v in outputs.items()])
+                    
                     loss = outputs['loss'].mean()
                     
                     scaler.scale(loss).backward()
