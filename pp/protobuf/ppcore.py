@@ -23,7 +23,7 @@ class Yolov3Target(nn.Module):
         
         self.stride = strides
     
-    def forward(self, feats, label):
+    def forward(self, feats, label=None):
         
         if self.training:
             # print(f'self.training: {self.training}')
@@ -48,9 +48,9 @@ class Yolov3Loss(nn.Module):
     
     
 class DummyDataset(Dataset):
-    def __init__(self, ):
-        self.data = torch.rand(50, 3, 10, 10)
-        self.label = torch.rand(50, 3, 10, 10)
+    def __init__(self, n):
+        self.data = torch.rand(n, 3, 10, 10)
+        self.label = torch.rand(n, 3, 10, 10)
 
     def __len__(self, ):
         return self.data.shape[0]

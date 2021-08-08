@@ -96,6 +96,7 @@ class Model(nn.Module):
         
     def forward(self, data):
                 
+        # outputs = collections.defaultdict(lambda:None)
         outputs = {}
         outputs.update(data)
 
@@ -106,7 +107,6 @@ class Model(nn.Module):
                 continue
             if not self.training and not (module.phase == 0 or module.phase == 2):
                 continue
-
 
             _outputs = module(*[outputs[b] for b in module.bottom])
             if not isinstance(_outputs, Sequence):
@@ -218,11 +218,26 @@ class Solver(object):
                 
     
     def test(self, ):
-        pass
-    
+        self.model.eval()
+        dataloader = self.dataloader[2] # phase 1 - eval
 
-    def prediction(self, ):
-        pass
+        for _, blob in enumerate(dataloader):
+
+            print(type(blob), len(blob))
+
+            if not isinstance(blob, dict):
+                blob = blob if isinstance(blob, Sequence) else (blob, )
+                blob = {n: d for n, d in zip(dataloader.dataset.top, blob)}
+
+            blob.update({k: t.to(self.device) for k, t in blob.items() if isinstance(t, torch.Tensor)})
+
+            output = self.model(blob)
+
+            for k, v in output.items():
+                print(k, (v.shape if v is not None else None))
+
+        print('--------')
+
     
     
     
@@ -263,4 +278,4 @@ if __name__ == '__main__':
     solver = Solver()
     solver.train()
 
-    
+    solver.test()

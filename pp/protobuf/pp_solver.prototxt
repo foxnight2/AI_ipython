@@ -49,7 +49,7 @@ model {
     }
     
     module {
-      name: "Yolov3Target1"
+      name: "Yolov3Target_train"
       type: "Yolov3Target"
       bottom: "custom1"
       bottom: "label"
@@ -57,7 +57,20 @@ model {
       yolov3_target_param {
           strides: [8, 16, 32]
       }
+      phase: TRAIN
     }
+    
+    module {
+      name: "Yolov3Target_evak"
+      type: "Yolov3Target"
+      bottom: "custom1"
+      top: "target"
+      yolov3_target_param {
+          strides: [8, 16, 32]
+      }
+      phase: EVAL
+    }
+
 
     module {
       name: "Yolov3Loss1"
@@ -71,19 +84,9 @@ model {
       phase: TRAIN
     }
 
-    module {
-      name: "Yolov3Loss2"
-      type: "Yolov3Loss"
-      bottom: "custom1"
-      bottom: "target"
-      top: "loss2"
-      yolov3_loss_param {
-          strides: [8, 16, 32]
-      }
-      phase: EVAL
-    }
     
 }
+
 
 dataset {
     name: "test_dataset"
@@ -96,8 +99,8 @@ dataset {
 
 dataloader {
     name: "test_dataloader"
-    batch_size: 2
-    num_workers: 8
+    batch_size: 5
+    num_workers: 1
     shuffle: false
     dataset: "test_dataset"
     phase: EVAL
@@ -116,7 +119,7 @@ dataset {
 
 dataloader {
     name: "train_dataloader"
-    batch_size: 2
+    batch_size: 8
     num_workers: 2
     shuffle: true
     dataset: "train_dataset"
