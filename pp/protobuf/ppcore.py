@@ -26,7 +26,6 @@ class Yolov3Target(nn.Module):
     def forward(self, feats, label=None):
         
         if self.training:
-            # print(f'self.training: {self.training}')
             return feats
         else:
             return feats
@@ -57,6 +56,11 @@ class DummyDataset(Dataset):
     
     def __getitem__(self, idx):
         return self.data[idx], self.label[idx]
+    
+    def format_output(self, ):
+        pass
+    
+    
     
     
 modules = {

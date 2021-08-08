@@ -115,6 +115,7 @@ dataset {
     dummy_dataset_param {
         n: 100
     }
+    
 }
 
 dataloader {

@@ -5,7 +5,7 @@ import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader
 from torch.utils.data import DistributedSampler, SequentialSampler
-# from torch.utils.tensorboard import SummaryWriter
+
 
 from ppcore import modules as MODULES
 
@@ -41,7 +41,7 @@ def setup_distributed(config, model=None, dataloader=None):
 
     torch.cuda.set_device(device)
     torch.distributed.barrier()
-    distributed_print(args.local_rank == 0)
+    setup_distributed_print(args.local_rank == 0)
 
     # model
     if model is not None:
@@ -60,7 +60,7 @@ def setup_distributed(config, model=None, dataloader=None):
     return device, model, dataloader
     
     
-def distributed_print(is_master):
+def setup_distributed_print(is_master):
     """
     reference: https://github.com/facebookresearch/detr/blob/master/util/misc.py
     This function disables printing when not in master process
@@ -98,8 +98,12 @@ class Model(nn.Module):
                 
         # outputs = collections.defaultdict(lambda:None)
         outputs = {}
+        
+        if not isinstance(data, dict):
+            data = {'data': data}
+            
         outputs.update(data)
-
+            
         # for module, param in zip(self.model, self.model_param.module,):
         for module in self.model:
             
@@ -109,6 +113,7 @@ class Model(nn.Module):
                 continue
 
             _outputs = module(*[outputs[b] for b in module.bottom])
+                              
             if not isinstance(_outputs, Sequence):
                 _outputs = (_outputs, )
 
@@ -121,23 +126,13 @@ class Model(nn.Module):
         '''parse
         '''
         modules = nn.ModuleList()
-        
-        train_modules = nn.ModuleList()
-        eval_modules = nn.ModuleList()
-        
+                
         for i, m in enumerate(config.module):
             
             _module = utils.build_module(m, MODULES)
             
             modules.append( _module )
             
-            if m.phase == 0 or m.phase == 1:
-                train_modules.append(_module)
-            elif m.phase == 0 or m.phase == 2:
-                eval_modules.append(_module)
-
-        print(train_modules)
-        print(eval_modules)
         
         return modules
     
@@ -195,9 +190,7 @@ class Solver(object):
     def train(self, ):
         self.model.train()
         dataloader = self.dataloader[1] # phase 1 - train
-        
-        data = torch.rand(1, 3, 10, 10).to(self.device)
-        
+                
         for e in range(self.last_epoch, self.epoches):
             if hasattr(self, 'distributed') and self.distributed is True:
                 dataloader.sampler.set_epoch(e)
@@ -237,8 +230,6 @@ class Solver(object):
                 print(k, (v.shape if v is not None else None))
 
         print('--------')
-
-    
     
     
     def save(self, prefix=''):
@@ -277,5 +268,11 @@ if __name__ == '__main__':
 
     solver = Solver()
     solver.train()
-
     solver.test()
+    
+    print(solver.model)
+    
+    # solver.model.module.eval()
+    data = torch.randn(10, 3, 224, 224, device='cuda')
+    torch.onnx.export(solver.model.module, (data, ), "alexnet.onnx",)
+    
