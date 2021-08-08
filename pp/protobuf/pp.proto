@@ -58,8 +58,9 @@ message SolverParameter {
     optional DistributedParameter distributed = 41;
 
     optional uint32 epoches = 100; 
-    optional bool fp16 = 101 [default = false]; 
-
+    optional bool use_amp = 101 [default = false]; 
+    // optional float clip_grad_norm = 101 [default = -1];
+    
     optional uint32 snapshot = 200 [default = 2];
     optional string log_dir = 201 [default = "./logs"];
     optional string prefix = 202;
@@ -139,6 +140,7 @@ message DistributedParameter {
     optional string init_method = 4;
     optional uint32 world_size = 5;
     optional uint32 nnodes = 6;
+    optional bool enabled = 7;
     
 }
 

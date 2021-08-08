@@ -202,6 +202,51 @@ def setup_distributed_print(is_master):
     
     
     
+# https://pytorch.org/tutorials/recipes/recipes/amp_recipe.html?highlight=scaler
+import torch, time, gc
+
+# Timing utilities
+start_time = None
+
+def start_timer():
+    global start_time
+    gc.collect()
+    torch.cuda.empty_cache()
+    # torch.cuda.reset_max_memory_allocated()
+    torch.cuda.reset_peak_memory_stats()
+
+    torch.cuda.synchronize()
+    start_time = time.time()
+
+def end_timer_and_print(local_msg):
+    torch.cuda.synchronize()
+    end_time = time.time()
+    print("\n" + local_msg)
+    print("Total execution time = {:.3f} sec".format(end_time - start_time))
+    print("Max memory used by tensors = {} bytes".format(torch.cuda.max_memory_allocated()))
+
+
+class Timer(object):
+    def __init__(self, ):
+        self.start_time = None
+        
+    def start(self, ):
+        gc.collect()
+        torch.cuda.empty_cache()
+        # torch.cuda.reset_max_memory_allocated()
+        torch.cuda.reset_peak_memory_stats()
+        torch.cuda.synchronize()
+        self.start_time = time.time()
+
+    def end_and_print(self, local_msg):
+        torch.cuda.synchronize()
+        end_time = time.time()
+        print("\n" + local_msg)
+        print("Total execution time = {:.3f} sec".format(end_time - self.start_time))
+        print("Max memory used by tensors = {} bytes".format(torch.cuda.max_memory_allocated()))
+
+
+        
 if __name__ == '__main__':
     
     

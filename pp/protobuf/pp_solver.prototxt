@@ -161,9 +161,12 @@ lr_scheduler {
 
 
 
-device: "cuda:1"
+device: "cuda"
+use_amp: True
+
 
 distributed {
+    enabled: True
     backend: "nccl"
     init_method: "env://"
 }

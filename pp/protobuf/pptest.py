@@ -39,7 +39,7 @@ class Model(nn.Module):
         self.model = self.parse(_model_param)
         self.model_param = _model_param
 
-         
+    # @torch.cuda.amp.autocast(enabled=False)
     def forward(self, data):
         '''
         data (dict | Tensor | Tuple[tensor])
@@ -122,7 +122,7 @@ class Solver(object):
             # dataloader = {_m.name: _parse_dataloader(_m, dataset[_m.dataset]) for _m in solver_param.dataloader}
             dataloader = {_m.phase: utils.build_dataloader(_m, dataset[_m.dataset]) for _m in solver_param.dataloader}
 
-        if solver_param.distributed.ByteSize():            
+        if solver_param.distributed.ByteSize() and solver_param.distributed.enabled: 
             device, model, dataloader = utils.setup_distributed(args.local_rank, 
                                                                 solver_param.distributed, 
                                                                 model, (dataloader if dataloader else None))
@@ -141,29 +141,58 @@ class Solver(object):
         self.last_epoch = 0
         self.epoches = solver_param.epoches
         
+        self.use_amp = solver_param.use_amp
         print(solver_param)
-
+        
+        # https://pytorch.org/tutorials/recipes/recipes/amp_recipe.html?highlight=scaler
+        self.scaler = torch.cuda.amp.GradScaler(enabled=self.use_amp)
+        self.clip_grad_norm = 1
         
     def train(self, ):
         self.model.train()
         dataloader = self.dataloader[1] # phase 1 - train
-                
+        scaler = self.scaler
+        enabled_clip = self.clip_grad_norm > 0
+        
         for e in range(self.last_epoch, self.epoches):
-            if hasattr(self, 'distributed') and self.distributed is True:
+            
+            utils.start_timer()
+            
+            if hasattr(self, 'distributed') and self.distributed:
                 dataloader.sampler.set_epoch(e)
                 
             for _, blob in enumerate(dataloader):
-                
+                                    
                 print(type(blob), len(blob))
-
+                
                 if not isinstance(blob, dict):
                     blob = blob if isinstance(blob, Sequence) else (blob, )
                     blob = {n: d for n, d in zip(dataloader.dataset.top, blob)}
 
                 blob.update({k: t.to(self.device) for k, t in blob.items() if isinstance(t, torch.Tensor)})
+
                 
-                output = self.model(blob)
-        
+                with torch.cuda.amp.autocast(enabled=self.use_amp):
+                
+                    outputs = self.model(blob)
+                    print([(k, v.dtype) for k, v in outputs.items()])
+                    loss = outputs['loss'].mean()
+                    
+                    scaler.scale(loss).backward()
+                    
+                    if enabled_clip:
+                        scaler.unscale_(self.optimizer)
+                        torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=self.clip_grad_norm)
+
+                    scaler.step(self.optimizer)
+                    scaler.update()
+
+                self.optimizer.zero_grad()
+
+            self.lr_scheduler.step()
+            
+            utils.end_timer_and_print(f'use_amp: {self.use_amp}')
+            
             print('--------')
                 
     
@@ -196,7 +225,8 @@ class Solver(object):
             'model': self.model.state_dict(),
             'optimizer': self.optimizer.state_dict(),
             'lr_scheduler': self.lr_scheduler.state_dict(),
-            'last_epoch': self.last_epoch
+            'scaler': self.scalse.state_dict(),
+            'last_epoch': self.last_epoch,
         }
         torch.save(state, prefix + '.pt')
 
@@ -227,22 +257,19 @@ if __name__ == '__main__':
     solver.train()
     solver.test()
     
-    print(solver.model)
     
-    
-    
-    solver.model.module.eval()
+    solver.model.eval()
     
     data = torch.randn(10, 3, 224, 224, device='cuda')
-    outputs = solver.model.module(data)
+    outputs = solver.model(data)
     
     input_names = ['data']
     output_names = [n for n in outputs]
 
-    print([k for k, _ in outputs.items()])
+    print([(k, v.dtype, v.device) for k, v in outputs.items()])
     print([v.cpu().data.numpy().sum() for _, v in outputs.items()])
     
-    torch.onnx.export(solver.model.module, 
+    torch.onnx.export(solver.model, 
                       data, 
                       'test.onnx', 
                       verbose=True, 
