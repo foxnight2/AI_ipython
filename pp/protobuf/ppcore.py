@@ -26,13 +26,16 @@ class Yolov3Target(nn.Module):
     def forward(self, feats, label):
         
         if self.training:
-            print(f'self.training: {self.training}')
+            # print(f'self.training: {self.training}')
             return feats
         else:
             return feats
     
+    def _built_target(self, x):
+        pass
     
     
+
 class Yolov3Loss(nn.Module):
     def __init__(self, strides):
         super().__init__()

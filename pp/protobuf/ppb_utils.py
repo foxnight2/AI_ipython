@@ -64,16 +64,20 @@ def build_module(config, modules):
         _code = config.custom_param.module_inline if config.custom_param.module_inline \
             else open(config.custom_param.module_file, 'r').read()
         exec(_code)
-
-        return locals()[config.name]
-
-    _param = _module_param(config)
+        module = locals()[config.name]
+        
+    else:
+        _param = _module_param(config)
+        module = _build_module(modules[config.type], _param)
     
-    module = _build_module(modules[config.type], _param)
-    
+    assert 'top' not in dir(module), ''
+    assert 'bottom' not in dir(module), ''
+    assert 'phase' not in dir(module), ''
+
     module.top = list(config.top) if config.top else []
     module.bottom = list(config.bottom) if config.bottom else []
-    
+    module.phase = config.phase
+
     return module
 
 

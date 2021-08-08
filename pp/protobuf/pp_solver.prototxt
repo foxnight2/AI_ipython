@@ -64,13 +64,25 @@ model {
       type: "Yolov3Loss"
       bottom: "custom1"
       bottom: "target"
-      top: "loss"
+      top: "loss1"
       yolov3_loss_param {
           strides: [8, 16, 32]
       }
       phase: TRAIN
     }
 
+    module {
+      name: "Yolov3Loss2"
+      type: "Yolov3Loss"
+      bottom: "custom1"
+      bottom: "target"
+      top: "loss2"
+      yolov3_loss_param {
+          strides: [8, 16, 32]
+      }
+      phase: EVAL
+    }
+    
 }
 
 dataset {

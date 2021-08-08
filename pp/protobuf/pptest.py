@@ -92,21 +92,28 @@ class Model(nn.Module):
 
         self.model = self.parse(_model_param)
         self.model_param = _model_param
-                
+
+        
     def forward(self, data):
                 
         outputs = {}
         outputs.update(data)
 
-        for module, param in zip(self.model, self.model_param.module,):
-                            
-            # if param.phase 
-            _outputs = module(*[outputs[b] for b in param.bottom])
+        # for module, param in zip(self.model, self.model_param.module,):
+        for module in self.model:
+            
+            if self.training and not (module.phase == 0 or module.phase == 1):
+                continue
+            if not self.training and not (module.phase == 0 or module.phase == 2):
+                continue
+
+
+            _outputs = module(*[outputs[b] for b in module.bottom])
             if not isinstance(_outputs, Sequence):
                 _outputs = (_outputs, )
-                
-            outputs.update({t:_outputs[i] for i, t in enumerate(param.top) if len(param.top)})
-            
+
+            outputs.update({t: _outputs[i] for i, t in enumerate(module.top) if len(module.top)})
+
         return outputs
     
     
@@ -115,16 +122,30 @@ class Model(nn.Module):
         '''
         modules = nn.ModuleList()
         
+        train_modules = nn.ModuleList()
+        eval_modules = nn.ModuleList()
+        
         for i, m in enumerate(config.module):
             
             _module = utils.build_module(m, MODULES)
             
             modules.append( _module )
             
+            if m.phase == 0 or m.phase == 1:
+                train_modules.append(_module)
+            elif m.phase == 0 or m.phase == 2:
+                eval_modules.append(_module)
+
+        print(train_modules)
+        print(eval_modules)
+        
         return modules
     
     
-
+    def export_onnx(self, ):
+        pass
+    
+    
 
 class Solver(object):
     def __init__(self, solver_file='./pp_solver.prototxt'):
@@ -157,9 +178,7 @@ class Solver(object):
             device = torch.device(solver_param.device)
             model = model.to(device)
         
-        [setattr(self, k, m) for k, m in locals().items() if k in ['model', 'device', 
-                                                                   'dataloader', 'dataset_tops',
-                                                                   'optimizer', 'lr_scheduler']]
+        [setattr(self, k, m) for k, m in locals().items() if k in ['model', 'device', 'dataloader', 'optimizer', 'lr_scheduler']]
         
         # self.model = model
         # self.device = device
@@ -175,7 +194,7 @@ class Solver(object):
         
     def train(self, ):
         self.model.train()
-        dataloader = self.dataloader[0] # phase 0 - train
+        dataloader = self.dataloader[1] # phase 1 - train
         
         data = torch.rand(1, 3, 10, 10).to(self.device)
         
@@ -186,7 +205,6 @@ class Solver(object):
             for _, blob in enumerate(dataloader):
                 
                 print(type(blob), len(blob))
-                
 
                 if not isinstance(blob, dict):
                     blob = blob if isinstance(blob, Sequence) else (blob, )
@@ -197,12 +215,17 @@ class Solver(object):
                 output = self.model(blob)
             
             print('--------')
-            
-            
+                
+    
     def test(self, ):
         pass
     
 
+    def prediction(self, ):
+        pass
+    
+    
+    
     def save(self, prefix=''):
         '''save state
         '''

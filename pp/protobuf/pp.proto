@@ -148,8 +148,9 @@ message PrintOptionsParameter {
 
 // modules
 enum Phase {
-   TRAIN = 0;
-   EVAL = 1;
+   ALL = 0;
+   TRAIN = 1;
+   EVAL = 2;
 }
 
 message ModuleParameter {
