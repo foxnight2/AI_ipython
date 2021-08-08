@@ -91,7 +91,7 @@ class Model(nn.Module):
         else:
             text_format.Merge(open(model_file, 'rb').read(), _model_param)
 
-        self.intput_names = list(_model_param.input_names)
+        self.input_names = list(_model_param.input_names)
         self.output_names = list(_model_param.output_names)
 
         self.model = self.parse(_model_param)
@@ -99,12 +99,16 @@ class Model(nn.Module):
 
          
     def forward(self, data):
-                
+        '''
+        data (dict | Tensor | Tuple[tensor])
+        '''
         # outputs = collections.defaultdict(lambda:None)
         outputs = OrderedDict()
         
         if not isinstance(data, dict):
-            data = {'data': data}
+            assert len(self.input_names) > 0, f'{self.input_names}'
+            data = data if isinstance(data, Sequence) else (data, )
+            data = {k: v for k, v in zip(self.input_names, data)}
             
         outputs.update(data)
 
@@ -118,9 +122,7 @@ class Model(nn.Module):
                 continue
 
             _outputs = module(*[outputs[b] for b in module.bottom])
-                              
-            if not isinstance(_outputs, Sequence):
-                _outputs = (_outputs, )
+            _outputs = _outputs if isinstance(_outputs, Sequence) else (_outputs, )
 
             outputs.update({t: _outputs[i] for i, t in enumerate(module.top) if len(module.top)})
         
@@ -290,7 +292,8 @@ if __name__ == '__main__':
     
     data = torch.randn(10, 3, 224, 224, device='cuda')
     outputs = solver.model.module(data)
-    intput_names = ['data']
+    
+    input_names = ['data']
     output_names = [n for n in outputs]
 
     print([k for k, _ in outputs.items()])
@@ -301,7 +304,7 @@ if __name__ == '__main__':
                       'test.onnx', 
                       verbose=True, 
                       export_params=True,
-                      input_names=intput_names, 
+                      input_names=input_names, 
                       output_names=output_names, 
                       opset_version=10, 
                       dynamic_axes={'data': {0: 'batch_size'}, }, )
@@ -315,7 +318,7 @@ if __name__ == '__main__':
     ort_session = onnxruntime.InferenceSession("test.onnx")
     print([d.name for d in ort_session.get_inputs()])
     
-    data = torch.randn(4, 3, 224, 224, device='cuda')
+    # data = torch.randn(4, 3, 224, 224, device='cuda')
 
     ort_outs = ort_session.run(None, {'data': data.cpu().numpy()})
     print([out.sum() for out in ort_outs])

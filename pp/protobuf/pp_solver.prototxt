@@ -84,7 +84,7 @@ model {
       phase: TRAIN
     }
     
-    # input_names: ["data"]
+    input_names: ["data", "label"]
     output_names: ["target", "loss"]
 }
 
