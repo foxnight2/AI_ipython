@@ -28,6 +28,9 @@ message ModelParameter {
     
     optional string name = 1;
     repeated ModuleParameter module = 100; // inline
+    repeated string input_names = 101;
+    repeated string output_names = 102;
+
     optional string reset_model = 200;
 }
 

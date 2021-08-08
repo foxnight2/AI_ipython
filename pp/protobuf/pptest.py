@@ -91,10 +91,13 @@ class Model(nn.Module):
         else:
             text_format.Merge(open(model_file, 'rb').read(), _model_param)
 
+        self.intput_names = list(_model_param.input_names)
+        self.output_names = list(_model_param.output_names)
+
         self.model = self.parse(_model_param)
         self.model_param = _model_param
 
-        
+         
     def forward(self, data):
                 
         # outputs = collections.defaultdict(lambda:None)
@@ -124,6 +127,9 @@ class Model(nn.Module):
         # remove inputs in outputs for onnx purpose
         outputs = OrderedDict([(k, v) for k, v in outputs.items() if id(v) not in inputs_id])
         
+        if self.output_names:
+            outputs = OrderedDict([(n, outputs[n]) for n in self.output_names if n in outputs])
+            
         return outputs
     
     
