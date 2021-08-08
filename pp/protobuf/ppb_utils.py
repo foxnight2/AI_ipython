@@ -1,4 +1,8 @@
 import torch
+import torch.distributed as dist
+from torch.nn.parallel import DistributedDataParallel as DDP
+from torch.utils.data import DataLoader
+from torch.utils.data import DistributedSampler, SequentialSampler
 
 import inspect
 
@@ -144,9 +148,60 @@ def build_dataloader(config, dataset, modules={'DataLoader': torch.utils.data.Da
     
     return dataloader
     
-
     
 
+    
+# distributed
+def setup_distributed(rank, config, model=None, dataloader=None):
+    '''distributed setup
+    reference: https://github.com/facebookresearch/detr/blob/master/util/misc.py#L406
+    '''
+    dist.init_process_group(backend = (config.backend if config.backend else 'nccl'),
+                            init_method = (config.init_method if config.init_method else 'env://' ), 
+                            # world_size = (config.world_size if config.init_method else args.world_size), 
+                            # rank = args.local_rank 
+                           )
+
+    device = torch.device(f'cuda:{rank}')
+
+    torch.cuda.set_device(device)
+    torch.distributed.barrier()
+    setup_distributed_print(rank == 0)
+
+    # model
+    if model is not None:
+        model.to(device)
+        model = DDP(model, device_ids=[rank], output_device=rank)
+
+    if dataloader is not None:         
+        _sampler = {k: DistributedSampler(v.dataset, shuffle=v.shuffle) for k, v in dataloader.items()}
+        dataloader = {k: DataLoader(v.dataset, 
+                                    v.batch_size, 
+                                    sampler=_sampler[k], 
+                                    drop_last=v.drop_last, 
+                                    collate_fn=v.collate_fn, 
+                                    num_workers=v.num_workers) for k, v in dataloader.items()}
+
+    return device, model, dataloader
+    
+    
+def setup_distributed_print(is_master):
+    '''
+    reference: https://github.com/facebookresearch/detr/blob/master/util/misc.py
+    This function disables printing when not in master process
+    '''
+    import builtins as __builtin__
+    builtin_print = __builtin__.print
+
+    def print(*args, **kwargs):
+        force = kwargs.pop('force', False)
+        if is_master or force:
+            builtin_print(*args, **kwargs)
+
+    __builtin__.print = print
+    
+    
+    
 if __name__ == '__main__':
     
     
@@ -354,5 +409,60 @@ def _parse_dataloader(config, dataset, ):
     _dataloader.shuffle = _param['shuffle'] if 'shuffle' in _param else False
     
     return _dataloader
+    
+    
+    
+   
+# distributed
+def setup_distributed(config, model=None, dataloader=None):
+    '''distributed setup
+    reference: https://github.com/facebookresearch/detr/blob/master/util/misc.py#L406
+    '''
+    dist.init_process_group(backend = (config.backend if config.backend else 'nccl'),
+                            init_method = (config.init_method if config.init_method else 'env://' ), 
+                            # world_size = (config.world_size if config.init_method else args.world_size), 
+                            # rank = args.local_rank 
+                           )
+
+    device = torch.device(f'cuda:{args.local_rank}')
+
+    torch.cuda.set_device(device)
+    torch.distributed.barrier()
+    setup_distributed_print(args.local_rank == 0)
+
+    # model
+    if model is not None:
+        model.to(device)
+        model = DDP(model, device_ids=[args.local_rank], output_device=args.local_rank)
+
+    if dataloader is not None:         
+        _sampler = {k: DistributedSampler(v.dataset, shuffle=v.shuffle) for k, v in dataloader.items()}
+        dataloader = {k: DataLoader(v.dataset, 
+                                    v.batch_size, 
+                                    sampler=_sampler[k], 
+                                    drop_last=v.drop_last, 
+                                    collate_fn=v.collate_fn, 
+                                    num_workers=v.num_workers) for k, v in dataloader.items()}
+
+    return device, model, dataloader
+    
+    
+def setup_distributed_print(is_master):
+    '''
+    reference: https://github.com/facebookresearch/detr/blob/master/util/misc.py
+    This function disables printing when not in master process
+    '''
+    import builtins as __builtin__
+    builtin_print = __builtin__.print
+
+    def print(*args, **kwargs):
+        force = kwargs.pop('force', False)
+        if is_master or force:
+            builtin_print(*args, **kwargs)
+
+    __builtin__.print = print
+    
+    
+    
     
 """

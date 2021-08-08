@@ -1,11 +1,6 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import torch.distributed as dist
-from torch.nn.parallel import DistributedDataParallel as DDP
-from torch.utils.data import DataLoader
-from torch.utils.data import DistributedSampler, SequentialSampler
-
 
 from ppcore import modules as MODULES
 
@@ -25,59 +20,6 @@ from tqdm import tqdm
 import ppb_utils as utils
 
 
-
-    
-# distributed
-def setup_distributed(config, model=None, dataloader=None):
-    '''distributed setup
-    reference: https://github.com/facebookresearch/detr/blob/master/util/misc.py#L406
-    '''
-    dist.init_process_group(backend = (config.backend if config.backend else 'nccl'),
-                            init_method = (config.init_method if config.init_method else 'env://' ), 
-                            # world_size = (config.world_size if config.init_method else args.world_size), 
-                            # rank = args.local_rank 
-                           )
-
-    device = torch.device(f'cuda:{args.local_rank}')
-
-    torch.cuda.set_device(device)
-    torch.distributed.barrier()
-    setup_distributed_print(args.local_rank == 0)
-
-    # model
-    if model is not None:
-        model.to(device)
-        model = DDP(model, device_ids=[args.local_rank], output_device=args.local_rank)
-
-    if dataloader is not None:         
-        _sampler = {k: DistributedSampler(v.dataset, shuffle=v.shuffle) for k, v in dataloader.items()}
-        dataloader = {k: DataLoader(v.dataset, 
-                                    v.batch_size, 
-                                    sampler=_sampler[k], 
-                                    drop_last=v.drop_last, 
-                                    collate_fn=v.collate_fn, 
-                                    num_workers=v.num_workers) for k, v in dataloader.items()}
-
-    return device, model, dataloader
-    
-    
-def setup_distributed_print(is_master):
-    """
-    reference: https://github.com/facebookresearch/detr/blob/master/util/misc.py
-    This function disables printing when not in master process
-    """
-    import builtins as __builtin__
-    builtin_print = __builtin__.print
-
-    def print(*args, **kwargs):
-        force = kwargs.pop('force', False)
-        if is_master or force:
-            builtin_print(*args, **kwargs)
-
-    __builtin__.print = print
-    
-    
-    
     
     
 class Model(nn.Module):
@@ -180,8 +122,10 @@ class Solver(object):
             # dataloader = {_m.name: _parse_dataloader(_m, dataset[_m.dataset]) for _m in solver_param.dataloader}
             dataloader = {_m.phase: utils.build_dataloader(_m, dataset[_m.dataset]) for _m in solver_param.dataloader}
 
-        if solver_param.distributed.ByteSize():
-            device, model, dataloader = setup_distributed(solver_param.distributed, model, (dataloader if dataloader else None))
+        if solver_param.distributed.ByteSize():            
+            device, model, dataloader = utils.setup_distributed(args.local_rank, 
+                                                                solver_param.distributed, 
+                                                                model, (dataloader if dataloader else None))
         else:
             device = torch.device(solver_param.device)
             model = model.to(device)
@@ -284,7 +228,6 @@ if __name__ == '__main__':
     solver.test()
     
     print(solver.model)
-    
     
     
     
