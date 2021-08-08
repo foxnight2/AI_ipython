@@ -83,7 +83,6 @@ model {
       }
       phase: TRAIN
     }
-
     
 }
 

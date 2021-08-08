@@ -17,6 +17,7 @@ import re
 import os
 import inspect
 import collections
+from collections import OrderedDict
 from typing import Sequence
 from tqdm import tqdm
 
@@ -97,15 +98,15 @@ class Model(nn.Module):
     def forward(self, data):
                 
         # outputs = collections.defaultdict(lambda:None)
-        outputs = collections.OrderedDict()
-        # outputs = {}
+        outputs = OrderedDict()
         
         if not isinstance(data, dict):
             data = {'data': data}
+            
         outputs.update(data)
+
+        inputs_id = [id(v) for _, v in outputs.items()] 
         
-        
-        # for module, param in zip(self.model, self.model_param.module,):
         for module in self.model:
             
             if self.training and not (module.phase == 0 or module.phase == 1):
@@ -120,7 +121,8 @@ class Model(nn.Module):
 
             outputs.update({t: _outputs[i] for i, t in enumerate(module.top) if len(module.top)})
         
-        outputs.pop('data')
+        # remove inputs in outputs for onnx purpose
+        outputs = OrderedDict([(k, v) for k, v in outputs.items() if id(v) not in inputs_id])
         
         return outputs
     
