@@ -11,9 +11,9 @@ class ResNet(nn.Module):
     def forward(self, x, y=None):
         
         if y is not None:
-            x = x + y
+            x = x + y 
             
-        return x
+        return x + 1
 
 
 
@@ -26,9 +26,9 @@ class Yolov3Target(nn.Module):
     def forward(self, feats, label=None):
         
         if self.training:
-            return feats
+            return feats + 2
         else:
-            return feats
+            return feats + 1
     
     def _built_target(self, x):
         pass
@@ -42,7 +42,7 @@ class Yolov3Loss(nn.Module):
         self.stride = strides
     
     def forward(self, feats, target):
-        return feats
+        return feats + 1
     
     
     

@@ -97,13 +97,14 @@ class Model(nn.Module):
     def forward(self, data):
                 
         # outputs = collections.defaultdict(lambda:None)
-        outputs = {}
+        outputs = collections.OrderedDict()
+        # outputs = {}
         
         if not isinstance(data, dict):
             data = {'data': data}
-            
         outputs.update(data)
-            
+        
+        
         # for module, param in zip(self.model, self.model_param.module,):
         for module in self.model:
             
@@ -118,7 +119,9 @@ class Model(nn.Module):
                 _outputs = (_outputs, )
 
             outputs.update({t: _outputs[i] for i, t in enumerate(module.top) if len(module.top)})
-
+        
+        outputs.pop('data')
+        
         return outputs
     
     
@@ -206,7 +209,7 @@ class Solver(object):
                 blob.update({k: t.to(self.device) for k, t in blob.items() if isinstance(t, torch.Tensor)})
                 
                 output = self.model(blob)
-            
+        
             print('--------')
                 
     
@@ -272,7 +275,40 @@ if __name__ == '__main__':
     
     print(solver.model)
     
-    # solver.model.module.eval()
-    data = torch.randn(10, 3, 224, 224, device='cuda')
-    torch.onnx.export(solver.model.module, (data, ), "alexnet.onnx",)
     
+    
+    
+    solver.model.module.eval()
+    
+    data = torch.randn(10, 3, 224, 224, device='cuda')
+    outputs = solver.model.module(data)
+    intput_names = ['data']
+    output_names = [n for n in outputs]
+
+    print([k for k, _ in outputs.items()])
+    print([v.cpu().data.numpy().sum() for _, v in outputs.items()])
+    
+    torch.onnx.export(solver.model.module, 
+                      data, 
+                      'test.onnx', 
+                      verbose=True, 
+                      export_params=True,
+                      input_names=intput_names, 
+                      output_names=output_names, 
+                      opset_version=10, 
+                      dynamic_axes={'data': {0: 'batch_size'}, }, )
+    
+    import onnx
+    import onnxruntime
+
+    onnx_model = onnx.load('test.onnx')
+    onnx.checker.check_model(onnx_model)
+
+    ort_session = onnxruntime.InferenceSession("test.onnx")
+    print([d.name for d in ort_session.get_inputs()])
+    
+    data = torch.randn(4, 3, 224, 224, device='cuda')
+
+    ort_outs = ort_session.run(None, {'data': data.cpu().numpy()})
+    print([out.sum() for out in ort_outs])
+    print([out.shape for out in ort_outs])
