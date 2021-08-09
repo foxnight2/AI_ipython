@@ -230,24 +230,26 @@ class Solver(object):
     def save(self, prefix=''):
         '''save state
         '''
-        if torch.distributed.is_initialized() and torch.distributed.get_rank() == 0:
-            state = {
-                'model': self.model.state_dict(),
-                'optimizer': self.optimizer.state_dict(),
-                'lr_scheduler': self.lr_scheduler.state_dict(),
-                'scaler': self.scaler.state_dict(),
-                'last_epoch': self.last_epoch,
-            }
-            torch.save(state, prefix + '.pt')
-            print('-----done----')
+        # if torch.distributed.is_initialized() and torch.distributed.get_rank() == 0:
+        state = {
+            'model': self.model.state_dict(),
+            'optimizer': self.optimizer.state_dict(),
+            'lr_scheduler': self.lr_scheduler.state_dict(),
+            'scaler': self.scaler.state_dict(),
+            'last_epoch': self.last_epoch,
+        }
+        torch.save(state, prefix + '.pt')
+        print('-----done----')
 
     def restore(self, path):
         '''restore
         '''
-        state = torch.load(path, map_location=args.local_rank)
+        print('args.local_rank', args.local_rank)
+        
+        state = torch.load(path, map_location=(self.device if args.local_rank is None else args.local_rank))
         self.model.load_state_dict(state['model'])
         self.optimizer.load_state_dict(state['optimizer'])
-        self.model.load_state_dict(state['lr_scheduler'])
+        self.lr_scheduler.load_state_dict(state['lr_scheduler'])
         self.last_epoch = state['last_epoch']
     
         # consume_prefix_in_state_dict_if_present()
@@ -268,10 +270,13 @@ if __name__ == '__main__':
     solver.test()
     
     
-    solver.model.eval()
     
-    data = torch.randn(10, 3, 224, 224, device='cuda')
-    outputs = solver.model(data)
+    # -------
+    model = solver.model.cpu()
+    model.eval()
+    
+    data = torch.randn(10, 3, 224, 224, device='cpu')
+    outputs = model(data)
     
     input_names = ['data']
     output_names = [n for n in outputs]

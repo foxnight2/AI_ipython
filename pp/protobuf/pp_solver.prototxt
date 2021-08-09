@@ -160,12 +160,11 @@ lr_scheduler {
 }
 
 
-
-# device: "cuda"
-use_amp: True
+device: "cuda:2"
+use_amp: False
 
 distributed {
-    enabled: True
+    enabled: False
     backend: "nccl"
     init_method: "env://"
 }
@@ -176,5 +175,5 @@ snapshot: 10
 log_dir: "./logs"
 prefix: "pp_model"
 
-resume: "0.pt"
+resume: "1.pt"
 

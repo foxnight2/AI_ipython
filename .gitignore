@@ -10,4 +10,4 @@
 *.pd
 *.pth
 *.onnx
-
+*.pt
