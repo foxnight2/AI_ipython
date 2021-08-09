@@ -127,8 +127,10 @@ class Solver(object):
                                                                 model, (dataloader if dataloader else None))
         else:
             device = torch.device(solver_param.device)
+            # torch.cuda.set_device(device)
+
             model = model.to(device)
-        
+            
         [setattr(self, k, m) for k, m in locals().items() if k in ['model', 'device', 'dataloader', 'optimizer', 'lr_scheduler']]
         
         # self.model = model
@@ -146,9 +148,6 @@ class Solver(object):
         # https://pytorch.org/tutorials/recipes/recipes/amp_recipe.html?highlight=scaler
         self.scaler = torch.cuda.amp.GradScaler(enabled=self.use_amp)
         self.clip_grad_norm = 1
-        
-        
-        print(self.model)
         
         if solver_param.resume:
             self.restore(solver_param.resume)
@@ -230,24 +229,27 @@ class Solver(object):
     def save(self, prefix=''):
         '''save state
         '''
-        # if torch.distributed.is_initialized() and torch.distributed.get_rank() == 0:
+        model = self.model.module if utils.is_dist_available_and_initialized() else self.model
         state = {
-            'model': self.model.state_dict(),
+            'model': model.state_dict(),
             'optimizer': self.optimizer.state_dict(),
             'lr_scheduler': self.lr_scheduler.state_dict(),
             'scaler': self.scaler.state_dict(),
             'last_epoch': self.last_epoch,
         }
-        torch.save(state, prefix + '.pt')
-        print('-----done----')
-
+        utils.save_on_main(state,  prefix + '.pt')
+            
+        
     def restore(self, path):
         '''restore
-        '''
-        print('args.local_rank', args.local_rank)
-        
-        state = torch.load(path, map_location=(self.device if args.local_rank is None else args.local_rank))
-        self.model.load_state_dict(state['model'])
+        '''        
+        state = torch.load(path, map_location='cpu')
+
+        if utils.is_dist_available_and_initialized():
+            self.model.module.load_state_dict(state['model'])
+        else:
+            self.model.load_state_dict(state['model'])
+            
         self.optimizer.load_state_dict(state['optimizer'])
         self.lr_scheduler.load_state_dict(state['lr_scheduler'])
         self.last_epoch = state['last_epoch']
@@ -255,6 +257,7 @@ class Solver(object):
         # consume_prefix_in_state_dict_if_present()
         # map_location
 
+        
 if __name__ == '__main__':
     
     # python -m torch.distributed.launch --nproc_per_node=2 pptest.py
@@ -270,13 +273,14 @@ if __name__ == '__main__':
     solver.test()
     
     
-    
     # -------
-    model = solver.model.cpu()
+    
+    model = solver.model
     model.eval()
     
-    data = torch.randn(10, 3, 224, 224, device='cpu')
+    data = torch.randn(10, 3, 224, 224)
     outputs = model(data)
+    
     
     input_names = ['data']
     output_names = [n for n in outputs]
@@ -284,7 +288,7 @@ if __name__ == '__main__':
     print([(k, v.dtype, v.device) for k, v in outputs.items()])
     print([v.cpu().data.numpy().sum() for _, v in outputs.items()])
     
-    torch.onnx.export(solver.model, 
+    torch.onnx.export(model, 
                       data, 
                       'test.onnx', 
                       verbose=True, 

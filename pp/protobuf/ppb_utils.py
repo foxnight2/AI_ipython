@@ -201,11 +201,30 @@ def setup_distributed_print(is_master):
     __builtin__.print = print
     
     
-def save(state, path):
+
+def is_dist_available_and_initialized():
+    if not dist.is_available():
+        return False
+    if not dist.is_initialized():
+        return False
+    return True
+
+
+def get_rank():
+    if not is_dist_available_and_initialized():
+        return 0
+    return dist.get_rank()
+
+
+def is_main_process():
+    return get_rank() == 0
+
+
+def save_on_main(*args, **kwargs):
+    '''save_on_main
     '''
-    '''
-    if dist.is_initialized() and dist.get_rank() == 0:
-        torch.save(state, path)
+    if is_dist_available_and_initialized() and is_main_process():
+        torch.save(*args, **kwargs)
     
     
     
