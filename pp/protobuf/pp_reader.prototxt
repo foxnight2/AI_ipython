@@ -4,7 +4,7 @@ dataset {
     type: "DummyDataset"
     top: "data"
     dummy_dataset_param {
-        n: 20
+        n: 22
     }
 }
 
@@ -24,7 +24,7 @@ dataset {
     top: "data"
     top: "label"
     dummy_dataset_param {
-        n: 10
+        n: 11
     }
     
 }

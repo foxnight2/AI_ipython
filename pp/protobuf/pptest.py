@@ -20,8 +20,6 @@ from tqdm import tqdm
 import ppb_utils as utils
 
 
-    
-    
 class Model(nn.Module):
     def __init__(self, model_param=None, model_file='./pp_model.prototxt'):
         super().__init__()
@@ -105,7 +103,7 @@ class Solver(object):
         model = Model(solver.model, solver.model_file)
                 
         reader = pp.SolverParameter() 
-        text_format.Merge(open(solver.reader_file, 'rb').read(), solver)
+        text_format.Merge(open(solver.reader_file, 'rb').read(), reader)
         
         solver_str = text_format.MessageToString(solver, indent=2)
         reader_str = text_format.MessageToString(reader, indent=2)
@@ -151,9 +149,12 @@ class Solver(object):
         if solver.resume:
             self.restore(solver.resume)
             
-        print(reader_str)
-        print(solver_str)
-
+        # print(reader_str)
+        # print(solver_str)
+        print('xxxxxxxxxxxx')
+        print(reader.dataset)
+        print(solver.dataset)
+        
         
     def train(self, ):
         self.model.train()

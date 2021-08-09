@@ -1,6 +1,8 @@
 
 
 ## Detection
+- [object-detection-on-coco](https://paperswithcode.com/sota/object-detection-on-coco)
+- [instance-segmentation-on-coco](https://paperswithcode.com/sota/instance-segmentation-on-coco)
 - [Focal Loss for Dense Object Detection](./1708.02002.pdf)
 - [Feature Pyramid Networks for Object Detection](./1612.03144.pdf)
 - [YOLOv4: Optimal Speed and Accuracy of Object Detection](./2004.10934.pdf)
@@ -26,6 +28,7 @@
 - [Generalized Focal Loss: Learning Qualified and Distributed Bounding Boxes for Dense Object Detection](https://arxiv.org/pdf/2006.04388.pdf)
 - [SOLQ: Segmenting Objects by Learning Queries](https://arxiv.org/pdf/2106.02351.pdf)
 - [PVTv2: Improved Baselines with Pyramid Vision Transformer](https://arxiv.org/pdf/2106.13797.pdf)
+- [Instances as Queries](https://arxiv.org/pdf/2105.01928v3.pdf)
 
 
 ## GAN
