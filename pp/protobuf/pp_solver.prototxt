@@ -164,7 +164,7 @@ device: "cuda:0"
 use_amp: True
 
 distributed {
-    enabled: False
+    enabled: True
     backend: "nccl"
     init_method: "env://"
 }

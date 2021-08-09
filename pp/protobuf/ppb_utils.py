@@ -152,7 +152,7 @@ def build_dataloader(config, dataset, modules={'DataLoader': torch.utils.data.Da
 
     
 # distributed
-def setup_distributed(rank, config, model=None, dataloader=None):
+def setup_distributed(config, model=None, dataloader=None):
     '''distributed setup
     reference: https://github.com/facebookresearch/detr/blob/master/util/misc.py#L406
     '''
@@ -161,11 +161,12 @@ def setup_distributed(rank, config, model=None, dataloader=None):
                             # world_size = (config.world_size if config.init_method else args.world_size), 
                             # rank = args.local_rank 
                            )
+    torch.distributed.barrier()
 
+    rank = get_rank()
     device = torch.device(f'cuda:{rank}')
 
     torch.cuda.set_device(device)
-    torch.distributed.barrier()
     setup_distributed_print(rank == 0)
 
     # model

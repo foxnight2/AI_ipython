@@ -118,9 +118,9 @@ class Solver(object):
             dataloader = {_m.phase: utils.build_dataloader(_m, dataset[_m.dataset]) for _m in solver_param.dataloader}
 
         if solver_param.distributed.ByteSize() and solver_param.distributed.enabled: 
-            device, model, dataloader = utils.setup_distributed(args.local_rank, 
-                                                                solver_param.distributed, 
-                                                                model, (dataloader if dataloader else None))
+            device, model, dataloader = utils.setup_distributed(solver_param.distributed, 
+                                                                model, 
+                                                                (dataloader if dataloader else None))
             
         else:
             device = torch.device(solver_param.device)
