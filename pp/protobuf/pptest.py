@@ -147,6 +147,13 @@ class Solver(object):
         self.scaler = torch.cuda.amp.GradScaler(enabled=self.use_amp)
         self.clip_grad_norm = 1
         
+        
+        print(self.model)
+        
+        if solver_param.resume:
+            self.restore(solver_param.resume)
+            
+
     def train(self, ):
         self.model.train()
         dataloader = self.dataloader[1] # phase 1 - train
@@ -194,6 +201,8 @@ class Solver(object):
             utils.end_timer_and_print(f'use_amp: {self.use_amp}')
             
             print('--------')
+        
+        self.save(str(e))
                 
     
     def test(self, ):
@@ -221,27 +230,28 @@ class Solver(object):
     def save(self, prefix=''):
         '''save state
         '''
-        state = {
-            'model': self.model.state_dict(),
-            'optimizer': self.optimizer.state_dict(),
-            'lr_scheduler': self.lr_scheduler.state_dict(),
-            'scaler': self.scalse.state_dict(),
-            'last_epoch': self.last_epoch,
-        }
-        torch.save(state, prefix + '.pt')
-
+        if torch.distributed.is_initialized() and torch.distributed.get_rank() == 0:
+            state = {
+                'model': self.model.state_dict(),
+                'optimizer': self.optimizer.state_dict(),
+                'lr_scheduler': self.lr_scheduler.state_dict(),
+                'scaler': self.scaler.state_dict(),
+                'last_epoch': self.last_epoch,
+            }
+            torch.save(state, prefix + '.pt')
+            print('-----done----')
 
     def restore(self, path):
         '''restore
         '''
-        state = torch.load(path)
+        state = torch.load(path, map_location=args.local_rank)
         self.model.load_state_dict(state['model'])
         self.optimizer.load_state_dict(state['optimizer'])
         self.model.load_state_dict(state['lr_scheduler'])
         self.last_epoch = state['last_epoch']
     
-    
-
+        # consume_prefix_in_state_dict_if_present()
+        # map_location
 
 if __name__ == '__main__':
     

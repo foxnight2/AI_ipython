@@ -59,7 +59,7 @@ message SolverParameter {
 
     optional uint32 epoches = 100; 
     optional bool use_amp = 101 [default = false]; 
-    // optional float clip_grad_norm = 101 [default = -1];
+    // optional float clip_grad_norm = 102 [default = -1];
     
     optional uint32 snapshot = 200 [default = 2];
     optional string log_dir = 201 [default = "./logs"];
@@ -134,14 +134,13 @@ message LRSchedulerParameter {
 
 
 message DistributedParameter {
-    optional string name = 1;
+    optional bool enabled = 1;
     optional string type = 2;
     optional string backend = 3;
     optional string init_method = 4;
     optional uint32 world_size = 5;
     optional uint32 nnodes = 6;
-    optional bool enabled = 7;
-    
+    optional bool find_unused_parameters = 7;
 }
 
 
@@ -166,7 +165,7 @@ message ModuleParameter {
     repeated string top = 4;
     
     optional string pretrained = 5;
-    optional bool is_pretrained = 6 [default = true];
+    optional bool use_pretrained = 6 [default = true];
     
     optional string reset_inline = 7;
     optional string reset_file = 8;

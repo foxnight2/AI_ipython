@@ -201,6 +201,13 @@ def setup_distributed_print(is_master):
     __builtin__.print = print
     
     
+def save(state, path):
+    '''
+    '''
+    if dist.is_initialized() and dist.get_rank() == 0:
+        torch.save(state, path)
+    
+    
     
 # https://pytorch.org/tutorials/recipes/recipes/amp_recipe.html?highlight=scaler
 import torch, time, gc

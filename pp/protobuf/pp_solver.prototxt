@@ -161,9 +161,8 @@ lr_scheduler {
 
 
 
-device: "cuda"
+# device: "cuda"
 use_amp: True
-
 
 distributed {
     enabled: True
@@ -177,4 +176,5 @@ snapshot: 10
 log_dir: "./logs"
 prefix: "pp_model"
 
+resume: "0.pt"
 
