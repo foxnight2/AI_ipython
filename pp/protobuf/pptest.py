@@ -105,30 +105,25 @@ class Solver(object):
         model = Model(solver_param.model, solver_param.model_file)
             
         if solver_param.optimizer.ByteSize():
-            # optimizer = _parse_optimizer(solver_param.optimizer, model)
             optimizer = utils.build_optimizer(solver_param.optimizer, model)
             
         if solver_param.lr_scheduler.ByteSize():
-            # lr_scheduler = _parse_lr_scheduler(solver_param.lr_scheduler, optimizer)
             lr_scheduler = utils.build_lr_scheduler(solver_param.lr_scheduler, optimizer)
 
         if len(solver_param.dataset):
-            # dataset = {_m.name: _parse_module(_m, MODULES) for _m in solver_param.dataset}
             dataset = {_m.name: utils.build_module(_m, MODULES) for _m in solver_param.dataset}
             dataset_tops = {_m.name: _m.top for _m in solver_param.dataset}
             
         if len(solver_param.dataloader):
-            # dataloader = {_m.name: _parse_dataloader(_m, dataset[_m.dataset]) for _m in solver_param.dataloader}
             dataloader = {_m.phase: utils.build_dataloader(_m, dataset[_m.dataset]) for _m in solver_param.dataloader}
 
         if solver_param.distributed.ByteSize() and solver_param.distributed.enabled: 
             device, model, dataloader = utils.setup_distributed(args.local_rank, 
                                                                 solver_param.distributed, 
                                                                 model, (dataloader if dataloader else None))
+            
         else:
             device = torch.device(solver_param.device)
-            # torch.cuda.set_device(device)
-
             model = model.to(device)
             
         [setattr(self, k, m) for k, m in locals().items() if k in ['model', 'device', 'dataloader', 'optimizer', 'lr_scheduler']]
@@ -163,7 +158,7 @@ class Solver(object):
             
             utils.start_timer()
             
-            if hasattr(self, 'distributed') and self.distributed:
+            if hasattr(self.model, 'distributed') and self.model.distributed:
                 dataloader.sampler.set_epoch(e)
                 
             for _, blob in enumerate(dataloader):
@@ -176,7 +171,6 @@ class Solver(object):
 
                 blob.update({k: t.to(self.device) for k, t in blob.items() if isinstance(t, torch.Tensor)})
 
-                
                 with torch.cuda.amp.autocast(enabled=self.use_amp):
                 
                     outputs = self.model(blob)
@@ -242,7 +236,10 @@ class Solver(object):
         
     def restore(self, path):
         '''restore
-        '''        
+        '''       
+        # consume_prefix_in_state_dict_if_present()
+        # map_location
+
         state = torch.load(path, map_location='cpu')
 
         if utils.is_dist_available_and_initialized():
@@ -254,8 +251,6 @@ class Solver(object):
         self.lr_scheduler.load_state_dict(state['lr_scheduler'])
         self.last_epoch = state['last_epoch']
     
-        # consume_prefix_in_state_dict_if_present()
-        # map_location
 
         
 if __name__ == '__main__':

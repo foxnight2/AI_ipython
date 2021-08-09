@@ -172,7 +172,10 @@ def setup_distributed(rank, config, model=None, dataloader=None):
     if model is not None:
         model.to(device)
         model = DDP(model, device_ids=[rank], output_device=rank)
-
+        
+        assert 'distributed' not in dir(model), ''
+        model.distributed = True
+        
     if dataloader is not None:         
         _sampler = {k: DistributedSampler(v.dataset, shuffle=v.shuffle) for k, v in dataloader.items()}
         dataloader = {k: DataLoader(v.dataset, 
