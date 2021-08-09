@@ -14,10 +14,7 @@ module {
     stride: 2
     padding: [2, 3]
   }
-  phase: 1
-  
   reset_inline: "nn.init.ones_(module.weight.data)"
-
 }
 
 module {
@@ -28,37 +25,63 @@ module {
   resnet_param {
     layers: "34"
   }
-    
+
 }
-
-
-module {
-  name: "resnet"
-  type: "ResNet"
-  bottom: "conv1"
-  bottom: "resnet1"
-  top: "resnet2"
-  resnet_param {
-    layers: "34"
-  }
-}
-
 
 module {
   name: "relu1"
   type: "ReLU"
-  bottom: "resnet2"
+  bottom: "resnet1"
   top: "relu1"
 }
 
 module {
   name: "custom1"
   type: "Custom"
-  bottom: "resnet2"
+  bottom: "resnet1"
   top: "custom1"
-  
+
   custom_param {
       module_inline: "custom1 = torch.nn.Sigmoid()"
   }
-  
 }
+
+module {
+  name: "Yolov3Target_train"
+  type: "Yolov3Target"
+  bottom: "custom1"
+  bottom: "label"
+  top: "target"
+  yolov3_target_param {
+      strides: [8, 16, 32]
+  }
+  phase: TRAIN
+}
+
+module {
+  name: "Yolov3Target_evak"
+  type: "Yolov3Target"
+  bottom: "custom1"
+  top: "target"
+  yolov3_target_param {
+      strides: [8, 16, 32]
+  }
+  phase: EVAL
+}
+
+
+module {
+  name: "Yolov3Loss1"
+  type: "Yolov3Loss"
+  bottom: "custom1"
+  bottom: "target"
+  top: "loss"
+  yolov3_loss_param {
+      strides: [8, 16, 32]
+  }
+  phase: TRAIN
+}
+
+input_names: ["data", "label"]
+output_names: ["target", "loss"]
+

@@ -34,6 +34,13 @@ message ModelParameter {
     optional string reset_model = 200;
 }
 
+// reader
+message ReaderParameter {
+    optional string name = 1;
+    repeated ModuleParameter dataset = 2;
+    repeated DataLoaderParameter dataloader = 3;
+}
+
 
 // solver 
 message SolverParameter {
@@ -44,15 +51,16 @@ message SolverParameter {
     //    optional ModelParameter model = 2;  // inline
     //    optional string model_file = 3; // file
     //}
+    optional string model_file = 2; // file
+    optional ModelParameter model = 3;  // inline
     
-    optional ModelParameter model = 2;  // inline
-    optional string model_file = 3; // file
-    
-    optional OptimizerParameter optimizer = 20;
-    optional LRSchedulerParameter lr_scheduler = 21;
+    optional string optimizer_file = 20;
+    optional OptimizerParameter optimizer = 21;
+    optional LRSchedulerParameter lr_scheduler = 22;
 
-    repeated ModuleParameter dataset = 30;
-    repeated DataLoaderParameter dataloader = 31;
+    optional string reader_file = 30;
+    repeated ModuleParameter dataset = 31;
+    repeated DataLoaderParameter dataloader = 32;
     
     optional string device = 40 [default = "cpu"];
     optional DistributedParameter distributed = 41;

@@ -1,15 +1,10 @@
-model_file: "./pp_model.prototxt"
-
-reader_file: "./pp_reader.prototxt"
-
-# optimizer_file: "./pp_optimizer.prototxt"
 
 
 optimizer {
     name: "optimizer"
     
     type: "SGD"
-    lr: 0.1
+    lr: 0.001
     momentum: 0.3
     
     params_group {
@@ -29,26 +24,7 @@ optimizer {
 lr_scheduler {
     name: "lr_scheduler_1"
     type: "MultiStepLR"
-    gamma: 0.1
+    gamma: 1.
     milestones: [10, 20]    
     # module_inline: "lr_scheduler_1 = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[1, 2], gamma=0.1)"
 }
-
-
-device: "cuda:0"
-use_amp: True
-
-distributed {
-    enabled: True
-    backend: "nccl"
-    init_method: "env://"
-}
-
-epoches: 2
-
-snapshot: 10
-log_dir: "./logs"
-prefix: "pp_model"
-
-resume: "1.pt"
-

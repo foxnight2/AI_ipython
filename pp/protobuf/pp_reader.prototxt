@@ -1,0 +1,40 @@
+
+dataset {
+    name: "test_dataset"
+    type: "DummyDataset"
+    top: "data"
+    dummy_dataset_param {
+        n: 20
+    }
+}
+
+dataloader {
+    name: "test_dataloader"
+    batch_size: 5
+    num_workers: 1
+    shuffle: false
+    dataset: "test_dataset"
+    phase: EVAL
+}
+
+
+dataset {
+    name: "train_dataset"
+    type: "DummyDataset"
+    top: "data"
+    top: "label"
+    dummy_dataset_param {
+        n: 10
+    }
+    
+}
+
+dataloader {
+    name: "train_dataloader"
+    batch_size: 8
+    num_workers: 2
+    shuffle: true
+    dataset: "train_dataset"
+    phase: TRAIN
+
+}

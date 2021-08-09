@@ -99,31 +99,36 @@ class Model(nn.Module):
 class Solver(object):
     def __init__(self, solver_file='./pp_solver.prototxt'):
         
-        solver_param = pp.SolverParameter() 
-        text_format.Merge(open(solver_file, 'rb').read(), solver_param)        
+        solver = pp.SolverParameter() 
+        text_format.Merge(open(solver_file, 'rb').read(), solver)        
         
-        model = Model(solver_param.model, solver_param.model_file)
-            
-        if solver_param.optimizer.ByteSize():
-            optimizer = utils.build_optimizer(solver_param.optimizer, model)
-            
-        if solver_param.lr_scheduler.ByteSize():
-            lr_scheduler = utils.build_lr_scheduler(solver_param.lr_scheduler, optimizer)
+        model = Model(solver.model, solver.model_file)
+                
+        reader = pp.SolverParameter() 
+        text_format.Merge(open(solver.reader_file, 'rb').read(), solver)
+        
+        solver_str = text_format.MessageToString(solver, indent=2)
+        reader_str = text_format.MessageToString(reader, indent=2)
 
-        if len(solver_param.dataset):
-            dataset = {_m.name: utils.build_module(_m, MODULES) for _m in solver_param.dataset}
-            dataset_tops = {_m.name: _m.top for _m in solver_param.dataset}
+        
+        if solver.optimizer.ByteSize():
+            optimizer = utils.build_optimizer(solver.optimizer, model)
             
-        if len(solver_param.dataloader):
-            dataloader = {_m.phase: utils.build_dataloader(_m, dataset[_m.dataset]) for _m in solver_param.dataloader}
+        if solver.lr_scheduler.ByteSize():
+            lr_scheduler = utils.build_lr_scheduler(solver.lr_scheduler, optimizer)
 
-        if solver_param.distributed.ByteSize() and solver_param.distributed.enabled: 
-            device, model, dataloader = utils.setup_distributed(solver_param.distributed, 
+        if len(solver.dataset):
+            dataset = {_m.name: utils.build_module(_m, MODULES) for _m in solver.dataset}
+            
+        if len(solver.dataloader):
+            dataloader = {_m.phase: utils.build_dataloader(_m, dataset[_m.dataset]) for _m in solver.dataloader}
+
+        if solver.distributed.ByteSize() and solver.distributed.enabled: 
+            device, model, dataloader = utils.setup_distributed(solver.distributed, 
                                                                 model, 
                                                                 (dataloader if dataloader else None))
-            
         else:
-            device = torch.device(solver_param.device)
+            device = torch.device(solver.device)
             model = model.to(device)
             
         [setattr(self, k, m) for k, m in locals().items() if k in ['model', 'device', 'dataloader', 'optimizer', 'lr_scheduler']]
@@ -135,19 +140,21 @@ class Solver(object):
         # self.dataloader = dataloader
         
         self.last_epoch = 0
-        self.epoches = solver_param.epoches
+        self.epoches = solver.epoches
         
-        self.use_amp = solver_param.use_amp
-        print(solver_param)
+        self.use_amp = solver.use_amp
         
         # https://pytorch.org/tutorials/recipes/recipes/amp_recipe.html?highlight=scaler
         self.scaler = torch.cuda.amp.GradScaler(enabled=self.use_amp)
         self.clip_grad_norm = 1
         
-        if solver_param.resume:
-            self.restore(solver_param.resume)
+        if solver.resume:
+            self.restore(solver.resume)
             
+        print(reader_str)
+        print(solver_str)
 
+        
     def train(self, ):
         self.model.train()
         dataloader = self.dataloader[1] # phase 1 - train
