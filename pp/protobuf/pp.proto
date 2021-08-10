@@ -137,7 +137,6 @@ message LRSchedulerParameter {
     
     optional string module_file = 100;
     optional string module_inline = 101;
-
 }
 
 

@@ -10,8 +10,6 @@ from collections import OrderedDict
 from google.protobuf import pyext
 
 
-
-
 def _build_module(clss, params):
     '''_build_module
     '''
@@ -277,6 +275,23 @@ class Timer(object):
 
 
         
+        
+# from google.protobuf import json_format
+# import json
+
+# def pb_to_json(pb_str):
+#     '''
+#     '''
+#     json_str = json_format.MessageToJson(pb_str)
+#     return json_str
+
+# def json_to_pb(json_str):
+#     '''
+#     '''
+#     pb_str = json_format.Parse(json.dumps(json_str), data_pb)
+#     return pb_str
+
+
 if __name__ == '__main__':
     
     

@@ -18,19 +18,16 @@ class _Dataset(data.Dataset):
         pass
 
 
-class _Segmentation(_Dataset):
-    pass
-
 
 class _Detection(_Dataset):
     pass
 
 
-class _InstanceSeg(_Detection):
+class _InstanceSeg(_Dataset):
     pass
 
 
-class _MonoDet3d(_Detection):
+class _MonoDet3d(_Dataset):
     pass
 
 
@@ -41,6 +38,7 @@ class _MonoDepth(_Dataset):
 
 class COCO():
     pass
+
 
 class KITII():
     pass

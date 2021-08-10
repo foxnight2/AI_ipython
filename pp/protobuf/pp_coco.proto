@@ -1,0 +1,19 @@
+// protoc --python_out=. pp.proto
+
+syntax = "proto3";
+
+
+message Info {
+    string description = 1;
+    string url = 2;
+    string version = 3;
+    uint32 year = 4;
+    string contributor = 5;
+    string date_created = 6;
+}
+
+
+message coco {
+    Info info = 1;
+    
+}
