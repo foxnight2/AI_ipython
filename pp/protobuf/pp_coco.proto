@@ -12,8 +12,55 @@ message Info {
     string date_created = 6;
 }
 
+message Licence {
+    string url = 1;
+    uint32 id = 2;
+    string name = 3;
+}
+
+
+message Category {
+    string supercategory = 1;
+    uint32 id = 2;
+    string name = 3;
+}
+
+message Image {
+    string license = 1;
+    string file_name = 2;
+    string coco_url = 3;
+    uint32 height = 4;
+    uint32 width = 5;
+    string date_captured = 6;
+    string flickr_url = 7;
+    uint32 id = 8;
+}
+
+
+
+message Bbox {
+    repeated float value = 1;
+}
+
+message Segmentation {
+    repeated float value = 1;
+}
+
+
+message Annotation {
+    float area = 1;
+    bool iscrowd = 2;
+    uint32 image_id = 3;
+    uint32 category_id = 4;
+    uint32 id = 5;
+    Bbox Bbox = 6;
+    Segmentation segmentation = 7;
+}
 
 message coco {
     Info info = 1;
-    
+    repeated Licence licences = 2;
+    repeated Category categories = 3;
+    repeated Image images = 4;
+    repeated Annotation annotations = 5;
 }
