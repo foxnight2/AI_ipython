@@ -102,11 +102,11 @@ class Solver(object):
         
         model = Model(solver.model, solver.model_file)
                 
-        reader = pp.SolverParameter() 
-        text_format.Merge(open(solver.reader_file, 'rb').read(), reader)
+        # reader = pp.SolverParameter() 
+        # text_format.Merge(open(solver.reader_file, 'rb').read(), reader)
         
-        solver_str = text_format.MessageToString(solver, indent=2)
-        reader_str = text_format.MessageToString(reader, indent=2)
+        # solver_str = text_format.MessageToString(solver, indent=2)
+        # reader_str = text_format.MessageToString(reader, indent=2)
 
         
         if solver.optimizer.ByteSize():
@@ -151,9 +151,9 @@ class Solver(object):
             
         # print(reader_str)
         # print(solver_str)
-        print('xxxxxxxxxxxx')
-        print(reader.dataset)
-        print(solver.dataset)
+        # print('xxxxxxxxxxxx')
+        # print(reader.dataset)
+        # print(solver.dataset)
         
         
     def train(self, ):
@@ -170,9 +170,7 @@ class Solver(object):
                 dataloader.sampler.set_epoch(e)
                 
             for _, blob in enumerate(dataloader):
-                                    
-                print(type(blob), len(blob))
-                
+                                
                 if not isinstance(blob, dict):
                     blob = blob if isinstance(blob, Sequence) else (blob, )
                     blob = {n: d for n, d in zip(dataloader.dataset.top, blob)}
@@ -185,13 +183,16 @@ class Solver(object):
                     print([(k, v.dtype) for k, v in outputs.items()])
                     
                     loss = outputs['loss'].mean()
+                    print('loss', loss.item())
                     
                     scaler.scale(loss).backward()
                     
-                    if enabled_clip:
-                        scaler.unscale_(self.optimizer)
-                        torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=self.clip_grad_norm)
-
+                    scaler.unscale_(self.optimizer)
+                    torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=5.)
+                    
+                    # scaler.step() first unscales the gradients of the optimizer's assigned params.
+                    # If these gradients do not contain infs or NaNs, optimizer.step() is then called,
+                    # otherwise, optimizer.step() is skipped.
                     scaler.step(self.optimizer)
                     scaler.update()
 
@@ -263,55 +264,59 @@ class Solver(object):
         
 if __name__ == '__main__':
     
-    # python -m torch.distributed.launch --nproc_per_node=2 pptest.py
-
+    # python -m torch.distributed.launch --nproc_per_node=2 pptest.py -c pp_cls.prototxt
+    
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--local_rank', type=int, ) # torch.distributed.launch
     parser.add_argument('--world_size', default=1, type=int, help='number of distributed processes')
+    parser.add_argument('-c', '--config', )
+
     args = parser.parse_args()
 
-    solver = Solver()
+    solver = Solver(args.config)
     solver.train()
     solver.test()
     
     
-    # -------
+    # ------- onnx
     
-    model = solver.model
-    model.eval()
-    
-    data = torch.randn(10, 3, 224, 224)
-    outputs = model(data)
-    
-    
-    input_names = ['data']
-    output_names = [n for n in outputs]
+#     if utils.get_rank() == 0:
+        
+#         model = solver.model
+#         model.eval()
 
-    print([(k, v.dtype, v.device) for k, v in outputs.items()])
-    print([v.cpu().data.numpy().sum() for _, v in outputs.items()])
-    
-    torch.onnx.export(model, 
-                      data, 
-                      'test.onnx', 
-                      verbose=True, 
-                      export_params=True,
-                      input_names=input_names, 
-                      output_names=output_names, 
-                      opset_version=10, 
-                      dynamic_axes={'data': {0: 'batch_size'}, }, )
-    
-    import onnx
-    import onnxruntime
+#         data = torch.randn(10, 3, 224, 224).cuda()
+#         outputs = model(data)
 
-    onnx_model = onnx.load('test.onnx')
-    onnx.checker.check_model(onnx_model)
 
-    ort_session = onnxruntime.InferenceSession("test.onnx")
-    print([d.name for d in ort_session.get_inputs()])
-    
-    # data = torch.randn(4, 3, 224, 224, device='cuda')
+#         input_names = ['data']
+#         output_names = [n for n in outputs]
 
-    ort_outs = ort_session.run(None, {'data': data.cpu().numpy()})
-    print([out.sum() for out in ort_outs])
-    print([out.shape for out in ort_outs])
+#         print([(k, v.dtype, v.device) for k, v in outputs.items()])
+#         print([v.cpu().data.numpy().sum() for _, v in outputs.items()])
+
+#         torch.onnx.export(model, 
+#                           data, 
+#                           'test.onnx', 
+#                           verbose=False, 
+#                           export_params=True,
+#                           input_names=input_names, 
+#                           output_names=output_names, 
+#                           opset_version=10, 
+#                           dynamic_axes={'data': {0: 'batch_size'}, }, )
+
+#         import onnx
+#         import onnxruntime
+
+#         onnx_model = onnx.load('test.onnx')
+#         onnx.checker.check_model(onnx_model)
+
+#         ort_session = onnxruntime.InferenceSession("test.onnx")
+#         print([d.name for d in ort_session.get_inputs()])
+
+#         # data = torch.randn(4, 3, 224, 224, device='cuda')
+
+#         ort_outs = ort_session.run(None, {'data': data.cpu().numpy()})
+#         print([out.sum() for out in ort_outs])
+#         print([out.shape for out in ort_outs])

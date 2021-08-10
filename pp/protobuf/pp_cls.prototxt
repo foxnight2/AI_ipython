@@ -1,8 +1,26 @@
-model_file: "./pp_model.prototxt"
 
-reader_file: "./pp_reader.prototxt"
-
-# optimizer_file: "./pp_optimizer.prototxt"
+model {
+    module {
+        type: "Resnet18"
+        resnet18_param {
+            pretrained: True
+        }
+        bottom: "data"
+        top: "pred"
+    }
+    
+    module {
+        type: "CrossEntropyLoss"
+        bottom: "pred"
+        bottom: "label"
+        top: "loss"
+        
+        phase: TRAIN
+    }
+    
+    input_names: ["data", "label"]
+    output_names: ["pred", "loss"]
+}
 
 
 dataset {
@@ -10,7 +28,7 @@ dataset {
     type: "DummyDataset"
     top: "data"
     dummy_dataset_param {
-        shape: [[10, 3, ]]
+        n: 30
     }
 }
 
@@ -24,16 +42,28 @@ dataloader {
 }
 
 
+# dataset {
+#     name: "train_dataset"
+#     type: "CIFAR10"
+#     top: "data"
+#     top: "label"
+#     cifar10_param {
+#         root: "./"
+#         train: true
+#         download: false
+#     }
+# }
+
 dataset {
     name: "train_dataset"
     type: "DummyDataset"
     top: "data"
     top: "label"
     dummy_dataset_param {
-        n: 10
+        n: 30
     }
-    
 }
+
 
 dataloader {
     name: "train_dataloader"
@@ -42,7 +72,6 @@ dataloader {
     shuffle: true
     dataset: "train_dataset"
     phase: TRAIN
-
 }
 
 
@@ -77,7 +106,7 @@ lr_scheduler {
 
 
 device: "cuda:0"
-use_amp: True
+use_amp: False
 
 distributed {
     enabled: True
@@ -90,6 +119,4 @@ epoches: 2
 snapshot: 10
 log_dir: "./logs"
 prefix: "pp_model"
-
-resume: "1.pt"
 

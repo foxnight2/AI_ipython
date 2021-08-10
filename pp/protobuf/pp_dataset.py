@@ -12,11 +12,10 @@ class _Dataset(data.Dataset):
         pass
     
     def format_output(self, ):
-        pass
+        raise NotImplementedError('')
     
     def evaluator(self, ):
-        pass
-
+        raise NotImplementedError('')
 
 
 class _Detection(_Dataset):
@@ -36,9 +35,17 @@ class _MonoDepth(_Dataset):
 
 
 
-class COCO():
-    pass
-
+class COCO(_Dataset):
+    def __init__(self, ):
+        pass
+    
+    
+    def evaluator(self, ):
+        from pycocotools.coco import COCO
+        from pycocotools.cocoeval import COCOeval
+        pass
+    
+    
 
 class KITII():
     pass

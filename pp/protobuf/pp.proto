@@ -186,7 +186,9 @@ message ModuleParameter {
     
     optional Yolov3TargetParameter yolov3_target_param = 300;
     optional Yolov3LossParameter yolov3_loss_param = 301;
-
+    
+    optional Resnet18Parameter resnet18_param = 302;
+    optional CIFAR10Parameter cifar10_param = 303;
 }
 
 
@@ -218,6 +220,9 @@ message Yolov3LossParameter {
     repeated uint32 strides = 1;
 }
 
+message Resnet18Parameter {
+    required bool pretrained = 1;
+}
 
 message CustomParameter {
     optional string module_file = 1;
@@ -229,3 +234,8 @@ message DummyDatasetParameter {
     optional uint32 n = 1; 
 }
 
+message CIFAR10Parameter {
+    required string root = 1;
+    optional bool train = 2 [default = true];
+    optional bool download = 3 [default = true];
+}

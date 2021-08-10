@@ -11,3 +11,6 @@
 *.pth
 *.onnx
 *.pt
+
+*cifar-10*
+*.tar.gz
