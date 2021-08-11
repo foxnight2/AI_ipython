@@ -216,6 +216,10 @@ class Solver(object):
         self.model.eval()
         dataloader = self.dataloader[2] # phase 2 - eval
 
+        
+        N = 0
+        M = 0
+        
         for _, blob in enumerate(dataloader):
 
             if not isinstance(blob, dict):
@@ -230,19 +234,25 @@ class Solver(object):
                 print(k, (v.shape if v is not None else None))
             
             
+            N += output['pred'].shape[0] * utils.get_world_size()
+
             npos = (output['pred'].argmax(dim=-1) == blob['label']).sum().item()
             print('reduce_before: ', npos)
             npos = torch.tensor(npos, dtype=torch.float32, device='cuda')
 
+            
             if utils.is_dist_available_and_initialized():
                 torch.distributed.barrier()
                 torch.distributed.all_reduce(npos)
+                print('reduce_after', npos)
 
+            M += npos.item()
+            
             # npos = torch.tensor(npos, dtype=torch.float32, device='cuda')
             # torch.distributed.barrier()
             # torch.distributed.all_reduce(npos)
-            print('reduce_after', npos)
             
+        print(N, M, M * 1.0 / N)
         print('--------')
     
     

@@ -248,6 +248,12 @@ def get_rank():
     return dist.get_rank()
 
 
+def get_world_size():
+    if not is_dist_available_and_initialized():
+        return 1
+    return dist.get_world_size()
+
+    
 def is_main_process():
     return get_rank() == 0
 
