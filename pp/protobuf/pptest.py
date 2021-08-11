@@ -228,7 +228,21 @@ class Solver(object):
             
             for k, v in output.items():
                 print(k, (v.shape if v is not None else None))
+            
+            
+            npos = (output['pred'].argmax(dim=-1) == blob['label']).sum().item()
+            print('reduce_before: ', npos)
+            npos = torch.tensor(npos, dtype=torch.float32, device='cuda')
 
+            if utils.is_dist_available_and_initialized():
+                torch.distributed.barrier()
+                torch.distributed.all_reduce(npos)
+
+            # npos = torch.tensor(npos, dtype=torch.float32, device='cuda')
+            # torch.distributed.barrier()
+            # torch.distributed.all_reduce(npos)
+            print('reduce_after', npos)
+            
         print('--------')
     
     
