@@ -63,6 +63,9 @@ message SolverParameter {
     repeated DataLoaderParameter dataloader = 32;
     repeated Transforms transforms = 33;
     
+    repeated Evaluator evaluator = 34;
+    
+    
     optional string device = 40 [default = "cpu"];
     optional DistributedParameter distributed = 41;
 
@@ -250,3 +253,8 @@ message Transforms {
     repeated OP op = 2;
 }
 
+
+message Evaluator {
+    optional string name = 1;
+    required string type = 2;
+}

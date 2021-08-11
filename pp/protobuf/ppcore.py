@@ -78,8 +78,8 @@ class Resnet18(nn.Module):
 
 # class CIFAR10(datasets.CIFAR10):
 #     pass
-    
-    
+
+
 modules = {
     'Conv2d': nn.Conv2d,
     'ReLU': nn.ReLU,

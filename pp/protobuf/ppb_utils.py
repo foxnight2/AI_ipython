@@ -21,7 +21,7 @@ def _build_module(clss, params):
     kwargs = {}
     if argspec.defaults is not None:
         kwargs.update( dict(zip(argsname[::-1], argspec.defaults[::-1])) )
-        
+
     kwargs.update({k: params[k] for k in argsname if k in params})
     
     kwargs = OrderedDict([(k, kwargs[k]) for k in argsname])
@@ -144,7 +144,7 @@ def build_dataloader(config, dataset, modules={'DataLoader': torch.utils.data.Da
 
     dataloader = _build_module(modules[config.type], _param)
 
-    dataloader.shuffle = _param['shuffle'] if 'shuffle' in _param else False
+    dataloader.shuffle = _param['shuffle'] # if 'shuffle' in _param else False
     
     return dataloader
     

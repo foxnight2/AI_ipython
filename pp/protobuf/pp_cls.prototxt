@@ -23,6 +23,8 @@ model {
 }
 
 
+
+
 dataset {
     name: "test_dataset"
     type: "DummyDataset"
@@ -72,8 +74,6 @@ dataset {
 #     }
 # }
 
-
-
 dataloader {
     name: "train_dataloader"
     batch_size: 128
@@ -81,6 +81,12 @@ dataloader {
     shuffle: true
     dataset: "train_dataset"
     phase: TRAIN
+}
+
+
+evaluator {
+    name: "acc"
+    type: "Accuracy"
 }
 
 
@@ -110,6 +116,8 @@ lr_scheduler {
     milestones: [10, 20]    
     # module_inline: "lr_scheduler_1 = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[1, 2], gamma=0.1)"
 }
+
+
 
 
 device: "cuda:0"
