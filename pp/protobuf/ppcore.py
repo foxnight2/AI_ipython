@@ -3,6 +3,7 @@ import torch.nn as nn
 
 import torchvision.models as models
 import torchvision.datasets as datasets
+import torchvision.transforms as transforms
 
 from torch.utils.data import Dataset
 
@@ -92,5 +93,7 @@ modules = {
     
     'DummyDataset': DummyDataset,
     'CIFAR10': datasets.CIFAR10,
+    
+    'ToTensor': transforms.ToTensor,
 }
 

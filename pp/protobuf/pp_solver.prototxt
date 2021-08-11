@@ -85,7 +85,7 @@ distributed {
     init_method: "env://"
 }
 
-epoches: 2
+epoches: 1
 
 snapshot: 10
 log_dir: "./logs"

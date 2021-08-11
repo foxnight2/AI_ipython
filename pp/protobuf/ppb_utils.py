@@ -4,6 +4,8 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader
 from torch.utils.data import DistributedSampler, SequentialSampler
 
+import torchvision
+
 import inspect
 
 from collections import OrderedDict
@@ -146,7 +148,35 @@ def build_dataloader(config, dataset, modules={'DataLoader': torch.utils.data.Da
     
     return dataloader
     
+
+def build_dataset(config, transforms, modules):
+    '''build_dataset
+    '''
+    _param = _module_param(config)
+    if 'transform' in _param and _param['transform'] in transforms:
+        _transform = {'transform': transforms[_param['transform']]}
+        _param.update(_transform)     
     
+    module = _build_module(modules[config.type], _param)
+    
+    assert 'top' not in dir(module), ''
+    assert 'phase' not in dir(module), ''
+    
+    module.top = list(config.top) if config.top else []
+    module.phase = config.phase
+
+    return module
+    
+
+def build_transforms(config, modules):
+    '''build_transforms
+    '''
+    transforms = []
+    for op in config.op:
+        _param = {k.name: v for k, v in op.ListFields()}
+        transforms.append( _build_module(modules[op.type], _param) )
+    
+    return torchvision.transforms.Compose(transforms)
 
     
 # distributed

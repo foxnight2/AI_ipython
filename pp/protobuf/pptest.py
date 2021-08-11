@@ -115,8 +115,12 @@ class Solver(object):
         if solver.lr_scheduler.ByteSize():
             lr_scheduler = utils.build_lr_scheduler(solver.lr_scheduler, optimizer)
 
+        # TODO merge in one
+        if len(solver.transforms):
+            transforms = {_m.name: utils.build_transforms(_m, MODULES) for _m in solver.transforms}
+            
         if len(solver.dataset):
-            dataset = {_m.name: utils.build_module(_m, MODULES) for _m in solver.dataset}
+            dataset = {_m.name: utils.build_dataset(_m, transforms, MODULES) for _m in solver.dataset}
             
         if len(solver.dataloader):
             dataloader = {_m.phase: utils.build_dataloader(_m, dataset[_m.dataset]) for _m in solver.dataloader}

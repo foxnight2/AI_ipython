@@ -42,32 +42,41 @@ dataloader {
 }
 
 
-# dataset {
-#     name: "train_dataset"
-#     type: "CIFAR10"
-#     top: "data"
-#     top: "label"
-#     cifar10_param {
-#         root: "./"
-#         train: true
-#         download: false
-#     }
-# }
+transforms {
+    name: "train_transforms"
+    op {
+        type: "ToTensor"
+    }
+}
 
 dataset {
     name: "train_dataset"
-    type: "DummyDataset"
+    type: "CIFAR10"
     top: "data"
     top: "label"
-    dummy_dataset_param {
-        n: 30
+    cifar10_param {
+        root: "./"
+        train: true
+        download: true  
+        transform: "train_transforms"
     }
 }
+
+# dataset {
+#     name: "train_dataset"
+#     type: "DummyDataset"
+#     top: "data"
+#     top: "label"
+#     dummy_dataset_param {
+#         n: 30
+#     }
+# }
+
 
 
 dataloader {
     name: "train_dataloader"
-    batch_size: 8
+    batch_size: 128
     num_workers: 2
     shuffle: true
     dataset: "train_dataset"
@@ -91,9 +100,7 @@ optimizer {
         lr: 0.1
         params_inline: "params_2 = [p for n, p in model.named_parameters() if not 'weight' in n]"
     }
-    
-    # module_file: "./pp_optimizer.py.txt"
-    
+        
 }
 
 lr_scheduler {

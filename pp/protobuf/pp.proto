@@ -61,6 +61,7 @@ message SolverParameter {
     optional string reader_file = 30;
     repeated ModuleParameter dataset = 31;
     repeated DataLoaderParameter dataloader = 32;
+    repeated Transforms transforms = 33;
     
     optional string device = 40 [default = "cpu"];
     optional DistributedParameter distributed = 41;
@@ -202,7 +203,6 @@ message Conv2dParameter {
     repeated uint32 groups = 7;
     optional bool bias = 8;
     optional string padding_mode = 9;
-    
 }
 
 
@@ -210,7 +210,6 @@ message ResNetParameter {
     optional string layers = 1;
     optional int32 freeze_at = 2;
 }
-
 
 message Yolov3TargetParameter {
     repeated uint32 strides = 1;
@@ -238,4 +237,16 @@ message CIFAR10Parameter {
     required string root = 1;
     optional bool train = 2 [default = true];
     optional bool download = 3 [default = true];
+    optional string transform = 4;
 }
+
+
+message Transforms {
+    message OP {
+        optional string name = 1;
+        optional string type = 2;
+    }
+    optional string name = 1;
+    repeated OP op = 2;
+}
+
