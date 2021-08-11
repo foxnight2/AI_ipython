@@ -4,6 +4,7 @@ model {
         type: "Resnet18"
         resnet18_param {
             pretrained: True
+            num_classes: 10
         }
         bottom: "data"
         top: "pred"
@@ -27,21 +28,26 @@ model {
 
 dataset {
     name: "test_dataset"
-    type: "DummyDataset"
+    type: "CIFAR10"
     top: "data"
-    dummy_dataset_param {
-        n: 30
+    top: "label"
+    cifar10_param {
+        root: "./"
+        train: false
+        download: true  
+        transform: "train_transforms"
     }
 }
 
 dataloader {
     name: "test_dataloader"
-    batch_size: 5
+    batch_size: 128
     num_workers: 1
     shuffle: false
     dataset: "test_dataset"
     phase: EVAL
 }
+
 
 
 transforms {
@@ -64,15 +70,7 @@ dataset {
     }
 }
 
-# dataset {
-#     name: "train_dataset"
-#     type: "DummyDataset"
-#     top: "data"
-#     top: "label"
-#     dummy_dataset_param {
-#         n: 30
-#     }
-# }
+
 
 dataloader {
     name: "train_dataloader"
@@ -84,12 +82,6 @@ dataloader {
 }
 
 
-evaluator {
-    name: "acc"
-    type: "Accuracy"
-}
-
-
 optimizer {
     name: "optimizer"
     
@@ -98,7 +90,7 @@ optimizer {
     momentum: 0.3
     
     params_group {
-        lr: 0.01
+        lr: 0.1
         momentum: 0.2
         params_inline: "params_1 = [p for n, p in model.named_parameters() if 'weight' in n]"
     }
@@ -118,10 +110,8 @@ lr_scheduler {
 }
 
 
-
-
 device: "cuda:0"
-use_amp: False
+use_amp: True
 
 distributed {
     enabled: True

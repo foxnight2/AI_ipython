@@ -179,8 +179,8 @@ class Solver(object):
                     blob = blob if isinstance(blob, Sequence) else (blob, )
                     blob = {n: d for n, d in zip(dataloader.dataset.top, blob)}
 
-                blob.update({k: t.to(self.device) for k, t in blob.items() if isinstance(t, torch.Tensor)})
-
+                blob.update({k: t.to(self.device) for k, t in blob.items() if isinstance(t, torch.Tensor)})                
+                
                 with torch.cuda.amp.autocast(enabled=self.use_amp):
                 
                     outputs = self.model(blob)
@@ -211,13 +211,12 @@ class Solver(object):
         self.save(str(e))
                 
     
+    
     def test(self, ):
         self.model.eval()
-        dataloader = self.dataloader[2] # phase 1 - eval
+        dataloader = self.dataloader[2] # phase 2 - eval
 
         for _, blob in enumerate(dataloader):
-
-            print(type(blob), len(blob))
 
             if not isinstance(blob, dict):
                 blob = blob if isinstance(blob, Sequence) else (blob, )
@@ -226,7 +225,7 @@ class Solver(object):
             blob.update({k: t.to(self.device) for k, t in blob.items() if isinstance(t, torch.Tensor)})
 
             output = self.model(blob)
-
+            
             for k, v in output.items():
                 print(k, (v.shape if v is not None else None))
 
@@ -280,6 +279,7 @@ if __name__ == '__main__':
 
     solver = Solver(args.config)
     solver.train()
+    print('--------------------------')
     solver.test()
     
     
@@ -324,3 +324,21 @@ if __name__ == '__main__':
 #         ort_outs = ort_session.run(None, {'data': data.cpu().numpy()})
 #         print([out.sum() for out in ort_outs])
 #         print([out.shape for out in ort_outs])
+
+
+
+
+
+
+
+#   File "pptest.py", line 129, in __init__
+#     device, model, dataloader = utils.setup_distributed(solver.distributed, 
+#   File "/paddle/workspace/AI/pp/protobuf/ppb_utils.py", line 187, in setup_distributed
+#     dist.init_process_group(backend = (config.backend if config.backend else 'nccl'),
+#   File "/paddle/anaconda3/lib/python3.8/site-packages/torch/distributed/distributed_c10d.py", line 500, in init_process_group
+#     store, rank, world_size = next(rendezvous_iterator)
+#   File "/paddle/anaconda3/lib/python3.8/site-packages/torch/distributed/rendezvous.py", line 190, in _env_rendezvous_handler
+#     store = TCPStore(master_addr, master_port, world_size, start_daemon, timeout)
+# RuntimeError: Address already in use
+
+# --master_port=xxx

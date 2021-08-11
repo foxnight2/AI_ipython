@@ -223,7 +223,8 @@ message Yolov3LossParameter {
 }
 
 message Resnet18Parameter {
-    required bool pretrained = 1;
+    required uint32 num_classes = 1;
+    optional bool pretrained = 2;
 }
 
 message CustomParameter {

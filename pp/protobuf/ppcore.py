@@ -67,10 +67,11 @@ class DummyDataset(Dataset):
     
 
 class Resnet18(nn.Module):
-    def __init__(self, pretrained, ):
+    def __init__(self, num_classes, pretrained, ):
         super().__init__()
         
         self.resnet18 = models.resnet18(pretrained)
+        self.resnet18.fc = nn.Linear(in_features=512, out_features=num_classes, bias=True)
     
     def forward(self, data):
         return self.resnet18(data)
@@ -78,6 +79,17 @@ class Resnet18(nn.Module):
 
 # class CIFAR10(datasets.CIFAR10):
 #     pass
+
+class Accuracy(object):
+    def __init__(self, ):
+        pass
+    
+    def __call__(pred, gt):
+        assert len(pred) == len(gt), ''
+        
+        return (pred == gt).sum().item() / len(pred)
+        
+
 
 
 modules = {
