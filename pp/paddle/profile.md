@@ -6,7 +6,8 @@
   - which nsys
   - CUDA_VISIBLE_DEVICES=0  nsys profile -w true -t cuda,nvtx,osrt,cudnn,cublas -s cpu -o name_timeline --capture-range=cudaProfilerApi --stop-on-range-end=true --cudabacktrace=true --cudabacktrace-threshold=10000 --osrt-threshold=10000 -x true python -u tools/train.py -c configs/xxx.yml
 
-  - nvidia nsight systems
+  - [nvidia nsight systems](https://developer.nvidia.com/nsight-systems)
+  
   
 
 ```

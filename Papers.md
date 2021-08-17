@@ -29,6 +29,7 @@
 - [SOLQ: Segmenting Objects by Learning Queries](https://arxiv.org/pdf/2106.02351.pdf)
 - [PVTv2: Improved Baselines with Pyramid Vision Transformer](https://arxiv.org/pdf/2106.13797.pdf)
 - [Instances as Queries](https://arxiv.org/pdf/2105.01928v3.pdf)
+- [Towards Open World Object Detection](https://arxiv.org/pdf/2103.02603.pdf)
 
 
 ## GAN
