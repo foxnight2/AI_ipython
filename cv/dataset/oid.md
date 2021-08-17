@@ -3,10 +3,11 @@
 - 
 
 ```
-# pip install awscli
 
+# https://storage.googleapis.com/openimages/web/download.html#download_manually
 # https://github.com/cvdfoundation/open-images-dataset#download-images-with-bounding-boxes-annotations
 # 
+# pip install awscli
 # aws s3 --no-sign-request sync s3://open-images-dataset/validation ./validation
 # aws s3 --no-sign-request sync s3://open-images-dataset/test ./test
 # aws s3 --no-sign-request sync s3://open-images-dataset/train ./train
