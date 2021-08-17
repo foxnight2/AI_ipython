@@ -62,6 +62,7 @@
 - [Post-Training Quantization for Vision Transformer](https://arxiv.org/pdf/2106.14156.pdf)
 - [Efficient Self-supervised Vision Transformers for Representation Learning
 ](https://arxiv.org/pdf/2106.09785.pdf)
+- [MoCo v3 for Self-supervised ResNet and ViT](https://github.com/facebookresearch/moco-v3)
 
 
 # 3D
