@@ -101,8 +101,12 @@ class RoIPool(nn.Layer):
 
     def forward(self, input, boxes, boxes_num):
         return roi_pool(input=input, boxes=boxes, output_size=self._output_size, spatial_scale=self._spatial_scale, boxes_num=boxes_num)
+    
+    def extra_repr(self):
+        main_str = 'output_size={_output_size}, spatial_scale={_spatial_scale}'
+        return main_str.format(**self.__dict__)
         
-        
+
 class TestRoIPool(unittest.TestCase):
     def setUp(self):
         self.data = np.random.rand(1, 256, 32, 32).astype('float32')
@@ -111,36 +115,47 @@ class TestRoIPool(unittest.TestCase):
         boxes[:, 3] += boxes[:, 1] + 4
         self.boxes = boxes.astype('float32')
         self.boxes_num = np.array([3], dtype=np.int32)
-        
+
     def roi_pool_functional(self, output_size):
 
         if isinstance(output_size, int):
-            output_shape = [3, 256, output_size, output_size]
+            output_shape = (3, 256, output_size, output_size)
         else:
-            output_shape = [3, 256, output_size[0], output_size[1]]
-            
+            output_shape = (3, 256, output_size[0], output_size[1])
+
         if paddle.in_dynamic_mode():
             data = paddle.to_tensor(self.data)
             boxes = paddle.to_tensor(self.boxes)
             boxes_num = paddle.to_tensor(self.boxes_num)
 
-            pool_out = roi_pool(data, boxes, boxes_num=boxes_num, output_size=output_size)
+            pool_out = roi_pool(
+                data, boxes, boxes_num=boxes_num, output_size=output_size)
             np.testing.assert_equal(pool_out.shape, output_shape)
-            
-        else:
-            data = paddle.static.data(shape=self.data.shape, dtype=self.data.dtype, name='data')
-            boxes = paddle.static.data(shape=self.boxes.shape, dtype=self.boxes.dtype, name='boxes')
-            boxes_num = paddle.static.data(shape=self.boxes_num.shape, dtype=self.boxes_num.dtype, name='boxes_num')
-            
-            pool_out = roi_pool(data, boxes, boxes_num=boxes_num, output_size=output_size)
 
-            place = paddle.CUDAPlace(0)
+        else:
+            data = paddle.static.data(
+                shape=self.data.shape, dtype=self.data.dtype, name='data')
+            boxes = paddle.static.data(
+                shape=self.boxes.shape, dtype=self.boxes.dtype, name='boxes')
+            boxes_num = paddle.static.data(
+                shape=self.boxes_num.shape,
+                dtype=self.boxes_num.dtype,
+                name='boxes_num')
+
+            pool_out = roi_pool(
+                data, boxes, boxes_num=boxes_num, output_size=output_size)
+
+            place = paddle.CPUPlace()
             exe = paddle.static.Executor(place)
-            
-            pool_out = exe.run(paddle.static.default_main_program(), 
-                               feed={'data': self.data, 'boxes': self.boxes, 'boxes_num': self.boxes_num},
+
+            pool_out = exe.run(paddle.static.default_main_program(),
+                               feed={
+                                   'data': self.data,
+                                   'boxes': self.boxes,
+                                   'boxes_num': self.boxes_num
+                               },
                                fetch_list=[pool_out])
-        
+
             np.testing.assert_equal(pool_out[0].shape, output_shape)
 
     def test_roi_pool_functional_dynamic(self):
@@ -157,7 +172,124 @@ class TestRoIPool(unittest.TestCase):
         data = paddle.to_tensor(self.data)
         boxes = paddle.to_tensor(self.boxes)
         boxes_num = paddle.to_tensor(self.boxes_num)
-        
+
         pool_out = roi_pool_c(data, boxes, boxes_num)
         np.testing.assert_equal(pool_out.shape, (3, 256, 4, 3))
+
+
+    def test_value(self, ):
+        data = np.array([i for i in range(1,17)]).reshape(1,1,4,4).astype(np.float32)
+        boxes = np.array([[1., 1., 2., 2.], [1.5, 1.5, 3., 3.]]).astype(np.float32)
+        boxes_num = np.array([2]).astype('int32')
+        output = np.array([[[[11.]]], [[[16.]]]], dtype=np.float32)
+
+        data = paddle.to_tensor(data)
+        boxes = paddle.to_tensor(boxes)
+        boxes_num = paddle.to_tensor(boxes_num)
+
+        roi_pool_c = RoIPool(output_size=1)
+        pool_out = roi_pool_c(data, boxes, boxes_num)
+        np.testing.assert_almost_equal(pool_out.numpy(), output)
+
+
         
+        
+# class TestRoIPool_v1(unittest.TestCase):
+#     def setUp(self):
+#         self.data = np.random.rand(1, 256, 32, 32).astype('float32')
+#         boxes = np.random.rand(3, 4)
+#         boxes[:, 2] += boxes[:, 0] + 3
+#         boxes[:, 3] += boxes[:, 1] + 4
+#         self.boxes = boxes.astype('float32')
+#         self.boxes_num = np.array([3], dtype=np.int32)
+#         self.output_size = 3
+#         self.output_value = None
+
+#     @setattr
+#     def output_shape(self, ):
+#         if isinstance(self.output_size, int):
+#             output_shape = (self.boxes_num, self.data.shape[1], self.output_size, self.output_size)
+#         else:
+#             output_shape = (self.boxes_num, self.data.shape[1], self.output_size[0], self.output_size[1])
+
+#         return output_shape
+
+#     def roi_pool_functional(self, ):
+
+#         if paddle.in_dynamic_mode():
+#             data = paddle.to_tensor(self.data)
+#             boxes = paddle.to_tensor(self.boxes)
+#             boxes_num = paddle.to_tensor(self.boxes_num)
+#             output_size = self.output_size
+
+#             pool_out = roi_pool(
+#                 data, boxes, boxes_num=boxes_num, output_size=output_size)
+#             np.testing.assert_equal(pool_out.shape, self.output_shape)
+#             if self.output is not None:
+#                 np.testing.assert_almost_equal(pool_out.numpy(), self.output_value, decimal=0.5)
+
+#         else:
+#             data = paddle.static.data(
+#                 shape=self.data.shape, dtype=self.data.dtype, name='data')
+#             boxes = paddle.static.data(
+#                 shape=self.boxes.shape, dtype=self.boxes.dtype, name='boxes')
+#             boxes_num = paddle.static.data(
+#                 shape=self.boxes_num.shape,
+#                 dtype=self.boxes_num.dtype,
+#                 name='boxes_num')
+#             output_size = self.output_size
+
+#             pool_out = roi_pool(
+#                 data, boxes, boxes_num=boxes_num, output_size=output_size)
+
+#             place = paddle.CPUPlace()
+#             exe = paddle.static.Executor(place)
+
+#             pool_out = exe.run(paddle.static.default_main_program(),
+#                                feed={
+#                                    'data': self.data,
+#                                    'boxes': self.boxes,
+#                                    'boxes_num': self.boxes_num
+#                                },
+#                                fetch_list=[pool_out])
+
+#             np.testing.assert_equal(pool_out[0].shape, self.output_shape)
+#             if self.output is not None:
+#                 np.testing.assert_almost_equal(pool_out[0], self.output_value, decimal=0.5)
+
+#     def test_roi_pool_functional_dynamic(self):
+#         self.output_size = (3, 4)
+#         self.roi_pool_functional()
+#         self.output_size = 3
+#         self.roi_pool_functional()
+
+#     def test_roi_pool_functional_static(self):
+#         self.output_size = 3
+#         paddle.enable_static()
+#         self.roi_pool_functional()
+#         paddle.disable_static()
+
+#     def test_RoIPool(self, ):
+#         self.output_size = (4, 3)
+#         roi_pool_c = RoIPool(output_size=self.output_size)
+#         data = paddle.to_tensor(self.data)
+#         boxes = paddle.to_tensor(self.boxes)
+#         boxes_num = paddle.to_tensor(self.boxes_num)
+
+#         pool_out = roi_pool_c(data, boxes, boxes_num)
+#         np.testing.assert_equal(pool_out.shape, self.output_shape)
+
+
+#     def test_value(self, ):
+
+#         self.data = np.array([i for i in range(1,17)]).reshape(1,1,4,4).astype('float32')
+#         self.boxes = np.array([[1., 1., 2., 2.], [1.5, 1.5, 3., 3.]]).astype('float32')
+#         self.boxes_num = np.array([2]).astype('int32')
+#         self.output_size = 1
+#         self.output = np.array([[[[11.]]], [[[16.]]]], dtype=float32)
+
+#         self.roi_pool_functional()
+
+#         paddle.enable_static()
+#         self.roi_pool_functional()
+#         paddle.disable_static()
