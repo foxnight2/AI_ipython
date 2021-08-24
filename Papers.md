@@ -91,7 +91,7 @@
 - [Improving Monocular Depth Estimation by Leveraging Structural Awareness and Complementary Datasets](https://arxiv.org/pdf/2007.11256.pdf)
 - [3D Semantic Segmentation with Submanifold Sparse Convolutional Networks](https://arxiv.org/pdf/1711.10275.pdf)
 - [SECOND: Sparsely Embedded Convolutional Detection](https://pdfs.semanticscholar.org/5125/a16039cabc6320c908a4764f32596e018ad3.pdf)
-- [https://arxiv.org/pdf/2011.11814.pdf](https://arxiv.org/pdf/2011.11814.pdf)
+- [MonoRec: Semi-Supervised Dense Reconstruction in Dynamic Environments from a Single Moving Camera](https://arxiv.org/pdf/2011.11814.pdf)
 
 # Optimizer
 - [DECOUPLED WEIGHT DECAY REGULARIZATION, AdamW](./1711.05101.pdf)
