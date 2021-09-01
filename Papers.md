@@ -30,6 +30,8 @@
 - [PVTv2: Improved Baselines with Pyramid Vision Transformer](https://arxiv.org/pdf/2106.13797.pdf)
 - [Instances as Queries](https://arxiv.org/pdf/2105.01928v3.pdf)
 - [Towards Open World Object Detection](https://arxiv.org/pdf/2103.02603.pdf)
+- [Conditional DETR for Fast Training Convergence](https://github.com/Atten4Vis/ConditionalDETR)
+
 
 
 ## GAN
@@ -92,6 +94,8 @@
 - [3D Semantic Segmentation with Submanifold Sparse Convolutional Networks](https://arxiv.org/pdf/1711.10275.pdf)
 - [SECOND: Sparsely Embedded Convolutional Detection](https://pdfs.semanticscholar.org/5125/a16039cabc6320c908a4764f32596e018ad3.pdf)
 - [MonoRec: Semi-Supervised Dense Reconstruction in Dynamic Environments from a Single Moving Camera](https://arxiv.org/pdf/2011.11814.pdf)
+- [FaPN: Feature-aligned Pyramid Network for Dense Image Prediction](https://arxiv.org/pdf/2108.07058.pdf)
+
 
 # Optimizer
 - [DECOUPLED WEIGHT DECAY REGULARIZATION, AdamW](./1711.05101.pdf)
