@@ -1,0 +1,77 @@
+// protoc --python_out=. pp.proto
+
+// syntax = "proto3";
+
+// message Solver {
+//     Transforms transforms = 1;
+// }
+
+// message Transforms {
+//     message Op{
+//         string name = 1;
+//         string type = 2;
+
+//         bool keep_ratio = 3;
+//         repeated int32 size = 4; 
+//     }
+
+//     string name = 1;
+//     repeated Op op = 2;
+// }
+
+
+
+
+syntax = "proto2";
+
+message Solver {
+    optional string name = 1;
+
+    optional Model model = 2;
+
+    optional Transforms transforms = 3;
+}
+
+message Model {
+    optional string name = 1;
+    repeated Module module = 2;
+}
+
+
+message Module {
+    optional string name = 1;
+    optional string type = 2;
+    repeated string bottom = 3;
+    repeated string top = 4;
+
+    // conv
+    optional int32 in_channels = 100;
+    optional int32 out_channels = 101;
+    optional int32 kernel_size = 102;
+    optional int32 stride = 103;
+    optional int32 padding = 104;
+    optional int32 dilation = 105;
+
+    // 
+}
+
+
+message Transforms {
+    message Op{
+        optional string name = 1;
+        optional string type = 2;
+
+        optional bool keep_ratio = 3;
+        repeated int32 size = 4;
+    }
+
+    optional string name = 1;
+    repeated Op op = 2;
+}
+
+
+message Dataset {
+    optional string name = 1;
+    optional string type = 2;
+    optional Transforms transforms = 3;
+}

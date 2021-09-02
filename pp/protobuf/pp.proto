@@ -31,7 +31,6 @@ message ModelParameter {
     repeated string input_names = 101;
     repeated string output_names = 102;
 
-    optional string reset_model = 200;
 }
 
 // reader
@@ -59,9 +58,9 @@ message SolverParameter {
     optional LRSchedulerParameter lr_scheduler = 22;
 
     optional string reader_file = 30;
-    repeated ModuleParameter dataset = 31;
-    repeated DataLoaderParameter dataloader = 32;
-    repeated Transforms transforms = 33;
+    repeated Transforms transforms = 31;
+    repeated ModuleParameter dataset = 32;
+    repeated DataLoaderParameter dataloader = 33;
     
     repeated Evaluator evaluator = 34;
     
