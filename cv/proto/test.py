@@ -80,7 +80,7 @@ modules.update({
 
 
 solver_dict = json_format.MessageToDict(solver, preserving_proto_field_name=True, including_default_value_fields=False)
-# print(solver_dict)
+print(solver_dict)
 
 
 def hasattr_and_not_none(obj, name):
@@ -95,30 +95,30 @@ def merge():
     pass
 
 
-def build(solver, mm):
+def build(config, mm):
     '''build
     '''
-    if not isinstance(solver, (dict, list)):
+    if not isinstance(config, (dict, list)):
         return
 
-    for i, k in enumerate(solver):
-        v = solver[k] if isinstance(solver, dict) else k
+    for i, k in enumerate(config):
+        v = config[k] if isinstance(config, dict) else k
         m = build(v, mm)
 
         if m is not None:
             assert not (hasattr(m, 'top') or hasattr(m, 'bottom')), ''
             m.top = v.get('top', None)
             m.bottom = v.get('bottom', None)
-            solver[(k if isinstance(solver, dict) else i)] = m
+            config[(k if isinstance(config, dict) else i)] = m
 
             mm.update({v['name']: m} if 'name' in v else {})
 
-    if isinstance(solver, dict) and 'type' in solver:
-        k = [k for k in solver if 'param' in k]
-        v = solver[k[0]] if len(k) != 0 else {}
+    if isinstance(config, dict) and 'type' in config:
+        k = [k for k in config if 'param' in k]
+        v = config[k[0]] if len(k) != 0 else {}
         # TODO
         v.update({_k: mm[_v] for _k, _v in v.items() if isinstance(_v, str) and _v in mm})
-        m = build_module(modules[solver['type']], v)
+        m = build_module(modules[config['type']], v)
 
         return m
 
