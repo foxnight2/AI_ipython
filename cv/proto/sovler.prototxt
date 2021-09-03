@@ -11,19 +11,33 @@ model {
         bottom: "1"
         top: "2"
 
-        in_channels: 1
-        out_channels: 2
-        kernel_size: 3
-        stride: 2
+        conv2d_param{
+            in_channels: 1
+            out_channels: 2
+            kernel_size: 3
+            stride: 2
+        }
     }
 
     module {
-        name: "act"
+        name: "act1"
         type: "ReLU"
 
         bottom: "1"
         top: "2"
 
+        relu_param {
+            inspace: false
+        }
+    }
+
+    module {
+        name: "test"
+        type: "Test"
+
+        test_param {
+            m: "act1"
+        }
     }
 
 }
@@ -36,8 +50,10 @@ transforms {
     }
     op {
         type: "Resize"
-        keep_ratio: false
-        size: [2, 3]
+        resize_param {
+            keep_ratio: false
+            size: [2, 3]
+        }
     }
     op {
         type: "ToTensor"

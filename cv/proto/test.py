@@ -11,6 +11,13 @@ from collections import OrderedDict
 
 solver = cvpb.Solver()
 text_format.Merge(open('./sovler.prototxt', 'rb').read(), solver)
+print(solver)
+
+# WhichOneof
+# print(solver.model.module[0].WhichOneof('param'))
+# print(getattr(solver.model.module[0], solver.model.module[0].WhichOneof('param')))
+# c+=1
+
 
 # _param = {k.name: v for k, v in solver.transforms.op[1].ListFields()}
 # print(_param)
@@ -54,11 +61,11 @@ class Resize():
         self.keep_ration = keep_ratio
 
 class Test():
-    def __init__(self, transforms) -> None:
-        self.transforms = transforms
+    def __init__(self, m) -> None:
+        self.m = m
 
     def __repr__(self) -> str:
-        return f'Test {self.transforms}'
+        return f'Test {(self.m)}'
 
 modules = {
     'Test': Test,
@@ -71,8 +78,13 @@ modules = {
 solver_dict = json_format.MessageToDict(solver, preserving_proto_field_name=True, including_default_value_fields=False)
 # print(solver_dict)
 
+def hasattr_and_not_none(obj, name):
+    '''hasattr_and_not_none
+    '''
+    return hasattr(obj, name) and getattr(obj, name) is not None
 
-def build(solver):
+
+def build(solver, mm):
     '''build
     '''
     if not isinstance(solver, (dict, list)):
@@ -80,21 +92,31 @@ def build(solver):
 
     for i, k in enumerate(solver):
         v = solver[k] if isinstance(solver, dict) else k
-        m = build(v)
+        m = build(v, mm)
 
         if m is not None:
+            assert not (hasattr(m, 'top') or hasattr(m, 'bottom')), ''
             m.top = v.get('top', None)
             m.bottom = v.get('bottom', None)
-
             solver[(k if isinstance(solver, dict) else i)] = m
 
+            mm.update({v['name']: m} if 'name' in v else {})
+
     if isinstance(solver, dict) and 'type' in solver:
-        m = build_module(modules[solver['type']], solver)
+        k = [k for k in solver if 'param' in k]
+        v = solver[k[0]] if len(k) != 0 else {}
+        v.update({_k: mm[_v] for _k, _v in v.items() if isinstance(_v, str) and _v in mm})
+        m = build_module(modules[solver['type']], v)
+        
         return m
 
-build(solver_dict) 
+# mm = {}
+build(solver_dict, {}) 
+
+print(solver_dict)
 
 # for k in solver_dict:
 #     print(k, solver_dict[k])
 
-print(solver_dict['model']['module'][0])
+# print(solver_dict['model']['module'][0])
+# print(solver_dict)

@@ -26,15 +26,18 @@ syntax = "proto2";
 
 message Solver {
     optional string name = 1;
-
     optional Model model = 2;
-
     optional Transforms transforms = 3;
 }
 
 message Model {
     optional string name = 1;
     repeated Module module = 2;
+}
+
+message Transforms {
+    optional string name = 1;
+    repeated Module op = 2;
 }
 
 
@@ -44,34 +47,41 @@ message Module {
     repeated string bottom = 3;
     repeated string top = 4;
 
-    // conv
-    optional int32 in_channels = 100;
-    optional int32 out_channels = 101;
-    optional int32 kernel_size = 102;
-    optional int32 stride = 103;
-    optional int32 padding = 104;
-    optional int32 dilation = 105;
+    oneof param {
+        Conv2dParameter conv2d_param = 5;
+        ReLUParameter relu_param = 6;
 
-    // 
-}
+        ResizeParameter resize_param = 100;
 
-
-message Transforms {
-    message Op{
-        optional string name = 1;
-        optional string type = 2;
-
-        optional bool keep_ratio = 3;
-        repeated int32 size = 4;
+        TestParameter test_param = 1000;
     }
 
-    optional string name = 1;
-    repeated Op op = 2;
 }
 
 
-message Dataset {
-    optional string name = 1;
-    optional string type = 2;
-    optional Transforms transforms = 3;
+
+
+
+message Conv2dParameter {
+    optional int32 in_channels = 1;
+    optional int32 out_channels = 2;
+    optional int32 kernel_size = 3;
+    optional int32 stride = 4;
+    optional int32 padding = 5;
+    optional int32 dilation = 6;
+}
+
+
+message ReLUParameter {
+    optional bool inspace = 1;
+}
+
+
+message ResizeParameter{
+    optional bool keep_ratio = 3;
+    repeated int32 size = 4;
+}
+
+message TestParameter {
+    optional string m = 1;
 }
