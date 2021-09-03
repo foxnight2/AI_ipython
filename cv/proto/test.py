@@ -1,5 +1,7 @@
 import torch
+import torchvision
 
+# from torch.utils.data.dataset.D
 import cv_pb2 as cvpb
 from google.protobuf import text_format
 from google.protobuf import json_format
@@ -60,12 +62,29 @@ class Resize():
         self.size = size
         self.keep_ration = keep_ratio
 
-class Test():
+class Test(torch.nn.Module):
     def __init__(self, m) -> None:
+        super().__init__()
+
         self.m = m
 
     def __repr__(self) -> str:
-        return f'Test {(self.m)}'
+        return f'Test_{(self.m)}'
+
+
+class CocoDet(torch.utils.data.Dataset):
+    def __init__(self, path, transforms) -> None:
+        super().__init__()
+        self.path = path
+        self.transforms = transforms
+        # print(transforms)
+        # print(path)
+
+    def __len__(self, ):
+        return 10
+
+    def __getitem__(self, ):
+        pass
 
 
 modules = {m: getattr(torch.nn, m) for m in dir(torch.nn) if inspect.isclass(getattr(torch.nn, m)) and issubclass(getattr(torch.nn, m), torch.nn.Module)}
@@ -76,17 +95,14 @@ modules.update({
     'Resize': Resize,  
     'Conv2d': torch.nn.Conv2d,
     'ReLU': torch.nn.ReLU,
+    'CocoDet': CocoDet,
+    'DataLoader': torch.utils.data.DataLoader,
 })
 
 
 solver_dict = json_format.MessageToDict(solver, preserving_proto_field_name=True, including_default_value_fields=False)
-print(solver_dict)
+# print(solver_dict)
 
-
-def hasattr_and_not_none(obj, name):
-    '''hasattr_and_not_none
-    '''
-    return hasattr(obj, name) and getattr(obj, name) is not None
 
 
 def merge():
@@ -97,6 +113,7 @@ def merge():
 
 def build(config, mm):
     '''build
+    mm cache build modules.
     '''
     if not isinstance(config, (dict, list)):
         return
@@ -119,16 +136,25 @@ def build(config, mm):
         # TODO
         v.update({_k: mm[_v] for _k, _v in v.items() if isinstance(_v, str) and _v in mm})
         m = build_module(modules[config['type']], v)
+        return m
 
+    elif isinstance(config, dict) and 'op' in config: 
+        m = torchvision.transforms.Compose(config['op'])
+        return m
+
+    elif isinstance(config, dict) and 'module' in config:
+        m = torch.nn.ModuleList(config['module'])
         return m
 
 # mm = {}
 build(solver_dict, {}) 
 
-print(solver_dict)
+# print(solver_dict)
 
-# for k in solver_dict:
-#     print(k, solver_dict[k])
+for k in solver_dict:
+    print(k, solver_dict[k])
 
 # print(solver_dict['model']['module'][0])
 # print(solver_dict)
+
+# print(solver_dict['dataloader'][0].dataset)

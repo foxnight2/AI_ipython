@@ -27,7 +27,11 @@ syntax = "proto2";
 message Solver {
     optional string name = 1;
     optional Model model = 2;
-    optional Transforms transforms = 3;
+    // optional Reader reader = 3;
+
+    repeated Transforms transforms = 3;
+    repeated Module dataset = 4;
+    repeated Module dataloader = 5;
 }
 
 message Model {
@@ -40,6 +44,12 @@ message Transforms {
     repeated Module op = 2;
 }
 
+// message Reader {
+//     optional string name = 1;
+//     repeated Transforms transforms = 3;
+//     repeated Module dataset = 4;
+//     repeated Module dataloader = 5;
+// }
 
 message Module {
     optional string name = 1;
@@ -54,6 +64,12 @@ message Module {
 
         // transforms
         ResizeParameter resize_param = 500;
+
+        // dataset 
+        CocoDetParameter coco_det_param = 600;
+
+        // dataloader
+        DatasetLoaderParameter dataloader_param = 700;
 
         //
         TestParameter test_param = 1000;
@@ -77,9 +93,21 @@ message ReLUParameter {
 }
 
 
-message ResizeParameter{
+message ResizeParameter {
     optional bool keep_ratio = 3;
     repeated int32 size = 4;
+}
+
+message DatasetLoaderParameter {
+    optional string dataset = 1;
+    optional int32 batch_size = 2;
+    optional int32 num_workers = 3;
+    optional bool shuffle = 4;
+}
+
+message CocoDetParameter {
+    optional string path = 1;
+    optional string transforms = 2;
 }
 
 message TestParameter {

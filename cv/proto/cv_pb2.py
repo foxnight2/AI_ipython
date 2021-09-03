@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto2',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x08\x63v.proto\"N\n\x06Solver\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x15\n\x05model\x18\x02 \x01(\x0b\x32\x06.Model\x12\x1f\n\ntransforms\x18\x03 \x01(\x0b\x32\x0b.Transforms\".\n\x05Model\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x17\n\x06module\x18\x02 \x03(\x0b\x32\x07.Module\"/\n\nTransforms\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x02op\x18\x02 \x03(\x0b\x32\x07.Module\"\xeb\x01\n\x06Module\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0e\n\x06\x62ottom\x18\x03 \x03(\t\x12\x0b\n\x03top\x18\x04 \x03(\t\x12(\n\x0c\x63onv2d_param\x18\x05 \x01(\x0b\x32\x10.Conv2dParameterH\x00\x12$\n\nrelu_param\x18\x06 \x01(\x0b\x32\x0e.ReLUParameterH\x00\x12(\n\x0cresize_param\x18\x64 \x01(\x0b\x32\x10.ResizeParameterH\x00\x12%\n\ntest_param\x18\xe8\x07 \x01(\x0b\x32\x0e.TestParameterH\x00\x42\x07\n\x05param\"\x84\x01\n\x0f\x43onv2dParameter\x12\x13\n\x0bin_channels\x18\x01 \x01(\x05\x12\x14\n\x0cout_channels\x18\x02 \x01(\x05\x12\x13\n\x0bkernel_size\x18\x03 \x01(\x05\x12\x0e\n\x06stride\x18\x04 \x01(\x05\x12\x0f\n\x07padding\x18\x05 \x01(\x05\x12\x10\n\x08\x64ilation\x18\x06 \x01(\x05\" \n\rReLUParameter\x12\x0f\n\x07inspace\x18\x01 \x01(\x08\"3\n\x0fResizeParameter\x12\x12\n\nkeep_ratio\x18\x03 \x01(\x08\x12\x0c\n\x04size\x18\x04 \x03(\x05\"\x1a\n\rTestParameter\x12\t\n\x01m\x18\x01 \x01(\t'
+  serialized_pb=b'\n\x08\x63v.proto\"\x85\x01\n\x06Solver\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x15\n\x05model\x18\x02 \x01(\x0b\x32\x06.Model\x12\x1f\n\ntransforms\x18\x03 \x03(\x0b\x32\x0b.Transforms\x12\x18\n\x07\x64\x61taset\x18\x04 \x03(\x0b\x32\x07.Module\x12\x1b\n\ndataloader\x18\x05 \x03(\x0b\x32\x07.Module\".\n\x05Model\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x17\n\x06module\x18\x02 \x03(\x0b\x32\x07.Module\"/\n\nTransforms\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x02op\x18\x02 \x03(\x0b\x32\x07.Module\"\xd0\x02\n\x06Module\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0e\n\x06\x62ottom\x18\x03 \x03(\t\x12\x0b\n\x03top\x18\x04 \x03(\t\x12(\n\x0c\x63onv2d_param\x18\x05 \x01(\x0b\x32\x10.Conv2dParameterH\x00\x12$\n\nrelu_param\x18\x06 \x01(\x0b\x32\x0e.ReLUParameterH\x00\x12)\n\x0cresize_param\x18\xf4\x03 \x01(\x0b\x32\x10.ResizeParameterH\x00\x12,\n\x0e\x63oco_det_param\x18\xd8\x04 \x01(\x0b\x32\x11.CocoDetParameterH\x00\x12\x34\n\x10\x64\x61taloader_param\x18\xbc\x05 \x01(\x0b\x32\x17.DatasetLoaderParameterH\x00\x12%\n\ntest_param\x18\xe8\x07 \x01(\x0b\x32\x0e.TestParameterH\x00\x42\x07\n\x05param\"\x84\x01\n\x0f\x43onv2dParameter\x12\x13\n\x0bin_channels\x18\x01 \x01(\x05\x12\x14\n\x0cout_channels\x18\x02 \x01(\x05\x12\x13\n\x0bkernel_size\x18\x03 \x01(\x05\x12\x0e\n\x06stride\x18\x04 \x01(\x05\x12\x0f\n\x07padding\x18\x05 \x01(\x05\x12\x10\n\x08\x64ilation\x18\x06 \x01(\x05\" \n\rReLUParameter\x12\x0f\n\x07inspace\x18\x01 \x01(\x08\"3\n\x0fResizeParameter\x12\x12\n\nkeep_ratio\x18\x03 \x01(\x08\x12\x0c\n\x04size\x18\x04 \x03(\x05\"c\n\x16\x44\x61tasetLoaderParameter\x12\x0f\n\x07\x64\x61taset\x18\x01 \x01(\t\x12\x12\n\nbatch_size\x18\x02 \x01(\x05\x12\x13\n\x0bnum_workers\x18\x03 \x01(\x05\x12\x0f\n\x07shuffle\x18\x04 \x01(\x08\"4\n\x10\x43ocoDetParameter\x12\x0c\n\x04path\x18\x01 \x01(\t\x12\x12\n\ntransforms\x18\x02 \x01(\t\"\x1a\n\rTestParameter\x12\t\n\x01m\x18\x01 \x01(\t'
 )
 
 
@@ -49,8 +49,22 @@ _SOLVER = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='transforms', full_name='Solver.transforms', index=2,
-      number=3, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
+      number=3, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='dataset', full_name='Solver.dataset', index=3,
+      number=4, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='dataloader', full_name='Solver.dataloader', index=4,
+      number=5, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -66,8 +80,8 @@ _SOLVER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=12,
-  serialized_end=90,
+  serialized_start=13,
+  serialized_end=146,
 )
 
 
@@ -105,8 +119,8 @@ _MODEL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=92,
-  serialized_end=138,
+  serialized_start=148,
+  serialized_end=194,
 )
 
 
@@ -144,8 +158,8 @@ _TRANSFORMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=140,
-  serialized_end=187,
+  serialized_start=196,
+  serialized_end=243,
 )
 
 
@@ -201,13 +215,27 @@ _MODULE = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='resize_param', full_name='Module.resize_param', index=6,
-      number=100, type=11, cpp_type=10, label=1,
+      number=500, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='test_param', full_name='Module.test_param', index=7,
+      name='coco_det_param', full_name='Module.coco_det_param', index=7,
+      number=600, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='dataloader_param', full_name='Module.dataloader_param', index=8,
+      number=700, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='test_param', full_name='Module.test_param', index=9,
       number=1000, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -230,8 +258,8 @@ _MODULE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=190,
-  serialized_end=425,
+  serialized_start=246,
+  serialized_end=582,
 )
 
 
@@ -297,8 +325,8 @@ _CONV2DPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=428,
-  serialized_end=560,
+  serialized_start=585,
+  serialized_end=717,
 )
 
 
@@ -329,8 +357,8 @@ _RELUPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=562,
-  serialized_end=594,
+  serialized_start=719,
+  serialized_end=751,
 )
 
 
@@ -368,8 +396,100 @@ _RESIZEPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=596,
-  serialized_end=647,
+  serialized_start=753,
+  serialized_end=804,
+)
+
+
+_DATASETLOADERPARAMETER = _descriptor.Descriptor(
+  name='DatasetLoaderParameter',
+  full_name='DatasetLoaderParameter',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='dataset', full_name='DatasetLoaderParameter.dataset', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='batch_size', full_name='DatasetLoaderParameter.batch_size', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='num_workers', full_name='DatasetLoaderParameter.num_workers', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='shuffle', full_name='DatasetLoaderParameter.shuffle', index=3,
+      number=4, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=806,
+  serialized_end=905,
+)
+
+
+_COCODETPARAMETER = _descriptor.Descriptor(
+  name='CocoDetParameter',
+  full_name='CocoDetParameter',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='path', full_name='CocoDetParameter.path', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='transforms', full_name='CocoDetParameter.transforms', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=907,
+  serialized_end=959,
 )
 
 
@@ -400,17 +520,21 @@ _TESTPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=649,
-  serialized_end=675,
+  serialized_start=961,
+  serialized_end=987,
 )
 
 _SOLVER.fields_by_name['model'].message_type = _MODEL
 _SOLVER.fields_by_name['transforms'].message_type = _TRANSFORMS
+_SOLVER.fields_by_name['dataset'].message_type = _MODULE
+_SOLVER.fields_by_name['dataloader'].message_type = _MODULE
 _MODEL.fields_by_name['module'].message_type = _MODULE
 _TRANSFORMS.fields_by_name['op'].message_type = _MODULE
 _MODULE.fields_by_name['conv2d_param'].message_type = _CONV2DPARAMETER
 _MODULE.fields_by_name['relu_param'].message_type = _RELUPARAMETER
 _MODULE.fields_by_name['resize_param'].message_type = _RESIZEPARAMETER
+_MODULE.fields_by_name['coco_det_param'].message_type = _COCODETPARAMETER
+_MODULE.fields_by_name['dataloader_param'].message_type = _DATASETLOADERPARAMETER
 _MODULE.fields_by_name['test_param'].message_type = _TESTPARAMETER
 _MODULE.oneofs_by_name['param'].fields.append(
   _MODULE.fields_by_name['conv2d_param'])
@@ -422,6 +546,12 @@ _MODULE.oneofs_by_name['param'].fields.append(
   _MODULE.fields_by_name['resize_param'])
 _MODULE.fields_by_name['resize_param'].containing_oneof = _MODULE.oneofs_by_name['param']
 _MODULE.oneofs_by_name['param'].fields.append(
+  _MODULE.fields_by_name['coco_det_param'])
+_MODULE.fields_by_name['coco_det_param'].containing_oneof = _MODULE.oneofs_by_name['param']
+_MODULE.oneofs_by_name['param'].fields.append(
+  _MODULE.fields_by_name['dataloader_param'])
+_MODULE.fields_by_name['dataloader_param'].containing_oneof = _MODULE.oneofs_by_name['param']
+_MODULE.oneofs_by_name['param'].fields.append(
   _MODULE.fields_by_name['test_param'])
 _MODULE.fields_by_name['test_param'].containing_oneof = _MODULE.oneofs_by_name['param']
 DESCRIPTOR.message_types_by_name['Solver'] = _SOLVER
@@ -431,6 +561,8 @@ DESCRIPTOR.message_types_by_name['Module'] = _MODULE
 DESCRIPTOR.message_types_by_name['Conv2dParameter'] = _CONV2DPARAMETER
 DESCRIPTOR.message_types_by_name['ReLUParameter'] = _RELUPARAMETER
 DESCRIPTOR.message_types_by_name['ResizeParameter'] = _RESIZEPARAMETER
+DESCRIPTOR.message_types_by_name['DatasetLoaderParameter'] = _DATASETLOADERPARAMETER
+DESCRIPTOR.message_types_by_name['CocoDetParameter'] = _COCODETPARAMETER
 DESCRIPTOR.message_types_by_name['TestParameter'] = _TESTPARAMETER
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -482,6 +614,20 @@ ResizeParameter = _reflection.GeneratedProtocolMessageType('ResizeParameter', (_
   # @@protoc_insertion_point(class_scope:ResizeParameter)
   })
 _sym_db.RegisterMessage(ResizeParameter)
+
+DatasetLoaderParameter = _reflection.GeneratedProtocolMessageType('DatasetLoaderParameter', (_message.Message,), {
+  'DESCRIPTOR' : _DATASETLOADERPARAMETER,
+  '__module__' : 'cv_pb2'
+  # @@protoc_insertion_point(class_scope:DatasetLoaderParameter)
+  })
+_sym_db.RegisterMessage(DatasetLoaderParameter)
+
+CocoDetParameter = _reflection.GeneratedProtocolMessageType('CocoDetParameter', (_message.Message,), {
+  'DESCRIPTOR' : _COCODETPARAMETER,
+  '__module__' : 'cv_pb2'
+  # @@protoc_insertion_point(class_scope:CocoDetParameter)
+  })
+_sym_db.RegisterMessage(CocoDetParameter)
 
 TestParameter = _reflection.GeneratedProtocolMessageType('TestParameter', (_message.Message,), {
   'DESCRIPTOR' : _TESTPARAMETER,
