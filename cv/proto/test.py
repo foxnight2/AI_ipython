@@ -67,21 +67,32 @@ class Test():
     def __repr__(self) -> str:
         return f'Test {(self.m)}'
 
-modules = {
+
+modules = {m: getattr(torch.nn, m) for m in dir(torch.nn) if inspect.isclass(getattr(torch.nn, m)) and issubclass(getattr(torch.nn, m), torch.nn.Module)}
+
+modules.update({
     'Test': Test,
     'ToTensor': ToTensor,  
     'Resize': Resize,  
     'Conv2d': torch.nn.Conv2d,
     'ReLU': torch.nn.ReLU,
-}
+})
+
 
 solver_dict = json_format.MessageToDict(solver, preserving_proto_field_name=True, including_default_value_fields=False)
 # print(solver_dict)
+
 
 def hasattr_and_not_none(obj, name):
     '''hasattr_and_not_none
     '''
     return hasattr(obj, name) and getattr(obj, name) is not None
+
+
+def merge():
+    '''merge
+    '''
+    pass
 
 
 def build(solver, mm):
@@ -105,9 +116,10 @@ def build(solver, mm):
     if isinstance(solver, dict) and 'type' in solver:
         k = [k for k in solver if 'param' in k]
         v = solver[k[0]] if len(k) != 0 else {}
+        # TODO
         v.update({_k: mm[_v] for _k, _v in v.items() if isinstance(_v, str) and _v in mm})
         m = build_module(modules[solver['type']], v)
-        
+
         return m
 
 # mm = {}

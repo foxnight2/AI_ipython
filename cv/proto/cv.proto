@@ -48,18 +48,18 @@ message Module {
     repeated string top = 4;
 
     oneof param {
+        // module
         Conv2dParameter conv2d_param = 5;
         ReLUParameter relu_param = 6;
 
-        ResizeParameter resize_param = 100;
+        // transforms
+        ResizeParameter resize_param = 500;
 
+        //
         TestParameter test_param = 1000;
     }
 
 }
-
-
-
 
 
 message Conv2dParameter {
