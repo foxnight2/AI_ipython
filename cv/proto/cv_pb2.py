@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto2',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x08\x63v.proto\"\x85\x01\n\x06Solver\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x15\n\x05model\x18\x02 \x01(\x0b\x32\x06.Model\x12\x1f\n\ntransforms\x18\x03 \x03(\x0b\x32\x0b.Transforms\x12\x18\n\x07\x64\x61taset\x18\x04 \x03(\x0b\x32\x07.Module\x12\x1b\n\ndataloader\x18\x05 \x03(\x0b\x32\x07.Module\".\n\x05Model\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x17\n\x06module\x18\x02 \x03(\x0b\x32\x07.Module\"/\n\nTransforms\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x02op\x18\x02 \x03(\x0b\x32\x07.Module\"\xd0\x02\n\x06Module\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0e\n\x06\x62ottom\x18\x03 \x03(\t\x12\x0b\n\x03top\x18\x04 \x03(\t\x12(\n\x0c\x63onv2d_param\x18\x05 \x01(\x0b\x32\x10.Conv2dParameterH\x00\x12$\n\nrelu_param\x18\x06 \x01(\x0b\x32\x0e.ReLUParameterH\x00\x12)\n\x0cresize_param\x18\xf4\x03 \x01(\x0b\x32\x10.ResizeParameterH\x00\x12,\n\x0e\x63oco_det_param\x18\xd8\x04 \x01(\x0b\x32\x11.CocoDetParameterH\x00\x12\x34\n\x10\x64\x61taloader_param\x18\xbc\x05 \x01(\x0b\x32\x17.DatasetLoaderParameterH\x00\x12%\n\ntest_param\x18\xe8\x07 \x01(\x0b\x32\x0e.TestParameterH\x00\x42\x07\n\x05param\"\x84\x01\n\x0f\x43onv2dParameter\x12\x13\n\x0bin_channels\x18\x01 \x01(\x05\x12\x14\n\x0cout_channels\x18\x02 \x01(\x05\x12\x13\n\x0bkernel_size\x18\x03 \x01(\x05\x12\x0e\n\x06stride\x18\x04 \x01(\x05\x12\x0f\n\x07padding\x18\x05 \x01(\x05\x12\x10\n\x08\x64ilation\x18\x06 \x01(\x05\" \n\rReLUParameter\x12\x0f\n\x07inspace\x18\x01 \x01(\x08\"3\n\x0fResizeParameter\x12\x12\n\nkeep_ratio\x18\x03 \x01(\x08\x12\x0c\n\x04size\x18\x04 \x03(\x05\"c\n\x16\x44\x61tasetLoaderParameter\x12\x0f\n\x07\x64\x61taset\x18\x01 \x01(\t\x12\x12\n\nbatch_size\x18\x02 \x01(\x05\x12\x13\n\x0bnum_workers\x18\x03 \x01(\x05\x12\x0f\n\x07shuffle\x18\x04 \x01(\x08\"4\n\x10\x43ocoDetParameter\x12\x0c\n\x04path\x18\x01 \x01(\t\x12\x12\n\ntransforms\x18\x02 \x01(\t\"\x1a\n\rTestParameter\x12\t\n\x01m\x18\x01 \x01(\t'
+  serialized_pb=b'\n\x08\x63v.proto\"e\n\x06Solver\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x15\n\x05model\x18\x02 \x01(\x0b\x32\x06.Model\x12\x17\n\x06reader\x18\x03 \x03(\x0b\x32\x07.Reader\x12\x1d\n\toptimizer\x18\x04 \x03(\x0b\x32\n.Optimizer\".\n\x05Model\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x17\n\x06module\x18\x02 \x03(\x0b\x32\x07.Module\"/\n\nTransforms\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x02op\x18\x02 \x03(\x0b\x32\x07.Module\"n\n\x06Reader\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x1f\n\ntransforms\x18\x03 \x01(\x0b\x32\x0b.Transforms\x12\x18\n\x07\x64\x61taset\x18\x04 \x01(\x0b\x32\x07.Module\x12\x1b\n\ndataloader\x18\x05 \x01(\x0b\x32\x07.Module\"T\n\tOptimizer\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x1a\n\toptimizer\x18\x02 \x01(\x0b\x32\x07.Module\x12\x1d\n\x0clr_scheduler\x18\x03 \x01(\x0b\x32\x07.Module\"\xa9\x03\n\x06Module\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0e\n\x06\x62ottom\x18\x03 \x03(\t\x12\x0b\n\x03top\x18\x04 \x03(\t\x12(\n\x0c\x63onv2d_param\x18\x05 \x01(\x0b\x32\x10.Conv2dParameterH\x00\x12$\n\nrelu_param\x18\x06 \x01(\x0b\x32\x0e.ReLUParameterH\x00\x12)\n\x0cresize_param\x18\xf4\x03 \x01(\x0b\x32\x10.ResizeParameterH\x00\x12,\n\x0e\x63oco_det_param\x18\xd8\x04 \x01(\x0b\x32\x11.CocoDetParameterH\x00\x12\x31\n\x10\x64\x61taloader_param\x18\xbc\x05 \x01(\x0b\x32\x14.DataLoaderParameterH\x00\x12#\n\tsgd_param\x18\xa0\x06 \x01(\x0b\x32\r.SGDParameterH\x00\x12\x35\n\x13multi_step_lr_param\x18\xa1\x06 \x01(\x0b\x32\x15.MultiStepLRParameterH\x00\x12%\n\ntest_param\x18\xe8\x07 \x01(\x0b\x32\x0e.TestParameterH\x00\x42\x07\n\x05param\"\xb8\x01\n\x0f\x43onv2dParameter\x12\x13\n\x0bin_channels\x18\x01 \x01(\r\x12\x14\n\x0cout_channels\x18\x02 \x01(\r\x12\x13\n\x0bkernel_size\x18\x03 \x03(\r\x12\x0e\n\x06stride\x18\x04 \x03(\r\x12\x0f\n\x07padding\x18\x05 \x03(\r\x12\x10\n\x08\x64ilation\x18\x06 \x03(\r\x12\x0e\n\x06groups\x18\x07 \x03(\r\x12\x0c\n\x04\x62ias\x18\x08 \x01(\x08\x12\x14\n\x0cpadding_mode\x18\t \x01(\t\" \n\rReLUParameter\x12\x0f\n\x07inspace\x18\x01 \x01(\x08\"3\n\x0fResizeParameter\x12\x12\n\nkeep_ratio\x18\x03 \x01(\x08\x12\x0c\n\x04size\x18\x04 \x03(\x05\"`\n\x13\x44\x61taLoaderParameter\x12\x0f\n\x07\x64\x61taset\x18\x01 \x01(\t\x12\x12\n\nbatch_size\x18\x02 \x01(\x05\x12\x13\n\x0bnum_workers\x18\x03 \x01(\x05\x12\x0f\n\x07shuffle\x18\x04 \x01(\x08\"4\n\x10\x43ocoDetParameter\x12\x0c\n\x04path\x18\x01 \x01(\t\x12\x12\n\ntransforms\x18\x02 \x01(\t\"\x8f\x01\n\x0eParameterGroup\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06params\x18\x02 \x01(\t\x12\x14\n\x0cparams_names\x18\x03 \x03(\t\x12\x15\n\rparams_inline\x18\x04 \x01(\t\x12\n\n\x02lr\x18\x05 \x01(\x02\x12\x10\n\x08momentum\x18\x06 \x01(\x02\x12\x14\n\x0cweight_decay\x18\x07 \x01(\x02\"c\n\x0cSGDParameter\x12\x1f\n\x06params\x18\x01 \x03(\x0b\x32\x0f.ParameterGroup\x12\n\n\x02lr\x18\x03 \x01(\x02\x12\x10\n\x08momentum\x18\x04 \x01(\x02\x12\x14\n\x0cweight_decay\x18\x05 \x01(\x02\"=\n\x14MultiStepLRParameter\x12\x11\n\toptimizer\x18\x01 \x01(\t\x12\x12\n\nmilestones\x18\x02 \x03(\x05\"\x1a\n\rTestParameter\x12\t\n\x01m\x18\x01 \x01(\t'
 )
 
 
@@ -48,22 +48,15 @@ _SOLVER = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='transforms', full_name='Solver.transforms', index=2,
+      name='reader', full_name='Solver.reader', index=2,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='dataset', full_name='Solver.dataset', index=3,
+      name='optimizer', full_name='Solver.optimizer', index=3,
       number=4, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='dataloader', full_name='Solver.dataloader', index=4,
-      number=5, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -80,8 +73,8 @@ _SOLVER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=13,
-  serialized_end=146,
+  serialized_start=12,
+  serialized_end=113,
 )
 
 
@@ -119,8 +112,8 @@ _MODEL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=148,
-  serialized_end=194,
+  serialized_start=115,
+  serialized_end=161,
 )
 
 
@@ -158,8 +151,107 @@ _TRANSFORMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=196,
-  serialized_end=243,
+  serialized_start=163,
+  serialized_end=210,
+)
+
+
+_READER = _descriptor.Descriptor(
+  name='Reader',
+  full_name='Reader',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='Reader.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='transforms', full_name='Reader.transforms', index=1,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='dataset', full_name='Reader.dataset', index=2,
+      number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='dataloader', full_name='Reader.dataloader', index=3,
+      number=5, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=212,
+  serialized_end=322,
+)
+
+
+_OPTIMIZER = _descriptor.Descriptor(
+  name='Optimizer',
+  full_name='Optimizer',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='Optimizer.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='optimizer', full_name='Optimizer.optimizer', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='lr_scheduler', full_name='Optimizer.lr_scheduler', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=324,
+  serialized_end=408,
 )
 
 
@@ -235,7 +327,21 @@ _MODULE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='test_param', full_name='Module.test_param', index=9,
+      name='sgd_param', full_name='Module.sgd_param', index=9,
+      number=800, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='multi_step_lr_param', full_name='Module.multi_step_lr_param', index=10,
+      number=801, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='test_param', full_name='Module.test_param', index=11,
       number=1000, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -258,8 +364,8 @@ _MODULE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=246,
-  serialized_end=582,
+  serialized_start=411,
+  serialized_end=836,
 )
 
 
@@ -273,43 +379,64 @@ _CONV2DPARAMETER = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='in_channels', full_name='Conv2dParameter.in_channels', index=0,
-      number=1, type=5, cpp_type=1, label=1,
+      number=1, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='out_channels', full_name='Conv2dParameter.out_channels', index=1,
-      number=2, type=5, cpp_type=1, label=1,
+      number=2, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='kernel_size', full_name='Conv2dParameter.kernel_size', index=2,
-      number=3, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
+      number=3, type=13, cpp_type=3, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='stride', full_name='Conv2dParameter.stride', index=3,
-      number=4, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
+      number=4, type=13, cpp_type=3, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='padding', full_name='Conv2dParameter.padding', index=4,
-      number=5, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
+      number=5, type=13, cpp_type=3, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='dilation', full_name='Conv2dParameter.dilation', index=5,
-      number=6, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
+      number=6, type=13, cpp_type=3, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='groups', full_name='Conv2dParameter.groups', index=6,
+      number=7, type=13, cpp_type=3, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='bias', full_name='Conv2dParameter.bias', index=7,
+      number=8, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='padding_mode', full_name='Conv2dParameter.padding_mode', index=8,
+      number=9, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -325,8 +452,8 @@ _CONV2DPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=585,
-  serialized_end=717,
+  serialized_start=839,
+  serialized_end=1023,
 )
 
 
@@ -357,8 +484,8 @@ _RELUPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=719,
-  serialized_end=751,
+  serialized_start=1025,
+  serialized_end=1057,
 )
 
 
@@ -396,42 +523,42 @@ _RESIZEPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=753,
-  serialized_end=804,
+  serialized_start=1059,
+  serialized_end=1110,
 )
 
 
-_DATASETLOADERPARAMETER = _descriptor.Descriptor(
-  name='DatasetLoaderParameter',
-  full_name='DatasetLoaderParameter',
+_DATALOADERPARAMETER = _descriptor.Descriptor(
+  name='DataLoaderParameter',
+  full_name='DataLoaderParameter',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='dataset', full_name='DatasetLoaderParameter.dataset', index=0,
+      name='dataset', full_name='DataLoaderParameter.dataset', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='batch_size', full_name='DatasetLoaderParameter.batch_size', index=1,
+      name='batch_size', full_name='DataLoaderParameter.batch_size', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='num_workers', full_name='DatasetLoaderParameter.num_workers', index=2,
+      name='num_workers', full_name='DataLoaderParameter.num_workers', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='shuffle', full_name='DatasetLoaderParameter.shuffle', index=3,
+      name='shuffle', full_name='DataLoaderParameter.shuffle', index=3,
       number=4, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
@@ -449,8 +576,8 @@ _DATASETLOADERPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=806,
-  serialized_end=905,
+  serialized_start=1112,
+  serialized_end=1208,
 )
 
 
@@ -488,8 +615,174 @@ _COCODETPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=907,
-  serialized_end=959,
+  serialized_start=1210,
+  serialized_end=1262,
+)
+
+
+_PARAMETERGROUP = _descriptor.Descriptor(
+  name='ParameterGroup',
+  full_name='ParameterGroup',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='ParameterGroup.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='params', full_name='ParameterGroup.params', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='params_names', full_name='ParameterGroup.params_names', index=2,
+      number=3, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='params_inline', full_name='ParameterGroup.params_inline', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='lr', full_name='ParameterGroup.lr', index=4,
+      number=5, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='momentum', full_name='ParameterGroup.momentum', index=5,
+      number=6, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='weight_decay', full_name='ParameterGroup.weight_decay', index=6,
+      number=7, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1265,
+  serialized_end=1408,
+)
+
+
+_SGDPARAMETER = _descriptor.Descriptor(
+  name='SGDParameter',
+  full_name='SGDParameter',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='params', full_name='SGDParameter.params', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='lr', full_name='SGDParameter.lr', index=1,
+      number=3, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='momentum', full_name='SGDParameter.momentum', index=2,
+      number=4, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='weight_decay', full_name='SGDParameter.weight_decay', index=3,
+      number=5, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1410,
+  serialized_end=1509,
+)
+
+
+_MULTISTEPLRPARAMETER = _descriptor.Descriptor(
+  name='MultiStepLRParameter',
+  full_name='MultiStepLRParameter',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='optimizer', full_name='MultiStepLRParameter.optimizer', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='milestones', full_name='MultiStepLRParameter.milestones', index=1,
+      number=2, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1511,
+  serialized_end=1572,
 )
 
 
@@ -520,21 +813,27 @@ _TESTPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=961,
-  serialized_end=987,
+  serialized_start=1574,
+  serialized_end=1600,
 )
 
 _SOLVER.fields_by_name['model'].message_type = _MODEL
-_SOLVER.fields_by_name['transforms'].message_type = _TRANSFORMS
-_SOLVER.fields_by_name['dataset'].message_type = _MODULE
-_SOLVER.fields_by_name['dataloader'].message_type = _MODULE
+_SOLVER.fields_by_name['reader'].message_type = _READER
+_SOLVER.fields_by_name['optimizer'].message_type = _OPTIMIZER
 _MODEL.fields_by_name['module'].message_type = _MODULE
 _TRANSFORMS.fields_by_name['op'].message_type = _MODULE
+_READER.fields_by_name['transforms'].message_type = _TRANSFORMS
+_READER.fields_by_name['dataset'].message_type = _MODULE
+_READER.fields_by_name['dataloader'].message_type = _MODULE
+_OPTIMIZER.fields_by_name['optimizer'].message_type = _MODULE
+_OPTIMIZER.fields_by_name['lr_scheduler'].message_type = _MODULE
 _MODULE.fields_by_name['conv2d_param'].message_type = _CONV2DPARAMETER
 _MODULE.fields_by_name['relu_param'].message_type = _RELUPARAMETER
 _MODULE.fields_by_name['resize_param'].message_type = _RESIZEPARAMETER
 _MODULE.fields_by_name['coco_det_param'].message_type = _COCODETPARAMETER
-_MODULE.fields_by_name['dataloader_param'].message_type = _DATASETLOADERPARAMETER
+_MODULE.fields_by_name['dataloader_param'].message_type = _DATALOADERPARAMETER
+_MODULE.fields_by_name['sgd_param'].message_type = _SGDPARAMETER
+_MODULE.fields_by_name['multi_step_lr_param'].message_type = _MULTISTEPLRPARAMETER
 _MODULE.fields_by_name['test_param'].message_type = _TESTPARAMETER
 _MODULE.oneofs_by_name['param'].fields.append(
   _MODULE.fields_by_name['conv2d_param'])
@@ -552,17 +851,29 @@ _MODULE.oneofs_by_name['param'].fields.append(
   _MODULE.fields_by_name['dataloader_param'])
 _MODULE.fields_by_name['dataloader_param'].containing_oneof = _MODULE.oneofs_by_name['param']
 _MODULE.oneofs_by_name['param'].fields.append(
+  _MODULE.fields_by_name['sgd_param'])
+_MODULE.fields_by_name['sgd_param'].containing_oneof = _MODULE.oneofs_by_name['param']
+_MODULE.oneofs_by_name['param'].fields.append(
+  _MODULE.fields_by_name['multi_step_lr_param'])
+_MODULE.fields_by_name['multi_step_lr_param'].containing_oneof = _MODULE.oneofs_by_name['param']
+_MODULE.oneofs_by_name['param'].fields.append(
   _MODULE.fields_by_name['test_param'])
 _MODULE.fields_by_name['test_param'].containing_oneof = _MODULE.oneofs_by_name['param']
+_SGDPARAMETER.fields_by_name['params'].message_type = _PARAMETERGROUP
 DESCRIPTOR.message_types_by_name['Solver'] = _SOLVER
 DESCRIPTOR.message_types_by_name['Model'] = _MODEL
 DESCRIPTOR.message_types_by_name['Transforms'] = _TRANSFORMS
+DESCRIPTOR.message_types_by_name['Reader'] = _READER
+DESCRIPTOR.message_types_by_name['Optimizer'] = _OPTIMIZER
 DESCRIPTOR.message_types_by_name['Module'] = _MODULE
 DESCRIPTOR.message_types_by_name['Conv2dParameter'] = _CONV2DPARAMETER
 DESCRIPTOR.message_types_by_name['ReLUParameter'] = _RELUPARAMETER
 DESCRIPTOR.message_types_by_name['ResizeParameter'] = _RESIZEPARAMETER
-DESCRIPTOR.message_types_by_name['DatasetLoaderParameter'] = _DATASETLOADERPARAMETER
+DESCRIPTOR.message_types_by_name['DataLoaderParameter'] = _DATALOADERPARAMETER
 DESCRIPTOR.message_types_by_name['CocoDetParameter'] = _COCODETPARAMETER
+DESCRIPTOR.message_types_by_name['ParameterGroup'] = _PARAMETERGROUP
+DESCRIPTOR.message_types_by_name['SGDParameter'] = _SGDPARAMETER
+DESCRIPTOR.message_types_by_name['MultiStepLRParameter'] = _MULTISTEPLRPARAMETER
 DESCRIPTOR.message_types_by_name['TestParameter'] = _TESTPARAMETER
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -586,6 +897,20 @@ Transforms = _reflection.GeneratedProtocolMessageType('Transforms', (_message.Me
   # @@protoc_insertion_point(class_scope:Transforms)
   })
 _sym_db.RegisterMessage(Transforms)
+
+Reader = _reflection.GeneratedProtocolMessageType('Reader', (_message.Message,), {
+  'DESCRIPTOR' : _READER,
+  '__module__' : 'cv_pb2'
+  # @@protoc_insertion_point(class_scope:Reader)
+  })
+_sym_db.RegisterMessage(Reader)
+
+Optimizer = _reflection.GeneratedProtocolMessageType('Optimizer', (_message.Message,), {
+  'DESCRIPTOR' : _OPTIMIZER,
+  '__module__' : 'cv_pb2'
+  # @@protoc_insertion_point(class_scope:Optimizer)
+  })
+_sym_db.RegisterMessage(Optimizer)
 
 Module = _reflection.GeneratedProtocolMessageType('Module', (_message.Message,), {
   'DESCRIPTOR' : _MODULE,
@@ -615,12 +940,12 @@ ResizeParameter = _reflection.GeneratedProtocolMessageType('ResizeParameter', (_
   })
 _sym_db.RegisterMessage(ResizeParameter)
 
-DatasetLoaderParameter = _reflection.GeneratedProtocolMessageType('DatasetLoaderParameter', (_message.Message,), {
-  'DESCRIPTOR' : _DATASETLOADERPARAMETER,
+DataLoaderParameter = _reflection.GeneratedProtocolMessageType('DataLoaderParameter', (_message.Message,), {
+  'DESCRIPTOR' : _DATALOADERPARAMETER,
   '__module__' : 'cv_pb2'
-  # @@protoc_insertion_point(class_scope:DatasetLoaderParameter)
+  # @@protoc_insertion_point(class_scope:DataLoaderParameter)
   })
-_sym_db.RegisterMessage(DatasetLoaderParameter)
+_sym_db.RegisterMessage(DataLoaderParameter)
 
 CocoDetParameter = _reflection.GeneratedProtocolMessageType('CocoDetParameter', (_message.Message,), {
   'DESCRIPTOR' : _COCODETPARAMETER,
@@ -628,6 +953,27 @@ CocoDetParameter = _reflection.GeneratedProtocolMessageType('CocoDetParameter', 
   # @@protoc_insertion_point(class_scope:CocoDetParameter)
   })
 _sym_db.RegisterMessage(CocoDetParameter)
+
+ParameterGroup = _reflection.GeneratedProtocolMessageType('ParameterGroup', (_message.Message,), {
+  'DESCRIPTOR' : _PARAMETERGROUP,
+  '__module__' : 'cv_pb2'
+  # @@protoc_insertion_point(class_scope:ParameterGroup)
+  })
+_sym_db.RegisterMessage(ParameterGroup)
+
+SGDParameter = _reflection.GeneratedProtocolMessageType('SGDParameter', (_message.Message,), {
+  'DESCRIPTOR' : _SGDPARAMETER,
+  '__module__' : 'cv_pb2'
+  # @@protoc_insertion_point(class_scope:SGDParameter)
+  })
+_sym_db.RegisterMessage(SGDParameter)
+
+MultiStepLRParameter = _reflection.GeneratedProtocolMessageType('MultiStepLRParameter', (_message.Message,), {
+  'DESCRIPTOR' : _MULTISTEPLRPARAMETER,
+  '__module__' : 'cv_pb2'
+  # @@protoc_insertion_point(class_scope:MultiStepLRParameter)
+  })
+_sym_db.RegisterMessage(MultiStepLRParameter)
 
 TestParameter = _reflection.GeneratedProtocolMessageType('TestParameter', (_message.Message,), {
   'DESCRIPTOR' : _TESTPARAMETER,

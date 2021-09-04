@@ -27,11 +27,14 @@ syntax = "proto2";
 message Solver {
     optional string name = 1;
     optional Model model = 2;
-    // optional Reader reader = 3;
+    repeated Reader reader = 3;
+    repeated Optimizer optimizer = 4;
+    optional RuntimeConfig config = 5;
 
-    repeated Transforms transforms = 3;
-    repeated Module dataset = 4;
-    repeated Module dataloader = 5;
+    // repeated Transforms transforms = 100;
+    // repeated Module dataset = 101;
+    // repeated Module dataloader = 102;
+    
 }
 
 message Model {
@@ -44,12 +47,23 @@ message Transforms {
     repeated Module op = 2;
 }
 
-// message Reader {
-//     optional string name = 1;
-//     repeated Transforms transforms = 3;
-//     repeated Module dataset = 4;
-//     repeated Module dataloader = 5;
-// }
+message Reader {
+    optional string name = 1;
+    optional Transforms transforms = 3;
+    optional Module dataset = 4;
+    optional Module dataloader = 5;
+}
+
+message Optimizer {
+    optional string name = 1;
+    optional Module optimizer = 2;
+    optional Module lr_scheduler = 3; 
+}
+
+message RuntimeConfig {
+    optional string logdir = 1;
+}
+
 
 message Module {
     optional string name = 1;
@@ -69,7 +83,11 @@ message Module {
         CocoDetParameter coco_det_param = 600;
 
         // dataloader
-        DatasetLoaderParameter dataloader_param = 700;
+        DataLoaderParameter dataloader_param = 700;
+
+        // optimizer
+        SGDParameter sgd_param = 800;
+        MultiStepLRParameter multi_step_lr_param = 801;
 
         //
         TestParameter test_param = 1000;
@@ -79,12 +97,15 @@ message Module {
 
 
 message Conv2dParameter {
-    optional int32 in_channels = 1;
-    optional int32 out_channels = 2;
-    optional int32 kernel_size = 3;
-    optional int32 stride = 4;
-    optional int32 padding = 5;
-    optional int32 dilation = 6;
+    optional uint32 in_channels = 1;
+    optional uint32 out_channels = 2; 
+    repeated uint32 kernel_size = 3; 
+    repeated uint32 stride = 4;
+    repeated uint32 padding = 5;
+    repeated uint32 dilation = 6;
+    repeated uint32 groups = 7;
+    optional bool bias = 8;
+    optional string padding_mode = 9;
 }
 
 
@@ -98,7 +119,7 @@ message ResizeParameter {
     repeated int32 size = 4;
 }
 
-message DatasetLoaderParameter {
+message DataLoaderParameter {
     optional string dataset = 1;
     optional int32 batch_size = 2;
     optional int32 num_workers = 3;
@@ -110,6 +131,30 @@ message CocoDetParameter {
     optional string transforms = 2;
 }
 
+
+message ParameterGroup {
+    optional string name = 1;
+    optional string params = 2;
+    repeated string params_names = 3;
+    optional string params_inline = 4;
+
+    optional float lr = 5;
+    optional float momentum = 6;
+    optional float weight_decay = 7;
+}
+
+message SGDParameter {
+    repeated ParameterGroup params = 1;
+    optional float lr = 3;
+    optional float momentum = 4;
+    optional float weight_decay = 5;
+}
+
+message MultiStepLRParameter {
+    optional string optimizer = 1;
+    repeated int32 milestones = 2;
+}
+ 
 message TestParameter {
     optional string m = 1;
 }

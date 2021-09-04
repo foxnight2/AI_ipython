@@ -43,56 +43,168 @@ model {
 }
 
 
-transforms {
-    name: "transforms1"
-    op {
-        type: "ToTensor"
-    }
-    op {
-        type: "Resize"
-        resize_param {
-            keep_ratio: false
-            size: [2, 3]
+optimizer {
+
+    optimizer {
+        name: "optim1"
+        type: "SGD"
+        sgd_param {
+            params {
+                params: "list(model.parameters())[1]"
+                lr: 0.2
+            }
+            params {
+                params: "list(model.parameters())[0]"
+                lr: 0.2
+            }
+            lr: 0.1
         }
     }
-    op {
-        type: "ToTensor"
+
+    lr_scheduler {
+        name: "scheduler1"
+        type: "MultiStepLR"
+        multi_step_lr_param {
+            optimizer: "optim1"
+            milestones: [1, 2]
+        }
+    }
+
+}
+
+
+reader {
+    name: "train_reader"
+
+    transforms {
+        name: "transforms"
+        op {
+            type: "ToTensor"
+        }
+        op {
+            type: "Resize"
+            resize_param {
+                keep_ratio: false
+                size: [2, 3]
+            }
+        }
+        op {
+            type: "ToTensor"
+        }
+    }
+
+    dataset {
+        name: "dataset"
+        type: "CocoDet"
+        coco_det_param {
+            path: "file1"
+            transforms: "transforms"
+        }
+    }
+
+    dataloader {
+        name: "dataloader"
+        type: "DataLoader"
+        dataloader_param {
+            dataset: "dataset"
+            batch_size: 3
+        }
     }
 }
 
 
-dataset {
-    name: "dataset"
-    type: "CocoDet"
-    coco_det_param {
-        path: "file1"
-        transforms: "transforms1"
+reader {
+    name: "test_reader"
+
+    transforms {
+        name: "transforms1"
+        op {
+            type: "ToTensor"
+        }
+        op {
+            type: "Resize"
+            resize_param {
+                keep_ratio: false
+                size: [2, 3]
+            }
+        }
+        op {
+            type: "ToTensor"
+        }
+    }
+
+    dataset {
+        name: "dataset1"
+        type: "CocoDet"
+        coco_det_param {
+            path: "file1"
+            transforms: "transforms1"
+        }
+    }
+
+    dataloader {
+        name: "dataloader1"
+        type: "DataLoader"
+        dataloader_param {
+            dataset: "dataset1"
+            batch_size: 3
+        }
     }
 }
 
-dataloader {
-    name: "dataloader"
-    type: "DataLoader"
-    dataloader_param {
-        dataset: "dataset"
-        batch_size: 3
-    }
-}
 
-dataset {
-    name: "test_dataset"
-    type: "CocoDet"
-    coco_det_param {
-        path: "file2"
-        transforms: "transforms1"
-    }
-}
 
-dataloader {
-    name: "test_dataloader"
-    type: "DataLoader"
-    dataloader_param {
-        dataset: "test_dataset"
-        batch_size: 3
-    }
-}
+
+# transforms {
+#     name: "transforms1"
+#     op {
+#         type: "ToTensor"
+#     }
+#     op {
+#         type: "Resize"
+#         resize_param {
+#             keep_ratio: false
+#             size: [2, 3]
+#         }
+#     }
+#     op {
+#         type: "ToTensor"
+#     }
+# }
+
+
+# dataset {
+#     name: "dataset"
+#     type: "CocoDet"
+#     coco_det_param {
+#         path: "file1"
+#         transforms: "transforms1"
+#     }
+# }
+
+# dataloader {
+#     name: "dataloader"
+#     type: "DataLoader"
+#     dataloader_param {
+#         dataset: "dataset"
+#         batch_size: 3
+#     }
+# }
+
+# dataset {
+#     name: "test_dataset"
+#     type: "CocoDet"
+#     coco_det_param {
+#         path: "file2"
+#         transforms: "transforms1"
+#     }
+# }
+
+# dataloader {
+#     name: "test_dataloader"
+#     type: "DataLoader"
+#     dataloader_param {
+#         dataset: "test_dataset"
+#         batch_size: 3
+#     }
+# }

@@ -1,7 +1,6 @@
 import torch
 import torchvision
 
-# from torch.utils.data.dataset.D
 import cv_pb2 as cvpb
 from google.protobuf import text_format
 from google.protobuf import json_format
@@ -34,6 +33,7 @@ print(solver)
 # print(op.type)
 # print(op.keep_ratio)
 # print(op.size)
+
 
 def build_module(clss, params):
     '''build_module
@@ -87,7 +87,15 @@ class CocoDet(torch.utils.data.Dataset):
         pass
 
 
-modules = {m: getattr(torch.nn, m) for m in dir(torch.nn) if inspect.isclass(getattr(torch.nn, m)) and issubclass(getattr(torch.nn, m), torch.nn.Module)}
+
+modules = {m: getattr(torch.nn, m) for m in dir(torch.nn) \
+    if inspect.isclass(getattr(torch.nn, m)) and issubclass(getattr(torch.nn, m), torch.nn.Module)}
+
+modules.update({m: getattr(torch.optim, m) for m in dir(torch.optim) \
+    if inspect.isclass(getattr(torch.optim, m)) and issubclass(getattr(torch.optim, m), torch.optim.Optimizer)})
+
+modules.update({m: getattr(torch.optim.lr_scheduler, m) for m in dir(torch.optim.lr_scheduler) \
+    if inspect.isclass(getattr(torch.optim.lr_scheduler, m)) })
 
 modules.update({
     'Test': Test,
@@ -113,7 +121,7 @@ def merge():
 
 def build(config, mm):
     '''build
-    mm cache build modules.
+    mm cache all build modules.
     '''
     if not isinstance(config, (dict, list)):
         return
@@ -123,17 +131,21 @@ def build(config, mm):
         m = build(v, mm)
 
         if m is not None:
-            assert not (hasattr(m, 'top') or hasattr(m, 'bottom')), ''
-            m.top = v.get('top', None)
-            m.bottom = v.get('bottom', None)
-            config[(k if isinstance(config, dict) else i)] = m
+            assert not (hasattr(m, 'top') or hasattr(m, 'bottom')), f'{m} .top, .bottom'
+            if 'top' in v or 'bottom' in v:
+                m.top = v.get('top', None)
+                m.bottom = v.get('bottom', None)
 
-            mm.update({v['name']: m} if 'name' in v else {})
+            config[k if isinstance(config, dict) else i] = m
+            
+            # mm.update({v['name']: m} if 'name' in v else {})
+            if 'name' in v:
+                assert v['name'] not in mm, f"name {v['name']} already exists."
+                mm.update({v['name']: m})
 
     if isinstance(config, dict) and 'type' in config:
-        k = [k for k in config if 'param' in k]
+        k = [k for k in config if '_param' in k]
         v = config[k[0]] if len(k) != 0 else {}
-        # TODO
         v.update({_k: mm[_v] for _k, _v in v.items() if isinstance(_v, str) and _v in mm})
         m = build_module(modules[config['type']], v)
         return m
@@ -146,7 +158,11 @@ def build(config, mm):
         m = torch.nn.ModuleList(config['module'])
         return m
 
-# mm = {}
+    elif isinstance(config, dict) and "params" in config and isinstance(config['params'], str):
+        locals().update(**mm)
+        config['params'] = eval(config['params'])
+
+
 build(solver_dict, {}) 
 
 # print(solver_dict)
@@ -157,4 +173,4 @@ for k in solver_dict:
 # print(solver_dict['model']['module'][0])
 # print(solver_dict)
 
-# print(solver_dict['dataloader'][0].dataset)
+# print(solver_dict['reader'][0]['dataloader'].dataset.transforms)
