@@ -48,14 +48,14 @@ optimizer {
         type: "SGD"
         sgd_param {
             params {
-                params: "list(model.parameters())[1]"
+                params: "model.parameters()"
                 lr: 0.2
             }
             # params {
             #     params: "list(model.parameters())[0]"
             #     lr: 0.2
             # }
-            # lr: 0.1
+            lr: 0.1
         }
     }
 

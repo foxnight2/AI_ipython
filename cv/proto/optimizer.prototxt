@@ -1,0 +1,41 @@
+
+
+model {
+    name: "model"
+
+    module {
+        name: "conv"
+        type: "Conv2d"
+
+        bottom: "1"
+        top: "2"
+
+        conv2d_param {
+            in_channels: 1
+            out_channels: 2
+            kernel_size: 100
+            stride: 2
+        }
+    }
+
+}
+
+
+optimizer {
+
+    optimizer {
+        name: "optim1"
+        type: "SGD"
+        sgd_param {
+            params {
+                params: "list(model.parameters())[1]"
+                lr: 0.5
+            }
+            params {
+                params: "list(model.parameters())[0]"
+            }
+            # lr: 0.6
+        }
+    }
+
+}

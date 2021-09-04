@@ -7,12 +7,28 @@ from google.protobuf import json_format
 # from google.protobuf import pyext
 
 import inspect
-from collections import OrderedDict
-
+from collections import OrderedDict, Sequence
+from types import SimpleNamespace
+import copy
 
 solver = cvpb.Solver()
 text_format.Merge(open('./sovler.prototxt', 'rb').read(), solver)
-# print(solver)
+optimizer = cvpb.Solver()
+text_format.Merge(open('./optimizer.prototxt', 'rb').read(), optimizer)
+print(solver)
+print(optimizer)
+
+
+solver_dict = json_format.MessageToDict(solver, 
+                                        preserving_proto_field_name=True, 
+                                        including_default_value_fields=False)
+optim_dict = json_format.MessageToDict(optimizer, 
+                                        preserving_proto_field_name=True, 
+                                        including_default_value_fields=False)
+
+# print(solver_dict)
+# print(optim_dict)
+
 
 # WhichOneof
 # print(solver.model.module[0].WhichOneof('param'))
@@ -124,15 +140,45 @@ modules.update({
 })
 
 
-solver_dict = json_format.MessageToDict(solver, preserving_proto_field_name=True, including_default_value_fields=False)
-# print(solver_dict)
 
-
-
-def merge():
+def dict_deep_merge(*dicts, add_new_key=True):
     '''merge
+    https://gist.github.com/angstwad/bf22d1822c38a92ec0a9
     '''
-    pass
+    r = copy.deepcopy(dicts[0]) 
+
+    for d in dicts[1: ]:
+
+        assert isinstance(d, dict), ''
+        if add_new_key is False:
+            d = {k: d[k] for k in set(r).intersection(set(d)) }
+
+        for k in d: 
+            if r.get(k) is None:
+                r[k] = d[k]
+
+            elif k in r and type(r[k]) != type(d[k]):
+                raise RuntimeError('')
+
+            elif isinstance(r[k], dict) and isinstance(d[k], dict):
+                r[k] = dict_deep_merge(r[k], d[k], add_new_key=add_new_key)
+
+            elif isinstance(r[k], list) and isinstance(d[k], list):
+                if not isinstance(d[k][0], dict):
+                    r[k] = d[k] 
+                else:
+                    # TODO
+                    n = min(len(r[k]), len(d[k]))
+                    r[k][:n] = [dict_deep_merge(_r, _d, add_new_key=add_new_key) for _r, _d in zip(r[k], d[k])]
+                    r[k].extend(d[k][n:])
+
+            else:
+                r[k] = d[k]
+
+    return r
+
+r = dict_deep_merge(solver_dict, optim_dict)
+print(r)
 
 
 def build(config, mm):
@@ -159,7 +205,7 @@ def build(config, mm):
                 assert v['name'] not in mm, f"name {v['name']} already exists."
                 mm.update({v['name']: m})
 
-
+    # module
     if isinstance(config, dict) and 'type' in config:
         k = [k for k in config if '_param' in k]
         v = config[k[0]] if len(k) != 0 else {}
@@ -182,14 +228,15 @@ def build(config, mm):
         config['params'] = eval(config['params'])
 
 
-build(solver_dict, {}) 
+build(r, {}) 
+print(r)
 
-# print(solver_dict)
-
-for k in solver_dict:
-    print(k, solver_dict[k])
+# for k in solver_dict:
+#     print(k, solver_dict[k])
 
 # print(solver_dict['model']['module'][0])
-# print(solver_dict)
+# print(solver_dict['reader'][0]['dataloader'].dataset.transforms)
 
-print(solver_dict['reader'][0]['dataloader'].dataset.transforms)
+# print('-----')
+# var = SimpleNamespace(**solver_dict)
+# print(var.reader)
