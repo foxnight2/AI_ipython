@@ -53,11 +53,11 @@ optimizer {
                 params: "list(model.parameters())[1]"
                 lr: 0.2
             }
-            params {
-                params: "list(model.parameters())[0]"
-                lr: 0.2
-            }
-            lr: 0.1
+            # params {
+            #     params: "list(model.parameters())[0]"
+            #     lr: 0.2
+            # }
+            # lr: 0.1
         }
     }
 
@@ -78,18 +78,18 @@ reader {
 
     transforms {
         name: "transforms"
-        op {
-            type: "ToTensor"
-        }
-        op {
-            type: "Resize"
-            resize_param {
-                keep_ratio: false
-                size: [2, 3]
+        type: "Compose"
+        compose_param {
+            op {
+                type: "Resize"
+                resize_param {
+                    keep_ratio: false
+                    size: [2, 3]
+                }
             }
-        }
-        op {
-            type: "ToTensor"
+            op {
+                type: "ToTensor"
+            }
         }
     }
 
@@ -118,18 +118,18 @@ reader {
 
     transforms {
         name: "transforms1"
-        op {
-            type: "ToTensor"
-        }
-        op {
-            type: "Resize"
-            resize_param {
-                keep_ratio: false
-                size: [2, 3]
+        type: "Compose"
+        compose_param {
+            op {
+                type: "Resize"
+                resize_param {
+                    keep_ratio: false
+                    size: [2, 3]
+                }
             }
-        }
-        op {
-            type: "ToTensor"
+            op {
+                type: "ToTensor"
+            }
         }
     }
 

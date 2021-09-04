@@ -37,19 +37,20 @@ message Solver {
     
 }
 
+enum Phase {
+    ALL = 0;
+    TRAIN = 1;
+    EVAL = 2;
+}
+
 message Model {
     optional string name = 1;
     repeated Module module = 2;
 }
 
-message Transforms {
-    optional string name = 1;
-    repeated Module op = 2;
-}
-
 message Reader {
     optional string name = 1;
-    optional Transforms transforms = 3;
+    optional Module transforms = 3;
     optional Module dataset = 4;
     optional Module dataloader = 5;
 }
@@ -77,8 +78,9 @@ message Module {
         ReLUParameter relu_param = 6;
 
         // transforms
-        ResizeParameter resize_param = 500;
-
+        ComposeParameter compose_param = 500;
+        ResizeParameter resize_param = 501;
+        
         // dataset 
         CocoDetParameter coco_det_param = 600;
 
@@ -92,7 +94,6 @@ message Module {
         //
         TestParameter test_param = 1000;
     }
-
 }
 
 
@@ -154,7 +155,15 @@ message MultiStepLRParameter {
     optional string optimizer = 1;
     repeated int32 milestones = 2;
 }
+
+
+message ComposeParameter {
+    optional string name = 1;
+    repeated Module op = 3;
+}
+
  
 message TestParameter {
     optional string m = 1;
 }
+

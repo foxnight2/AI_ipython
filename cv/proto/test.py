@@ -1,3 +1,4 @@
+from typing_extensions import runtime
 import torch
 import torchvision
 
@@ -12,7 +13,7 @@ from collections import OrderedDict
 
 solver = cvpb.Solver()
 text_format.Merge(open('./sovler.prototxt', 'rb').read(), solver)
-print(solver)
+# print(solver)
 
 # WhichOneof
 # print(solver.model.module[0].WhichOneof('param'))
@@ -69,7 +70,7 @@ class Test(torch.nn.Module):
         self.m = m
 
     def __repr__(self) -> str:
-        return f'Test_{(self.m)}'
+        return f'Test_{(self.m)}, {id(self)}'
 
 
 class CocoDet(torch.utils.data.Dataset):
@@ -87,6 +88,10 @@ class CocoDet(torch.utils.data.Dataset):
         pass
 
 
+class Compose(torchvision.transforms.Compose):
+    def __init__(self, op):
+        super().__init__(op)
+        
 
 modules = {m: getattr(torch.nn, m) for m in dir(torch.nn) \
     if inspect.isclass(getattr(torch.nn, m)) and issubclass(getattr(torch.nn, m), torch.nn.Module)}
@@ -105,6 +110,7 @@ modules.update({
     'ReLU': torch.nn.ReLU,
     'CocoDet': CocoDet,
     'DataLoader': torch.utils.data.DataLoader,
+    'Compose': Compose,
 })
 
 
@@ -143,21 +149,24 @@ def build(config, mm):
                 assert v['name'] not in mm, f"name {v['name']} already exists."
                 mm.update({v['name']: m})
 
+
     if isinstance(config, dict) and 'type' in config:
         k = [k for k in config if '_param' in k]
         v = config[k[0]] if len(k) != 0 else {}
         v.update({_k: mm[_v] for _k, _v in v.items() if isinstance(_v, str) and _v in mm})
+
         m = build_module(modules[config['type']], v)
+
         return m
 
-    elif isinstance(config, dict) and 'op' in config: 
-        m = torchvision.transforms.Compose(config['op'])
-        return m
-
+    # model
     elif isinstance(config, dict) and 'module' in config:
+        assert config['name'] not in mm, f"name {config['name']} already exists."
         m = torch.nn.ModuleList(config['module'])
-        return m
+        config[config['name']] = m
+        mm.update({config['name']: m})
 
+    # optimizer
     elif isinstance(config, dict) and "params" in config and isinstance(config['params'], str):
         locals().update(**mm)
         config['params'] = eval(config['params'])
@@ -173,4 +182,4 @@ for k in solver_dict:
 # print(solver_dict['model']['module'][0])
 # print(solver_dict)
 
-# print(solver_dict['reader'][0]['dataloader'].dataset.transforms)
+print(solver_dict['reader'][0]['dataloader'].dataset.transforms)
