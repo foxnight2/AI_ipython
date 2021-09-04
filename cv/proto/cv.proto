@@ -80,6 +80,7 @@ message Module {
         // transforms
         ComposeParameter compose_param = 500;
         ResizeParameter resize_param = 501;
+        MosaicParameter mosaic_param = 502;
         
         // dataset 
         CocoDetParameter coco_det_param = 600;
@@ -120,6 +121,16 @@ message ResizeParameter {
     repeated int32 size = 4;
 }
 
+message ComposeParameter {
+    optional string name = 1;
+    repeated Module op = 3;
+}
+
+message MosaicParameter {
+    repeated int32 size = 1;
+}
+
+
 message DataLoaderParameter {
     optional string dataset = 1;
     optional int32 batch_size = 2;
@@ -132,6 +143,8 @@ message CocoDetParameter {
     optional string transforms = 2;
 }
 
+
+ 
 
 message ParameterGroup {
     optional string name = 1;
@@ -157,12 +170,6 @@ message MultiStepLRParameter {
 }
 
 
-message ComposeParameter {
-    optional string name = 1;
-    repeated Module op = 3;
-}
-
- 
 message TestParameter {
     optional string m = 1;
 }

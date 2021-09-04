@@ -1,6 +1,4 @@
 
-
-
 model {
     name: "model"
 
@@ -118,18 +116,9 @@ reader {
 
     transforms {
         name: "transforms1"
-        type: "Compose"
-        compose_param {
-            op {
-                type: "Resize"
-                resize_param {
-                    keep_ratio: false
-                    size: [2, 3]
-                }
-            }
-            op {
-                type: "ToTensor"
-            }
+        type: "Mosaic"
+        mosaic_param {
+            size: [1, 2]
         }
     }
 
@@ -151,60 +140,3 @@ reader {
         }
     }
 }
-
-
-
-
-# transforms {
-#     name: "transforms1"
-#     op {
-#         type: "ToTensor"
-#     }
-#     op {
-#         type: "Resize"
-#         resize_param {
-#             keep_ratio: false
-#             size: [2, 3]
-#         }
-#     }
-#     op {
-#         type: "ToTensor"
-#     }
-# }
-
-
-# dataset {
-#     name: "dataset"
-#     type: "CocoDet"
-#     coco_det_param {
-#         path: "file1"
-#         transforms: "transforms1"
-#     }
-# }
-
-# dataloader {
-#     name: "dataloader"
-#     type: "DataLoader"
-#     dataloader_param {
-#         dataset: "dataset"
-#         batch_size: 3
-#     }
-# }
-
-# dataset {
-#     name: "test_dataset"
-#     type: "CocoDet"
-#     coco_det_param {
-#         path: "file2"
-#         transforms: "transforms1"
-#     }
-# }
-
-# dataloader {
-#     name: "test_dataloader"
-#     type: "DataLoader"
-#     dataloader_param {
-#         dataset: "test_dataset"
-#         batch_size: 3
-#     }
-# }

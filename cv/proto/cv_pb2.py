@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto2',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x08\x63v.proto\"\x85\x01\n\x06Solver\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x15\n\x05model\x18\x02 \x01(\x0b\x32\x06.Model\x12\x17\n\x06reader\x18\x03 \x03(\x0b\x32\x07.Reader\x12\x1d\n\toptimizer\x18\x04 \x03(\x0b\x32\n.Optimizer\x12\x1e\n\x06\x63onfig\x18\x05 \x01(\x0b\x32\x0e.RuntimeConfig\".\n\x05Model\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x17\n\x06module\x18\x02 \x03(\x0b\x32\x07.Module\"j\n\x06Reader\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x1b\n\ntransforms\x18\x03 \x01(\x0b\x32\x07.Module\x12\x18\n\x07\x64\x61taset\x18\x04 \x01(\x0b\x32\x07.Module\x12\x1b\n\ndataloader\x18\x05 \x01(\x0b\x32\x07.Module\"T\n\tOptimizer\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x1a\n\toptimizer\x18\x02 \x01(\x0b\x32\x07.Module\x12\x1d\n\x0clr_scheduler\x18\x03 \x01(\x0b\x32\x07.Module\"\x1f\n\rRuntimeConfig\x12\x0e\n\x06logdir\x18\x01 \x01(\t\"\xd6\x03\n\x06Module\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0e\n\x06\x62ottom\x18\x03 \x03(\t\x12\x0b\n\x03top\x18\x04 \x03(\t\x12(\n\x0c\x63onv2d_param\x18\x05 \x01(\x0b\x32\x10.Conv2dParameterH\x00\x12$\n\nrelu_param\x18\x06 \x01(\x0b\x32\x0e.ReLUParameterH\x00\x12)\n\x0cresize_param\x18\xf4\x03 \x01(\x0b\x32\x10.ResizeParameterH\x00\x12+\n\rcompose_param\x18\xf5\x03 \x01(\x0b\x32\x11.ComposeParameterH\x00\x12,\n\x0e\x63oco_det_param\x18\xd8\x04 \x01(\x0b\x32\x11.CocoDetParameterH\x00\x12\x31\n\x10\x64\x61taloader_param\x18\xbc\x05 \x01(\x0b\x32\x14.DataLoaderParameterH\x00\x12#\n\tsgd_param\x18\xa0\x06 \x01(\x0b\x32\r.SGDParameterH\x00\x12\x35\n\x13multi_step_lr_param\x18\xa1\x06 \x01(\x0b\x32\x15.MultiStepLRParameterH\x00\x12%\n\ntest_param\x18\xe8\x07 \x01(\x0b\x32\x0e.TestParameterH\x00\x42\x07\n\x05param\"\xb8\x01\n\x0f\x43onv2dParameter\x12\x13\n\x0bin_channels\x18\x01 \x01(\r\x12\x14\n\x0cout_channels\x18\x02 \x01(\r\x12\x13\n\x0bkernel_size\x18\x03 \x03(\r\x12\x0e\n\x06stride\x18\x04 \x03(\r\x12\x0f\n\x07padding\x18\x05 \x03(\r\x12\x10\n\x08\x64ilation\x18\x06 \x03(\r\x12\x0e\n\x06groups\x18\x07 \x03(\r\x12\x0c\n\x04\x62ias\x18\x08 \x01(\x08\x12\x14\n\x0cpadding_mode\x18\t \x01(\t\" \n\rReLUParameter\x12\x0f\n\x07inspace\x18\x01 \x01(\x08\"3\n\x0fResizeParameter\x12\x12\n\nkeep_ratio\x18\x03 \x01(\x08\x12\x0c\n\x04size\x18\x04 \x03(\x05\"`\n\x13\x44\x61taLoaderParameter\x12\x0f\n\x07\x64\x61taset\x18\x01 \x01(\t\x12\x12\n\nbatch_size\x18\x02 \x01(\x05\x12\x13\n\x0bnum_workers\x18\x03 \x01(\x05\x12\x0f\n\x07shuffle\x18\x04 \x01(\x08\"4\n\x10\x43ocoDetParameter\x12\x0c\n\x04path\x18\x01 \x01(\t\x12\x12\n\ntransforms\x18\x02 \x01(\t\"\x8f\x01\n\x0eParameterGroup\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06params\x18\x02 \x01(\t\x12\x14\n\x0cparams_names\x18\x03 \x03(\t\x12\x15\n\rparams_inline\x18\x04 \x01(\t\x12\n\n\x02lr\x18\x05 \x01(\x02\x12\x10\n\x08momentum\x18\x06 \x01(\x02\x12\x14\n\x0cweight_decay\x18\x07 \x01(\x02\"c\n\x0cSGDParameter\x12\x1f\n\x06params\x18\x01 \x03(\x0b\x32\x0f.ParameterGroup\x12\n\n\x02lr\x18\x03 \x01(\x02\x12\x10\n\x08momentum\x18\x04 \x01(\x02\x12\x14\n\x0cweight_decay\x18\x05 \x01(\x02\"=\n\x14MultiStepLRParameter\x12\x11\n\toptimizer\x18\x01 \x01(\t\x12\x12\n\nmilestones\x18\x02 \x03(\x05\"5\n\x10\x43omposeParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x02op\x18\x03 \x03(\x0b\x32\x07.Module\"\x1a\n\rTestParameter\x12\t\n\x01m\x18\x01 \x01(\t*%\n\x05Phase\x12\x07\n\x03\x41LL\x10\x00\x12\t\n\x05TRAIN\x10\x01\x12\x08\n\x04\x45VAL\x10\x02'
+  serialized_pb=b'\n\x08\x63v.proto\"\x85\x01\n\x06Solver\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x15\n\x05model\x18\x02 \x01(\x0b\x32\x06.Model\x12\x17\n\x06reader\x18\x03 \x03(\x0b\x32\x07.Reader\x12\x1d\n\toptimizer\x18\x04 \x03(\x0b\x32\n.Optimizer\x12\x1e\n\x06\x63onfig\x18\x05 \x01(\x0b\x32\x0e.RuntimeConfig\".\n\x05Model\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x17\n\x06module\x18\x02 \x03(\x0b\x32\x07.Module\"j\n\x06Reader\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x1b\n\ntransforms\x18\x03 \x01(\x0b\x32\x07.Module\x12\x18\n\x07\x64\x61taset\x18\x04 \x01(\x0b\x32\x07.Module\x12\x1b\n\ndataloader\x18\x05 \x01(\x0b\x32\x07.Module\"T\n\tOptimizer\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x1a\n\toptimizer\x18\x02 \x01(\x0b\x32\x07.Module\x12\x1d\n\x0clr_scheduler\x18\x03 \x01(\x0b\x32\x07.Module\"\x1f\n\rRuntimeConfig\x12\x0e\n\x06logdir\x18\x01 \x01(\t\"\x81\x04\n\x06Module\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0e\n\x06\x62ottom\x18\x03 \x03(\t\x12\x0b\n\x03top\x18\x04 \x03(\t\x12(\n\x0c\x63onv2d_param\x18\x05 \x01(\x0b\x32\x10.Conv2dParameterH\x00\x12$\n\nrelu_param\x18\x06 \x01(\x0b\x32\x0e.ReLUParameterH\x00\x12+\n\rcompose_param\x18\xf4\x03 \x01(\x0b\x32\x11.ComposeParameterH\x00\x12)\n\x0cresize_param\x18\xf5\x03 \x01(\x0b\x32\x10.ResizeParameterH\x00\x12)\n\x0cmosaic_param\x18\xf6\x03 \x01(\x0b\x32\x10.MosaicParameterH\x00\x12,\n\x0e\x63oco_det_param\x18\xd8\x04 \x01(\x0b\x32\x11.CocoDetParameterH\x00\x12\x31\n\x10\x64\x61taloader_param\x18\xbc\x05 \x01(\x0b\x32\x14.DataLoaderParameterH\x00\x12#\n\tsgd_param\x18\xa0\x06 \x01(\x0b\x32\r.SGDParameterH\x00\x12\x35\n\x13multi_step_lr_param\x18\xa1\x06 \x01(\x0b\x32\x15.MultiStepLRParameterH\x00\x12%\n\ntest_param\x18\xe8\x07 \x01(\x0b\x32\x0e.TestParameterH\x00\x42\x07\n\x05param\"\xb8\x01\n\x0f\x43onv2dParameter\x12\x13\n\x0bin_channels\x18\x01 \x01(\r\x12\x14\n\x0cout_channels\x18\x02 \x01(\r\x12\x13\n\x0bkernel_size\x18\x03 \x03(\r\x12\x0e\n\x06stride\x18\x04 \x03(\r\x12\x0f\n\x07padding\x18\x05 \x03(\r\x12\x10\n\x08\x64ilation\x18\x06 \x03(\r\x12\x0e\n\x06groups\x18\x07 \x03(\r\x12\x0c\n\x04\x62ias\x18\x08 \x01(\x08\x12\x14\n\x0cpadding_mode\x18\t \x01(\t\" \n\rReLUParameter\x12\x0f\n\x07inspace\x18\x01 \x01(\x08\"3\n\x0fResizeParameter\x12\x12\n\nkeep_ratio\x18\x03 \x01(\x08\x12\x0c\n\x04size\x18\x04 \x03(\x05\"5\n\x10\x43omposeParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x02op\x18\x03 \x03(\x0b\x32\x07.Module\"\x1f\n\x0fMosaicParameter\x12\x0c\n\x04size\x18\x01 \x03(\x05\"`\n\x13\x44\x61taLoaderParameter\x12\x0f\n\x07\x64\x61taset\x18\x01 \x01(\t\x12\x12\n\nbatch_size\x18\x02 \x01(\x05\x12\x13\n\x0bnum_workers\x18\x03 \x01(\x05\x12\x0f\n\x07shuffle\x18\x04 \x01(\x08\"4\n\x10\x43ocoDetParameter\x12\x0c\n\x04path\x18\x01 \x01(\t\x12\x12\n\ntransforms\x18\x02 \x01(\t\"\x8f\x01\n\x0eParameterGroup\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06params\x18\x02 \x01(\t\x12\x14\n\x0cparams_names\x18\x03 \x03(\t\x12\x15\n\rparams_inline\x18\x04 \x01(\t\x12\n\n\x02lr\x18\x05 \x01(\x02\x12\x10\n\x08momentum\x18\x06 \x01(\x02\x12\x14\n\x0cweight_decay\x18\x07 \x01(\x02\"c\n\x0cSGDParameter\x12\x1f\n\x06params\x18\x01 \x03(\x0b\x32\x0f.ParameterGroup\x12\n\n\x02lr\x18\x03 \x01(\x02\x12\x10\n\x08momentum\x18\x04 \x01(\x02\x12\x14\n\x0cweight_decay\x18\x05 \x01(\x02\"=\n\x14MultiStepLRParameter\x12\x11\n\toptimizer\x18\x01 \x01(\t\x12\x12\n\nmilestones\x18\x02 \x03(\x05\"\x1a\n\rTestParameter\x12\t\n\x01m\x18\x01 \x01(\t*%\n\x05Phase\x12\x07\n\x03\x41LL\x10\x00\x12\t\n\x05TRAIN\x10\x01\x12\x08\n\x04\x45VAL\x10\x02'
 )
 
 _PHASE = _descriptor.EnumDescriptor(
@@ -48,8 +48,8 @@ _PHASE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1715,
-  serialized_end=1752,
+  serialized_start=1791,
+  serialized_end=1828,
 )
 _sym_db.RegisterEnumDescriptor(_PHASE)
 
@@ -341,49 +341,56 @@ _MODULE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='resize_param', full_name='Module.resize_param', index=6,
+      name='compose_param', full_name='Module.compose_param', index=6,
       number=500, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='compose_param', full_name='Module.compose_param', index=7,
+      name='resize_param', full_name='Module.resize_param', index=7,
       number=501, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='coco_det_param', full_name='Module.coco_det_param', index=8,
+      name='mosaic_param', full_name='Module.mosaic_param', index=8,
+      number=502, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='coco_det_param', full_name='Module.coco_det_param', index=9,
       number=600, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='dataloader_param', full_name='Module.dataloader_param', index=9,
+      name='dataloader_param', full_name='Module.dataloader_param', index=10,
       number=700, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='sgd_param', full_name='Module.sgd_param', index=10,
+      name='sgd_param', full_name='Module.sgd_param', index=11,
       number=800, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='multi_step_lr_param', full_name='Module.multi_step_lr_param', index=11,
+      name='multi_step_lr_param', full_name='Module.multi_step_lr_param', index=12,
       number=801, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='test_param', full_name='Module.test_param', index=12,
+      name='test_param', full_name='Module.test_param', index=13,
       number=1000, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -407,7 +414,7 @@ _MODULE = _descriptor.Descriptor(
     fields=[]),
   ],
   serialized_start=424,
-  serialized_end=894,
+  serialized_end=937,
 )
 
 
@@ -494,8 +501,8 @@ _CONV2DPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=897,
-  serialized_end=1081,
+  serialized_start=940,
+  serialized_end=1124,
 )
 
 
@@ -526,8 +533,8 @@ _RELUPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1083,
-  serialized_end=1115,
+  serialized_start=1126,
+  serialized_end=1158,
 )
 
 
@@ -565,8 +572,79 @@ _RESIZEPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1117,
-  serialized_end=1168,
+  serialized_start=1160,
+  serialized_end=1211,
+)
+
+
+_COMPOSEPARAMETER = _descriptor.Descriptor(
+  name='ComposeParameter',
+  full_name='ComposeParameter',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='ComposeParameter.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='op', full_name='ComposeParameter.op', index=1,
+      number=3, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1213,
+  serialized_end=1266,
+)
+
+
+_MOSAICPARAMETER = _descriptor.Descriptor(
+  name='MosaicParameter',
+  full_name='MosaicParameter',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='size', full_name='MosaicParameter.size', index=0,
+      number=1, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1268,
+  serialized_end=1299,
 )
 
 
@@ -618,8 +696,8 @@ _DATALOADERPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1170,
-  serialized_end=1266,
+  serialized_start=1301,
+  serialized_end=1397,
 )
 
 
@@ -657,8 +735,8 @@ _COCODETPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1268,
-  serialized_end=1320,
+  serialized_start=1399,
+  serialized_end=1451,
 )
 
 
@@ -731,8 +809,8 @@ _PARAMETERGROUP = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1323,
-  serialized_end=1466,
+  serialized_start=1454,
+  serialized_end=1597,
 )
 
 
@@ -784,8 +862,8 @@ _SGDPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1468,
-  serialized_end=1567,
+  serialized_start=1599,
+  serialized_end=1698,
 )
 
 
@@ -823,47 +901,8 @@ _MULTISTEPLRPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1569,
-  serialized_end=1630,
-)
-
-
-_COMPOSEPARAMETER = _descriptor.Descriptor(
-  name='ComposeParameter',
-  full_name='ComposeParameter',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='name', full_name='ComposeParameter.name', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='op', full_name='ComposeParameter.op', index=1,
-      number=3, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto2',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1632,
-  serialized_end=1685,
+  serialized_start=1700,
+  serialized_end=1761,
 )
 
 
@@ -894,8 +933,8 @@ _TESTPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1687,
-  serialized_end=1713,
+  serialized_start=1763,
+  serialized_end=1789,
 )
 
 _SOLVER.fields_by_name['model'].message_type = _MODEL
@@ -910,8 +949,9 @@ _OPTIMIZER.fields_by_name['optimizer'].message_type = _MODULE
 _OPTIMIZER.fields_by_name['lr_scheduler'].message_type = _MODULE
 _MODULE.fields_by_name['conv2d_param'].message_type = _CONV2DPARAMETER
 _MODULE.fields_by_name['relu_param'].message_type = _RELUPARAMETER
-_MODULE.fields_by_name['resize_param'].message_type = _RESIZEPARAMETER
 _MODULE.fields_by_name['compose_param'].message_type = _COMPOSEPARAMETER
+_MODULE.fields_by_name['resize_param'].message_type = _RESIZEPARAMETER
+_MODULE.fields_by_name['mosaic_param'].message_type = _MOSAICPARAMETER
 _MODULE.fields_by_name['coco_det_param'].message_type = _COCODETPARAMETER
 _MODULE.fields_by_name['dataloader_param'].message_type = _DATALOADERPARAMETER
 _MODULE.fields_by_name['sgd_param'].message_type = _SGDPARAMETER
@@ -924,11 +964,14 @@ _MODULE.oneofs_by_name['param'].fields.append(
   _MODULE.fields_by_name['relu_param'])
 _MODULE.fields_by_name['relu_param'].containing_oneof = _MODULE.oneofs_by_name['param']
 _MODULE.oneofs_by_name['param'].fields.append(
+  _MODULE.fields_by_name['compose_param'])
+_MODULE.fields_by_name['compose_param'].containing_oneof = _MODULE.oneofs_by_name['param']
+_MODULE.oneofs_by_name['param'].fields.append(
   _MODULE.fields_by_name['resize_param'])
 _MODULE.fields_by_name['resize_param'].containing_oneof = _MODULE.oneofs_by_name['param']
 _MODULE.oneofs_by_name['param'].fields.append(
-  _MODULE.fields_by_name['compose_param'])
-_MODULE.fields_by_name['compose_param'].containing_oneof = _MODULE.oneofs_by_name['param']
+  _MODULE.fields_by_name['mosaic_param'])
+_MODULE.fields_by_name['mosaic_param'].containing_oneof = _MODULE.oneofs_by_name['param']
 _MODULE.oneofs_by_name['param'].fields.append(
   _MODULE.fields_by_name['coco_det_param'])
 _MODULE.fields_by_name['coco_det_param'].containing_oneof = _MODULE.oneofs_by_name['param']
@@ -944,8 +987,8 @@ _MODULE.fields_by_name['multi_step_lr_param'].containing_oneof = _MODULE.oneofs_
 _MODULE.oneofs_by_name['param'].fields.append(
   _MODULE.fields_by_name['test_param'])
 _MODULE.fields_by_name['test_param'].containing_oneof = _MODULE.oneofs_by_name['param']
-_SGDPARAMETER.fields_by_name['params'].message_type = _PARAMETERGROUP
 _COMPOSEPARAMETER.fields_by_name['op'].message_type = _MODULE
+_SGDPARAMETER.fields_by_name['params'].message_type = _PARAMETERGROUP
 DESCRIPTOR.message_types_by_name['Solver'] = _SOLVER
 DESCRIPTOR.message_types_by_name['Model'] = _MODEL
 DESCRIPTOR.message_types_by_name['Reader'] = _READER
@@ -955,12 +998,13 @@ DESCRIPTOR.message_types_by_name['Module'] = _MODULE
 DESCRIPTOR.message_types_by_name['Conv2dParameter'] = _CONV2DPARAMETER
 DESCRIPTOR.message_types_by_name['ReLUParameter'] = _RELUPARAMETER
 DESCRIPTOR.message_types_by_name['ResizeParameter'] = _RESIZEPARAMETER
+DESCRIPTOR.message_types_by_name['ComposeParameter'] = _COMPOSEPARAMETER
+DESCRIPTOR.message_types_by_name['MosaicParameter'] = _MOSAICPARAMETER
 DESCRIPTOR.message_types_by_name['DataLoaderParameter'] = _DATALOADERPARAMETER
 DESCRIPTOR.message_types_by_name['CocoDetParameter'] = _COCODETPARAMETER
 DESCRIPTOR.message_types_by_name['ParameterGroup'] = _PARAMETERGROUP
 DESCRIPTOR.message_types_by_name['SGDParameter'] = _SGDPARAMETER
 DESCRIPTOR.message_types_by_name['MultiStepLRParameter'] = _MULTISTEPLRPARAMETER
-DESCRIPTOR.message_types_by_name['ComposeParameter'] = _COMPOSEPARAMETER
 DESCRIPTOR.message_types_by_name['TestParameter'] = _TESTPARAMETER
 DESCRIPTOR.enum_types_by_name['Phase'] = _PHASE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -1028,6 +1072,20 @@ ResizeParameter = _reflection.GeneratedProtocolMessageType('ResizeParameter', (_
   })
 _sym_db.RegisterMessage(ResizeParameter)
 
+ComposeParameter = _reflection.GeneratedProtocolMessageType('ComposeParameter', (_message.Message,), {
+  'DESCRIPTOR' : _COMPOSEPARAMETER,
+  '__module__' : 'cv_pb2'
+  # @@protoc_insertion_point(class_scope:ComposeParameter)
+  })
+_sym_db.RegisterMessage(ComposeParameter)
+
+MosaicParameter = _reflection.GeneratedProtocolMessageType('MosaicParameter', (_message.Message,), {
+  'DESCRIPTOR' : _MOSAICPARAMETER,
+  '__module__' : 'cv_pb2'
+  # @@protoc_insertion_point(class_scope:MosaicParameter)
+  })
+_sym_db.RegisterMessage(MosaicParameter)
+
 DataLoaderParameter = _reflection.GeneratedProtocolMessageType('DataLoaderParameter', (_message.Message,), {
   'DESCRIPTOR' : _DATALOADERPARAMETER,
   '__module__' : 'cv_pb2'
@@ -1062,13 +1120,6 @@ MultiStepLRParameter = _reflection.GeneratedProtocolMessageType('MultiStepLRPara
   # @@protoc_insertion_point(class_scope:MultiStepLRParameter)
   })
 _sym_db.RegisterMessage(MultiStepLRParameter)
-
-ComposeParameter = _reflection.GeneratedProtocolMessageType('ComposeParameter', (_message.Message,), {
-  'DESCRIPTOR' : _COMPOSEPARAMETER,
-  '__module__' : 'cv_pb2'
-  # @@protoc_insertion_point(class_scope:ComposeParameter)
-  })
-_sym_db.RegisterMessage(ComposeParameter)
 
 TestParameter = _reflection.GeneratedProtocolMessageType('TestParameter', (_message.Message,), {
   'DESCRIPTOR' : _TESTPARAMETER,

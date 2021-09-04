@@ -1,4 +1,3 @@
-from typing_extensions import runtime
 import torch
 import torchvision
 
@@ -63,6 +62,7 @@ class Resize():
         self.size = size
         self.keep_ration = keep_ratio
 
+
 class Test(torch.nn.Module):
     def __init__(self, m) -> None:
         super().__init__()
@@ -93,6 +93,15 @@ class Compose(torchvision.transforms.Compose):
         super().__init__(op)
         
 
+class Mosaic(object):
+    def __init__(self, size) -> None:
+        super().__init__()
+        self.size = size
+    
+    def __call__(self, img):
+        return img 
+
+
 modules = {m: getattr(torch.nn, m) for m in dir(torch.nn) \
     if inspect.isclass(getattr(torch.nn, m)) and issubclass(getattr(torch.nn, m), torch.nn.Module)}
 
@@ -111,6 +120,7 @@ modules.update({
     'CocoDet': CocoDet,
     'DataLoader': torch.utils.data.DataLoader,
     'Compose': Compose,
+    'Mosaic': Mosaic,
 })
 
 
