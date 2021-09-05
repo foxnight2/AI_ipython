@@ -1,26 +1,5 @@
 
 
-model {
-    module_list_param {
-
-        module {
-            name: "conv"
-            type: "Conv2d"
-
-            bottom: "1"
-            top: "2"
-
-            conv2d_param {
-                in_channels: 1
-                out_channels: 2
-                kernel_size: 100
-                stride: 2
-            }
-        }
-
-    }
-} 
-
 
 optimizer {
 
@@ -32,16 +11,22 @@ optimizer {
         sgd_param {
             params {
                 name: "group1"
-                params: "list(model.parameters())[1]"
-                lr: 0.5
+                params: "model.parameters()"
+                lr: 0.2
             }
-            params {
-                name: "group2"
-                params: "list(model.parameters())[0]"
-            }
-            # lr: 0.6
+            lr: 0.1
+        }
+    }
+
+    lr_scheduler {
+        name: "scheduler1"
+        type: "MultiStepLR"
+        multi_step_lr_param {
+            optimizer: "optim1"
+            milestones: [1, 2]
         }
     }
 
 }
+
 
