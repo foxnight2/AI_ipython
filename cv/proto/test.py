@@ -1,18 +1,18 @@
 import torch
 import torchvision
 
-import cv_pb2 as cvpb
 from google.protobuf import text_format
 from google.protobuf import json_format
-# from google.protobuf import pyext
 from google.protobuf import reflection
+# from google.protobuf import pyext
 
-
-import inspect
-from collections import OrderedDict
-from types import SimpleNamespace
 import copy
+import inspect
+from types import SimpleNamespace
+from collections import OrderedDict
 from typing import Optional, Iterable
+
+import cv_pb2 as cvpb
 
 
 def build_module(clss, params):
