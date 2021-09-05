@@ -1,4 +1,3 @@
-from google import protobuf
 import torch
 import torchvision
 
@@ -6,6 +5,8 @@ import cv_pb2 as cvpb
 from google.protobuf import text_format
 from google.protobuf import json_format
 # from google.protobuf import pyext
+from google.protobuf import reflection
+
 
 import inspect
 from collections import OrderedDict
@@ -206,13 +207,16 @@ solver = cvpb.Solver()
 text_format.Merge(open('./sovler.prototxt', 'rb').read(), solver)
 print(solver)
 
-configs = [solver, ]
+# configs = [solver, ]
+configs = []
 
 for path in solver.include:
     config = cvpb.Solver()
     text_format.Merge(open(path, 'rb').read(), config)
-    # TODO insert(0, config)
+    # TODO
     configs.append(config)
+
+configs.append(solver)
 
 configs_dict = [json_format.MessageToDict(config, preserving_proto_field_name=True, including_default_value_fields=False) for config in configs]
 

@@ -2,6 +2,46 @@
 
 
 reader {
+    name: "train_reader"
+
+    transforms {
+        name: "transforms"
+        type: "Compose"
+        compose_param {
+            op {
+                type: "Resize"
+                resize_param {
+                    keep_ratio: false
+                    size: [2, 3]
+                }
+            }
+            op {
+                type: "ToTensor"
+            }
+        }
+    }
+
+    dataset {
+        name: "dataset"
+        type: "CocoDet"
+        coco_det_param {
+            path: "file1"
+            transforms: "transforms"
+        }
+    }
+
+    dataloader {
+        name: "dataloader"
+        type: "DataLoader"
+        dataloader_param {
+            dataset: "dataset"
+            batch_size: 3
+        }
+    }
+}
+
+
+reader {
     name: "test_reader"
 
     transforms {
