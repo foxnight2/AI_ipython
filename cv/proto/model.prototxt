@@ -2,6 +2,64 @@
 
 
 model {
+    name: "yolo"
+    type: "YOLO"
+
+    yolo_param {
+        backbone {
+            # name: "backbone"
+            type: "Conv2d"
+            bottom: "x"
+            top: "x"
+            conv2d_param {
+                in_channels: 1
+                out_channels: 2
+                kernel_size: 3
+                stride: 2
+            }
+        }
+        neck {
+            # name: "neck"
+            type: "Conv2d"
+            bottom: "x"
+            top: "x"
+            conv2d_param {
+                in_channels: 1
+                out_channels: 2
+                kernel_size: 3
+                stride: 2
+            }
+        }
+        head {
+            # name: "head"
+            type: "Conv2d"
+            bottom: "x"
+            top: "x"
+            conv2d_param {
+                in_channels: 1
+                out_channels: 2
+                kernel_size: 3
+                stride: 2
+            }
+        }
+        postprocess {
+            # name: "postprocess"
+            type: "Conv2d"
+            bottom: "x"
+            top: "x"
+            conv2d_param {
+                in_channels: 1
+                out_channels: 2
+                kernel_size: 3
+                stride: 2
+            }
+        }
+
+    }
+}
+
+
+model {
     name: "model"
     type: "ModuleList"
 

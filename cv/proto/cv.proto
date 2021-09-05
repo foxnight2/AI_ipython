@@ -26,7 +26,7 @@ syntax = "proto2";
 
 message Solver {
     required string name = 1;
-    optional Module model = 2;
+    repeated Module model = 2;
     repeated Reader reader = 3;
     repeated Optimizer optimizer = 4;
     optional RuntimeConfig config = 5;
@@ -76,7 +76,9 @@ message Module {
 
     oneof param {
         // module
-        ModuleListParameter module_list_param = 90;
+        ModuleListParameter module_list_param = 50;
+        YOLOParameter yolo_param = 51;
+
         Conv2dParameter conv2d_param = 100;
         ReLUParameter relu_param = 101;
 
@@ -105,6 +107,16 @@ message ModuleListParameter {
     optional string name = 1;
     repeated Module module = 2;
 }
+
+
+message YOLOParameter {
+    optional string name = 1;
+    optional Module backbone = 2;
+    optional Module neck = 3;
+    optional Module head = 4;
+    optional Module postprocess = 5;
+}
+
 
 message Conv2dParameter {
     optional uint32 in_channels = 1;

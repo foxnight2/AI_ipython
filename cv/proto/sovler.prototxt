@@ -4,7 +4,7 @@ include: "./optimizer.prototxt"
 include: "./reader.prototxt"
 
 model {
-    
+    name: "model"
     module_list_param {
 
         module {
@@ -24,6 +24,28 @@ model {
 
     }
 } 
+
+model {
+    name: "yolo"
+    yolo_param {
+
+        backbone {
+            # name: "backbone"
+            type: "Conv2d"
+
+            bottom: "1"
+            top: "2"
+
+            conv2d_param {
+                in_channels: 100
+                out_channels: 100
+                kernel_size: 100
+                stride: 2
+            }
+        }
+    }
+} 
+
 
 optimizer {
 

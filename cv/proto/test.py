@@ -95,9 +95,24 @@ class Mosaic(object):
     def __call__(self, img):
         return img 
 
+
 class ModuleList(torch.nn.ModuleList):
     def __init__(self, module: Optional[Iterable[torch.nn.Module]]) -> None:
         super().__init__(modules=module)
+
+
+
+class YOLO(torch.nn.Module):
+    def __init__(self, backbone, neck, head, postprocess):
+        super().__init__()
+        self.backbone = backbone
+        self.neck = neck
+        self.head = head 
+        self.postprocess = postprocess
+    
+    def forward(self, x):
+        pass
+
 
 
 modules.update({
@@ -111,6 +126,7 @@ modules.update({
     'Compose': Compose,
     'Mosaic': Mosaic,
     'ModuleList': ModuleList,
+    'YOLO': YOLO,
 })
 
 
@@ -148,6 +164,7 @@ def dict_deep_merge(*dicts, add_new_key=True):
                     # assert items in `list` must have `name` field.
                     names = [x['name'] for x in r[k]]
                     for x in d[k]:
+                        print(x['name'], names)
                         if x['name'] in names:
                             i = names.index(x['name'])
                             r[k][i] = dict_deep_merge(r[k][i], x, add_new_key=add_new_key)
@@ -207,7 +224,11 @@ def build(config, mm):
 
 solver = cvpb.Solver()
 text_format.Merge(open('./sovler.prototxt', 'rb').read(), solver)
-print(solver)
+# print(solver)
+
+# model = cvpb.Solver()
+# text_format.Merge(open('./model.prototxt', 'rb').read(), model)
+# print(model)
 
 # configs = [solver, ]
 configs = []
@@ -221,6 +242,8 @@ for path in solver.include:
 configs.append(solver)
 
 configs_dict = [json_format.MessageToDict(config, preserving_proto_field_name=True, including_default_value_fields=False) for config in configs]
+# print(configs_dict)
+print('------')
 
 # optimizer = cvpb.Solver()
 # text_format.Merge(open('./optimizer.prototxt', 'rb').read(), optimizer)
@@ -270,12 +293,14 @@ configs_dict = [json_format.MessageToDict(config, preserving_proto_field_name=Tr
 
 # r = dict_deep_merge(solver_dict, optim_dict, reader_dict, add_new_key=True)
 r = dict_deep_merge(*configs_dict, add_new_key=True)
-
-# print(r)
+print(r)
 # print()
 
-build(r, {}) 
+mm = {}
+build(r, mm) 
 print(r)
+print('----')
+# print(mm)
 
 # for k in solver_dict:
 #     print(k, solver_dict[k])
@@ -284,5 +309,6 @@ print(r)
 # print(solver_dict['reader'][0]['dataloader'].dataset.transforms)
 
 # print('-----')
-var = SimpleNamespace(**r)
-print(var.reader)
+var = SimpleNamespace(**mm)
+print(var.yolo)
+print(var.dataloader1)
