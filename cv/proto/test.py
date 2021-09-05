@@ -1,4 +1,5 @@
 import torch
+from torch.nn.modules.activation import ReLU
 import torchvision
 
 from google.protobuf import text_format
@@ -135,6 +136,9 @@ def dict_deep_merge(*dicts, add_new_key=True):
     '''merge
     https://gist.github.com/angstwad/bf22d1822c38a92ec0a9
     '''
+    if len(dicts) == 1:
+        return dicts[0]
+
     r = copy.deepcopy(dicts[0]) 
 
     for d in dicts[1: ]:
