@@ -26,13 +26,13 @@ syntax = "proto2";
 
 message Solver {
     required string name = 1;
-    repeated Module model = 2;
-    repeated Reader reader = 3;
-    repeated Optimizer optimizer = 4;
-    optional RuntimeConfig config = 5;
+    repeated string include = 2;
 
-    repeated string include = 6;
-    
+    repeated Module model = 10;
+    repeated Reader reader = 11;
+    repeated Optimizer optimizer = 12;
+    optional RuntimeConfig config = 13;
+
     // repeated Transforms transforms = 100;
     // repeated Module dataset = 101;
     // repeated Module dataloader = 102;
@@ -45,10 +45,6 @@ enum Phase {
     EVAL = 2;
 }
 
-// message Model {
-//     optional string name = 1;
-//     optional Module model = 2;
-// }
 
 message Reader {
     optional string name = 1;
@@ -164,7 +160,6 @@ message CocoDetParameter {
 }
 
 
- 
 
 message ParameterGroup {
     optional string name = 1;

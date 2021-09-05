@@ -164,7 +164,6 @@ def dict_deep_merge(*dicts, add_new_key=True):
                     # assert items in `list` must have `name` field.
                     names = [x['name'] for x in r[k]]
                     for x in d[k]:
-                        print(x['name'], names)
                         if x['name'] in names:
                             i = names.index(x['name'])
                             r[k][i] = dict_deep_merge(r[k][i], x, add_new_key=add_new_key)
@@ -293,14 +292,14 @@ print('------')
 
 # r = dict_deep_merge(solver_dict, optim_dict, reader_dict, add_new_key=True)
 r = dict_deep_merge(*configs_dict, add_new_key=True)
-print(r)
+# print(r)
 # print()
 
 mm = {}
 build(r, mm) 
-print(r)
+# print(r)
 print('----')
-# print(mm)
+print(mm)
 
 # for k in solver_dict:
 #     print(k, solver_dict[k])

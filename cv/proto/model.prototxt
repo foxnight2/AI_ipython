@@ -7,10 +7,8 @@ model {
 
     yolo_param {
         backbone {
-            # name: "backbone"
+            name: "backbone1"
             type: "Conv2d"
-            bottom: "x"
-            top: "x"
             conv2d_param {
                 in_channels: 1
                 out_channels: 2
@@ -19,10 +17,8 @@ model {
             }
         }
         neck {
-            # name: "neck"
+            name: "neck"
             type: "Conv2d"
-            bottom: "x"
-            top: "x"
             conv2d_param {
                 in_channels: 1
                 out_channels: 2
@@ -31,10 +27,8 @@ model {
             }
         }
         head {
-            # name: "head"
+            name: "head"
             type: "Conv2d"
-            bottom: "x"
-            top: "x"
             conv2d_param {
                 in_channels: 1
                 out_channels: 2
@@ -43,10 +37,8 @@ model {
             }
         }
         postprocess {
-            # name: "postprocess"
+            name: "postprocess"
             type: "Conv2d"
-            bottom: "x"
-            top: "x"
             conv2d_param {
                 in_channels: 1
                 out_channels: 2
@@ -70,7 +62,7 @@ model {
 
             bottom: "1"
             top: "2"
-
+            
             conv2d_param {
                 in_channels: 1
                 out_channels: 2
