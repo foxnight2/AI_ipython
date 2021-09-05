@@ -1,0 +1,32 @@
+
+
+
+reader {
+    name: "test_reader"
+
+    transforms {
+        name: "transforms1"
+        type: "Mosaic"
+        mosaic_param {
+            size: [1, 2]
+        }
+    }
+
+    dataset {
+        name: "dataset1"
+        type: "CocoDet"
+        coco_det_param {
+            path: "file1"
+            transforms: "transforms1"
+        }
+    }
+
+    dataloader {
+        name: "dataloader1"
+        type: "DataLoader"
+        dataloader_param {
+            dataset: "dataset1"
+            batch_size: 3
+        }
+    }
+}

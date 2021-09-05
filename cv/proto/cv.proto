@@ -25,12 +25,14 @@
 syntax = "proto2";
 
 message Solver {
-    optional string name = 1;
-    optional Model model = 2;
+    required string name = 1;
+    optional Module model = 2;
     repeated Reader reader = 3;
     repeated Optimizer optimizer = 4;
     optional RuntimeConfig config = 5;
 
+    repeated string include = 6;
+    
     // repeated Transforms transforms = 100;
     // repeated Module dataset = 101;
     // repeated Module dataloader = 102;
@@ -43,10 +45,10 @@ enum Phase {
     EVAL = 2;
 }
 
-message Model {
-    optional string name = 1;
-    repeated Module module = 2;
-}
+// message Model {
+//     optional string name = 1;
+//     optional Module model = 2;
+// }
 
 message Reader {
     optional string name = 1;
@@ -74,14 +76,15 @@ message Module {
 
     oneof param {
         // module
-        Conv2dParameter conv2d_param = 5;
-        ReLUParameter relu_param = 6;
+        ModuleListParameter module_list_param = 90;
+        Conv2dParameter conv2d_param = 100;
+        ReLUParameter relu_param = 101;
 
         // transforms
         ComposeParameter compose_param = 500;
         ResizeParameter resize_param = 501;
         MosaicParameter mosaic_param = 502;
-        
+
         // dataset 
         CocoDetParameter coco_det_param = 600;
 
@@ -97,6 +100,11 @@ message Module {
     }
 }
 
+
+message ModuleListParameter {
+    optional string name = 1;
+    repeated Module module = 2;
+}
 
 message Conv2dParameter {
     optional uint32 in_channels = 1;

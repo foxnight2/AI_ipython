@@ -1,3 +1,4 @@
+from google import protobuf
 import torch
 import torchvision
 
@@ -7,48 +8,10 @@ from google.protobuf import json_format
 # from google.protobuf import pyext
 
 import inspect
-from collections import OrderedDict, Sequence
+from collections import OrderedDict
 from types import SimpleNamespace
 import copy
-
-solver = cvpb.Solver()
-text_format.Merge(open('./sovler.prototxt', 'rb').read(), solver)
-optimizer = cvpb.Solver()
-text_format.Merge(open('./optimizer.prototxt', 'rb').read(), optimizer)
-print(solver)
-print(optimizer)
-
-
-solver_dict = json_format.MessageToDict(solver, 
-                                        preserving_proto_field_name=True, 
-                                        including_default_value_fields=False)
-optim_dict = json_format.MessageToDict(optimizer, 
-                                        preserving_proto_field_name=True, 
-                                        including_default_value_fields=False)
-
-# print(solver_dict)
-# print(optim_dict)
-
-
-# WhichOneof
-# print(solver.model.module[0].WhichOneof('param'))
-# print(getattr(solver.model.module[0], solver.model.module[0].WhichOneof('param')))
-# c+=1
-
-
-# _param = {k.name: v for k, v in solver.transforms.op[1].ListFields()}
-# print(_param)
-
-
-# print(solver)
-# print(type(solver.transforms.op[0]))
-# op = solver.transforms.op[0]
-# print(dir(op))
-# print(op.ListFields())
-# print(op.name)
-# print(op.type)
-# print(op.keep_ratio)
-# print(op.size)
+from typing import Optional, Iterable
 
 
 def build_module(clss, params):
@@ -67,6 +30,18 @@ def build_module(clss, params):
     module = clss(**kwargs)
         
     return module
+
+
+
+
+modules = {m: getattr(torch.nn, m) for m in dir(torch.nn) \
+    if inspect.isclass(getattr(torch.nn, m)) and issubclass(getattr(torch.nn, m), torch.nn.Module)}
+
+modules.update({m: getattr(torch.optim, m) for m in dir(torch.optim) \
+    if inspect.isclass(getattr(torch.optim, m)) and issubclass(getattr(torch.optim, m), torch.optim.Optimizer)})
+
+modules.update({m: getattr(torch.optim.lr_scheduler, m) for m in dir(torch.optim.lr_scheduler) \
+    if inspect.isclass(getattr(torch.optim.lr_scheduler, m)) })
 
 
 class ToTensor():
@@ -117,15 +92,10 @@ class Mosaic(object):
     def __call__(self, img):
         return img 
 
+class ModuleList(torch.nn.ModuleList):
+    def __init__(self, module: Optional[Iterable[torch.nn.Module]]) -> None:
+        super().__init__(modules=module)
 
-modules = {m: getattr(torch.nn, m) for m in dir(torch.nn) \
-    if inspect.isclass(getattr(torch.nn, m)) and issubclass(getattr(torch.nn, m), torch.nn.Module)}
-
-modules.update({m: getattr(torch.optim, m) for m in dir(torch.optim) \
-    if inspect.isclass(getattr(torch.optim, m)) and issubclass(getattr(torch.optim, m), torch.optim.Optimizer)})
-
-modules.update({m: getattr(torch.optim.lr_scheduler, m) for m in dir(torch.optim.lr_scheduler) \
-    if inspect.isclass(getattr(torch.optim.lr_scheduler, m)) })
 
 modules.update({
     'Test': Test,
@@ -137,6 +107,7 @@ modules.update({
     'DataLoader': torch.utils.data.DataLoader,
     'Compose': Compose,
     'Mosaic': Mosaic,
+    'ModuleList': ModuleList,
 })
 
 
@@ -168,23 +139,29 @@ def dict_deep_merge(*dicts, add_new_key=True):
                     r[k] = d[k] 
                 else:
                     # TODO
-                    n = min(len(r[k]), len(d[k]))
-                    r[k][:n] = [dict_deep_merge(_r, _d, add_new_key=add_new_key) for _r, _d in zip(r[k], d[k])]
-                    r[k].extend(d[k][n:])
+                    # n = min(len(r[k]), len(d[k]))
+                    # r[k][:n] = [dict_deep_merge(_r, _d, add_new_key=add_new_key) for _r, _d in zip(r[k], d[k])]
+                    # r[k].extend(d[k][n:])
+                    # assert items in `list` must have `name` field.
+                    names = [x['name'] for x in r[k]]
+                    for x in d[k]:
+                        if x['name'] in names:
+                            i = names.index(x['name'])
+                            r[k][i] = dict_deep_merge(r[k][i], x, add_new_key=add_new_key)
+                        else:
+                            r[k].append(x)
 
             else:
                 r[k] = d[k]
 
     return r
 
-r = dict_deep_merge(solver_dict, optim_dict)
-print(r)
-
 
 def build(config, mm):
     '''build
     mm cache all build modules.
     '''
+
     if not isinstance(config, (dict, list)):
         return
 
@@ -193,18 +170,18 @@ def build(config, mm):
         m = build(v, mm)
 
         if m is not None:
+
             assert not (hasattr(m, 'top') or hasattr(m, 'bottom')), f'{m} .top, .bottom'
             if 'top' in v or 'bottom' in v:
                 m.top = v.get('top', None)
                 m.bottom = v.get('bottom', None)
 
             config[k if isinstance(config, dict) else i] = m
-            
-            # mm.update({v['name']: m} if 'name' in v else {})
+
             if 'name' in v:
                 assert v['name'] not in mm, f"name {v['name']} already exists."
                 mm.update({v['name']: m})
-
+    
     # module
     if isinstance(config, dict) and 'type' in config:
         k = [k for k in config if '_param' in k]
@@ -215,18 +192,81 @@ def build(config, mm):
 
         return m
 
-    # model
-    elif isinstance(config, dict) and 'module' in config:
-        assert config['name'] not in mm, f"name {config['name']} already exists."
-        m = torch.nn.ModuleList(config['module'])
-        config[config['name']] = m
-        mm.update({config['name']: m})
-
     # optimizer
     elif isinstance(config, dict) and "params" in config and isinstance(config['params'], str):
         locals().update(**mm)
         config['params'] = eval(config['params'])
 
+
+
+
+
+
+solver = cvpb.Solver()
+text_format.Merge(open('./sovler.prototxt', 'rb').read(), solver)
+print(solver)
+
+configs = [solver, ]
+
+for path in solver.include:
+    config = cvpb.Solver()
+    text_format.Merge(open(path, 'rb').read(), config)
+    # TODO insert(0, config)
+    configs.append(config)
+
+configs_dict = [json_format.MessageToDict(config, preserving_proto_field_name=True, including_default_value_fields=False) for config in configs]
+
+# optimizer = cvpb.Solver()
+# text_format.Merge(open('./optimizer.prototxt', 'rb').read(), optimizer)
+# reader = cvpb.Solver()
+# text_format.Merge(open('./optimizer.prototxt', 'rb').read(), reader)
+
+# print(optimizer)
+# c += 1
+
+# solver.MergeFrom(optimizer)
+# print(solver)
+# c+=1
+
+# solver_dict = json_format.MessageToDict(solver, 
+#                                         preserving_proto_field_name=True, 
+#                                         including_default_value_fields=False)
+# optim_dict = json_format.MessageToDict(optimizer, 
+#                                         preserving_proto_field_name=True, 
+#                                         including_default_value_fields=False)
+# reader_dict = json_format.MessageToDict(reader, 
+#                                         preserving_proto_field_name=True, 
+#                                         including_default_value_fields=False)
+
+# print(solver_dict)
+# print(optim_dict)
+
+
+# WhichOneof
+# print(solver.model.module[0].WhichOneof('param'))
+# print(getattr(solver.model.module[0], solver.model.module[0].WhichOneof('param')))
+# c+=1
+
+
+# _param = {k.name: v for k, v in solver.transforms.op[1].ListFields()}
+# print(_param)
+
+
+# print(solver)
+# print(type(solver.transforms.op[0]))
+# op = solver.transforms.op[0]
+# print(dir(op))
+# print(op.ListFields())
+# print(op.name)
+# print(op.type)
+# print(op.keep_ratio)
+# print(op.size)
+
+# r = dict_deep_merge(solver_dict, optim_dict, reader_dict, add_new_key=True)
+r = dict_deep_merge(*configs_dict, add_new_key=True)
+
+# print(r)
+# print()
 
 build(r, {}) 
 print(r)
@@ -238,5 +278,5 @@ print(r)
 # print(solver_dict['reader'][0]['dataloader'].dataset.transforms)
 
 # print('-----')
-# var = SimpleNamespace(**solver_dict)
-# print(var.reader)
+var = SimpleNamespace(**r)
+print(var.reader)

@@ -1,41 +1,49 @@
 
+
+include: ["./optimizer.prototxt", "./reader.prototxt"]
+
+
 model {
     name: "model"
+    type: "ModuleList"
 
-    module {
-        name: "conv"
-        type: "Conv2d"
+    module_list_param {
+        module {
+            name: "conv"
+            type: "Conv2d"
 
-        bottom: "1"
-        top: "2"
+            bottom: "1"
+            top: "2"
 
-        conv2d_param {
-            in_channels: 1
-            out_channels: 2
-            kernel_size: 3
-            stride: 2
+            conv2d_param {
+                in_channels: 1
+                out_channels: 2
+                kernel_size: 3
+                stride: 2
+            }
         }
-    }
 
-    module {
-        name: "act1"
-        type: "ReLU"
+        module {
+            name: "act1"
+            type: "ReLU"
 
-        bottom: "2"
-        top: "3"
+            bottom: "2"
+            top: "3"
 
-        relu_param {
-            inspace: false
+            relu_param {
+                inspace: false
+            }
         }
-    }
 
-    module {
-        name: "test"
-        type: "Test"
+        module {
+            name: "test"
+            type: "Test"
 
-        test_param {
-            m: "act1"
+            test_param {
+                m: "act1"
+            }
         }
+
     }
 
 }
@@ -43,11 +51,14 @@ model {
 
 optimizer {
 
+    name: "sovler1"
+
     optimizer {
         name: "optim1"
         type: "SGD"
         sgd_param {
             params {
+                name: "group1"
                 params: "model.parameters()"
                 lr: 0.2
             }
@@ -110,33 +121,3 @@ reader {
     }
 }
 
-
-reader {
-    name: "test_reader"
-
-    transforms {
-        name: "transforms1"
-        type: "Mosaic"
-        mosaic_param {
-            size: [1, 2]
-        }
-    }
-
-    dataset {
-        name: "dataset1"
-        type: "CocoDet"
-        coco_det_param {
-            path: "file1"
-            transforms: "transforms1"
-        }
-    }
-
-    dataloader {
-        name: "dataloader1"
-        type: "DataLoader"
-        dataloader_param {
-            dataset: "dataset1"
-            batch_size: 3
-        }
-    }
-}
