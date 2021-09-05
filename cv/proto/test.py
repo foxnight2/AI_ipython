@@ -5,6 +5,8 @@ from google.protobuf import text_format
 from google.protobuf import json_format
 from google.protobuf import reflection
 # from google.protobuf import pyext
+from google.protobuf import reflection
+
 
 import copy
 import inspect
