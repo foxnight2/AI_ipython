@@ -1,5 +1,4 @@
 import torch
-from torch.nn.modules.activation import ReLU
 import torchvision
 
 from google.protobuf import text_format
@@ -13,7 +12,7 @@ import copy
 import inspect
 from types import SimpleNamespace
 from collections import OrderedDict
-from typing import Optional, Iterable
+from typing import Optional, Iterable, Sequence
 
 import cv_pb2 as cvpb
 
@@ -115,6 +114,29 @@ class YOLO(torch.nn.Module):
         pass
 
 
+class Conv2d(torch.nn.Conv2d):
+    def __init__(self,      
+                in_channels: int,
+                out_channels: int,
+                kernel_size,
+                stride = 1,
+                padding = 0,
+                dilation = 1,
+                groups: int = 1,
+                bias: bool = True,
+                padding_mode: str = 'zeros',  # TODO: refine this type
+                device=None,
+                dtype=None) -> None:
+
+        if isinstance(kernel_size, Sequence) and len(kernel_size) == 1:
+            kernel_size = kernel_size[0]
+        if isinstance(stride, Sequence) and len(stride) == 1:
+            stride = stride[0]
+        if isinstance(padding, Sequence) and len(padding) == 1:
+            padding = padding[0]
+
+        super().__init__(in_channels, out_channels, kernel_size, stride=stride, padding=padding, dilation=dilation, groups=groups, bias=bias, padding_mode=padding_mode, device=device, dtype=dtype)
+
 
 modules.update({
     'Test': Test,
@@ -128,6 +150,8 @@ modules.update({
     'Mosaic': Mosaic,
     'ModuleList': ModuleList,
     'YOLO': YOLO,
+    'Conv2d': Conv2d,
+
 })
 
 
@@ -144,6 +168,7 @@ def dict_deep_merge(*dicts, add_new_key=True):
     for d in dicts[1: ]:
 
         assert isinstance(d, dict), ''
+
         if add_new_key is False:
             d = {k: d[k] for k in set(r).intersection(set(d)) }
 
