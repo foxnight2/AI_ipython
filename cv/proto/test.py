@@ -8,6 +8,7 @@ from google.protobuf import reflection
 
 import copy
 import inspect
+import functools
 from types import SimpleNamespace
 from collections import OrderedDict
 from typing import Optional, Iterable, Sequence, Union
@@ -261,15 +262,15 @@ class SolverProto(object):
     def __init__(self, path) -> None:
         self.path = path
         self.merged_dict = self.parse(path)
-        self.merged_proto = cvpb.Solver()
-        json_format.ParseDict(self.merged_dict, self.merged_proto)
+        self.merged_proto = self.ParseDict(self.merged_dict) 
+        # cvpb.Solver()
+        # json_format.ParseDict(self.merged_dict, self.merged_proto)
 
     def parse(self, path):
         '''parse
         '''
-        solver = cvpb.Solver()
-        text_format.Merge(open(path, 'rb').read(), solver)
-        solver_dict = json_format.MessageToDict(solver, preserving_proto_field_name=True, including_default_value_fields=False)
+        solver = self.Merge(path)
+        solver_dict = self.MessageToDict(solver)
 
         solver_dicts = [solver_dict, ]
         for path in solver.include:
@@ -277,12 +278,9 @@ class SolverProto(object):
 
         merged_dict = dict_deep_merge(*solver_dicts, add_new_key=True)
 
-        merged_proto = cvpb.Solver()
-        json_format.ParseDict(merged_dict, merged_proto)
+        merged_proto = self.ParseDict(merged_dict)
 
-        merged_dict = json_format.MessageToDict(merged_proto, 
-                                                preserving_proto_field_name=True, 
-                                                including_default_value_fields=False)
+        merged_dict = self.MessageToDict(merged_proto)
         
         return merged_dict
 
@@ -295,9 +293,26 @@ class SolverProto(object):
         build(config, mm)
 
         return config, mm
-        
+    
+    @staticmethod
+    def MessageToDict(message):
+        return json_format.MessageToDict(message, 
+                                         preserving_proto_field_name=True, 
+                                         including_default_value_fields=False)
 
+    @staticmethod
+    def ParseDict(message_dict):
+        message = cvpb.Solver()
+        json_format.ParseDict(message_dict, message)
+        return message
 
+    @staticmethod
+    def Merge(path):
+        message = cvpb.Solver()
+        text_format.Merge(open(path, 'rb').read(), message)
+        return message
+
+    
 solver = cvpb.Solver()
 text_format.Merge(open('./sovler.prototxt', 'rb').read(), solver)
 # print(solver)
