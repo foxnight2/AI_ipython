@@ -10,7 +10,8 @@ import copy
 import inspect
 from types import SimpleNamespace
 from collections import OrderedDict
-from typing import Optional, Iterable, Sequence
+from typing import Optional, Iterable, Sequence, Union
+assert Union[str, None] == Optional[str], ''
 
 import cv_pb2 as cvpb
 
@@ -133,7 +134,17 @@ class Conv2d(torch.nn.Conv2d):
         if isinstance(padding, Sequence) and len(padding) == 1:
             padding = padding[0]
 
-        super().__init__(in_channels, out_channels, kernel_size, stride=stride, padding=padding, dilation=dilation, groups=groups, bias=bias, padding_mode=padding_mode, device=device, dtype=dtype)
+        super().__init__(in_channels, 
+                         out_channels, 
+                         kernel_size, 
+                         stride=stride, 
+                         padding=padding, 
+                         dilation=dilation, 
+                         groups=groups, 
+                         bias=bias, 
+                         padding_mode=padding_mode, 
+                         device=device, 
+                         dtype=dtype)
 
 
 modules.update({
@@ -245,6 +256,37 @@ def build(config, mm):
 
 
 
+
+class ProtoConfig(object):
+    def __init__(self, path) -> None:
+        self.path = path
+        
+        self.solver_proto, self.solver_dict = self.parse(path)
+
+    def parse(self, path):
+        solver = cvpb.Solver()
+        text_format.Merge(open(path, 'rb').read(), solver)
+
+        configs = [solver, ]
+        for path in solver.include:
+            _config = cvpb.Solver()
+            text_format.Merge(open(path, 'rb').read(), _config)
+            configs.append(_config)
+
+        configs_dict = [json_format.MessageToDict(config, 
+                                                  preserving_proto_field_name=True, 
+                                                  including_default_value_fields=False) for config in configs]
+
+        merged_dict = dict_deep_merge(*configs_dict, add_new_key=True)
+
+        merged_proto = cvpb.Solver()
+        json_format.ParseDict(merged_dict, merged_proto)
+
+        merged_dict = json_format.MessageToDict(merged_proto, 
+                                                preserving_proto_field_name=True, 
+                                                including_default_value_fields=False)
+        
+        return merged_proto, merged_dict
 
 
 
