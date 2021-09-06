@@ -322,6 +322,12 @@ r = dict_deep_merge(*configs_dict, add_new_key=True)
 # print(r)
 # print()
 
+# keep order in proto.
+s = cvpb.Solver()
+json_format.ParseDict(r, s)
+r = json_format.MessageToDict(s, preserving_proto_field_name=True, including_default_value_fields=False)
+
+
 mm = {}
 build(r, mm) 
 # print(r)
