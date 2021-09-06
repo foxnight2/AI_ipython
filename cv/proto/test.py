@@ -257,27 +257,25 @@ def build(config, mm):
 
 
 
-class ProtoConfig(object):
+class SolverProto(object):
     def __init__(self, path) -> None:
         self.path = path
-        
-        self.solver_proto, self.solver_dict = self.parse(path)
+        self.merged_dict = self.parse(path)
+        self.merged_proto = cvpb.Solver()
+        json_format.ParseDict(self.merged_dict, self.merged_proto)
 
     def parse(self, path):
+        '''parse
+        '''
         solver = cvpb.Solver()
         text_format.Merge(open(path, 'rb').read(), solver)
+        solver_dict = json_format.MessageToDict(solver, preserving_proto_field_name=True, including_default_value_fields=False)
 
-        configs = [solver, ]
+        solver_dicts = [solver_dict, ]
         for path in solver.include:
-            _config = cvpb.Solver()
-            text_format.Merge(open(path, 'rb').read(), _config)
-            configs.append(_config)
+            solver_dicts.insert(0, self.parse(path))
 
-        configs_dict = [json_format.MessageToDict(config, 
-                                                  preserving_proto_field_name=True, 
-                                                  including_default_value_fields=False) for config in configs]
-
-        merged_dict = dict_deep_merge(*configs_dict, add_new_key=True)
+        merged_dict = dict_deep_merge(*solver_dicts, add_new_key=True)
 
         merged_proto = cvpb.Solver()
         json_format.ParseDict(merged_dict, merged_proto)
@@ -286,8 +284,18 @@ class ProtoConfig(object):
                                                 preserving_proto_field_name=True, 
                                                 including_default_value_fields=False)
         
-        return merged_proto, merged_dict
+        return merged_dict
 
+
+    def build(self, ):
+        '''build
+        '''
+        config = copy.deepcopy(self.merged_dict)
+        mm = {}
+        build(config, mm)
+
+        return config, mm
+        
 
 
 solver = cvpb.Solver()
@@ -312,6 +320,11 @@ configs.append(solver)
 configs_dict = [json_format.MessageToDict(config, preserving_proto_field_name=True, including_default_value_fields=False) for config in configs]
 # print(configs_dict)
 print('------')
+
+
+
+
+
 
 # optimizer = cvpb.Solver()
 # text_format.Merge(open('./optimizer.prototxt', 'rb').read(), optimizer)
@@ -386,3 +399,12 @@ print(mm)
 var = SimpleNamespace(**mm)
 print(var.yolo)
 print(var.dataloader1)
+
+
+
+solver = SolverProto('./sovler.prototxt')
+# print(solver.prototxt)
+print(solver.merged_dict)
+
+solver = solver.build()
+print(solver[0])

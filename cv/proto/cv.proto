@@ -31,7 +31,7 @@ message Solver {
     repeated Module model = 10;
     repeated Reader reader = 11;
     repeated Optimizer optimizer = 12;
-    optional RuntimeConfig config = 13;
+    optional RuntimeConfig runtime = 13;
 
     // repeated Transforms transforms = 100;
     // repeated Module dataset = 101;
@@ -51,16 +51,22 @@ message Reader {
     optional Module transforms = 3;
     optional Module dataset = 4;
     optional Module dataloader = 5;
+    optional Phase phase = 6;
+    optional uint32 epoches = 10;
 }
 
 message Optimizer {
     optional string name = 1;
     optional Module optimizer = 2;
     optional Module lr_scheduler = 3; 
+
+    optional float clip_norm = 10;
 }
 
 message RuntimeConfig {
-    optional string logdir = 1;
+    optional string name = 1;
+    optional string logdir = 2;
+    optional string device = 3;
 }
 
 
@@ -69,6 +75,7 @@ message Module {
     optional string type = 2;
     repeated string bottom = 3;
     repeated string top = 4;
+    optional Phase phase = 5;
 
     oneof param {
         // module

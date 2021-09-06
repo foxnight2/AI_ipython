@@ -3,6 +3,11 @@ include: "./model.prototxt",
 include: "./optimizer.prototxt"
 include: "./reader.prototxt"
 
+
+runtime {
+    logdir: "../logs/"
+}
+
 model {
     name: "model"
     module_list_param {
