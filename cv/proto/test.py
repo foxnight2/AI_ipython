@@ -285,9 +285,11 @@ class SolverProto(object):
         solver = self.Parse(path)
         solver_dict = self.MessageToDict(solver)
 
-        solver_dicts = [solver_dict, ]
-        for path in solver.include:
-            solver_dicts.insert(0, self.parse(path))
+        solver_dicts = [self.parse(path) for path in solver.include]
+        solver_dicts += [solver_dict, ]
+
+        # for path in solver.include:
+        #     solver_dicts.insert(0, self.parse(path))
 
         merged_dict = dict_deep_merge(*solver_dicts, add_new_key=True)
 
