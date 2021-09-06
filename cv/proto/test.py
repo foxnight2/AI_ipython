@@ -269,7 +269,7 @@ class SolverProto(object):
     def parse(self, path):
         '''parse
         '''
-        solver = self.Merge(path)
+        solver = self.Parse(path)
         solver_dict = self.MessageToDict(solver)
 
         solver_dicts = [solver_dict, ]
@@ -307,9 +307,9 @@ class SolverProto(object):
         return message
 
     @staticmethod
-    def Merge(path):
+    def Parse(path):
         message = cvpb.Solver()
-        text_format.Merge(open(path, 'rb').read(), message)
+        text_format.Parse(open(path, 'rb').read(), message)
         return message
 
     
