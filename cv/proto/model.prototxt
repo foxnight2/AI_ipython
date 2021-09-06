@@ -52,6 +52,7 @@ model {
     type: "ModuleList"
 
     module_list_param {
+
         module {
             name: "conv"
             type: "Conv2d"
@@ -82,6 +83,8 @@ model {
         module {
             name: "test"
             type: "Test"
+            bottom: "3"
+            top: "4"
 
             test_param {
                 m: "act1"
