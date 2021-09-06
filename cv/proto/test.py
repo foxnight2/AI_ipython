@@ -82,6 +82,18 @@ class CocoDet(torch.utils.data.Dataset):
         pass
 
 
+class CocoEval(object):
+    def __init__(self, threshold) -> None:
+        super().__init__()
+        self.threshold = threshold
+
+    def __call__(self, ):
+        pass
+
+    def format_ouput(self, ):
+        raise NotImplementedError('')
+
+
 class Compose(torchvision.transforms.Compose):
     def __init__(self, op):
         super().__init__(op)
@@ -148,6 +160,7 @@ class Conv2d(torch.nn.Conv2d):
                          dtype=dtype)
 
 
+
 modules.update({
     'Test': Test,
     'ToTensor': ToTensor,  
@@ -155,6 +168,7 @@ modules.update({
     'Conv2d': torch.nn.Conv2d,
     'ReLU': torch.nn.ReLU,
     'CocoDet': CocoDet,
+    'CocoEval': CocoEval,
     'DataLoader': torch.utils.data.DataLoader,
     'Compose': Compose,
     'Mosaic': Mosaic,
@@ -219,7 +233,6 @@ def build(config, mm):
     '''build
     mm cache all build modules.
     '''
-
     if not isinstance(config, (dict, list)):
         return
 
@@ -400,7 +413,7 @@ r = json_format.MessageToDict(s, preserving_proto_field_name=True, including_def
 
 mm = {}
 build(r, mm) 
-# print(r)
+print(r)
 print('----')
 print(mm)
 
@@ -411,11 +424,12 @@ print(mm)
 # print(solver_dict['reader'][0]['dataloader'].dataset.transforms)
 
 # print('-----')
+
+
 var = SimpleNamespace(**mm)
 print(var.yolo)
 print(var.dataloader1)
-
-
+print(var.coco_eval)
 
 solver = SolverProto('./sovler.prototxt')
 # print(solver.prototxt)

@@ -69,4 +69,21 @@ reader {
             batch_size: 3
         }
     }
+
+    evaluator {
+        name: "coco_eval"
+        type: "CocoEval"
+        coco_eval_param {
+            threshold: 0.5
+        }
+    }
+
+    evaluator {
+        name: "coco_eval_x"
+        type: "CocoEval"
+        coco_eval_param {
+            threshold: 0.3
+        }
+    }
+
 }

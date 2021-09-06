@@ -31,7 +31,9 @@ message Solver {
     repeated Module model = 10;
     repeated Reader reader = 11;
     repeated Optimizer optimizer = 12;
-    optional RuntimeConfig runtime = 13;
+    // repeated Module evaluator = 13;
+
+    optional RuntimeConfig runtime = 20;
 
     // repeated Transforms transforms = 100;
     // repeated Module dataset = 101;
@@ -48,10 +50,13 @@ enum Phase {
 
 message Reader {
     optional string name = 1;
+    optional Phase phase = 2;
+
     optional Module transforms = 3;
     optional Module dataset = 4;
     optional Module dataloader = 5;
-    optional Phase phase = 6;
+    repeated Module evaluator = 6;
+
     optional uint32 epoches = 10;
 }
 
@@ -91,7 +96,8 @@ message Module {
         MosaicParameter mosaic_param = 502;
 
         // dataset 
-        CocoDetParameter coco_det_param = 600;
+        CocoDetParameter coco_det_param = 601;
+        CocoEvalParameter coco_eval_param = 600;
 
         // dataloader
         DataLoaderParameter dataloader_param = 700;
@@ -166,7 +172,9 @@ message CocoDetParameter {
     optional string transforms = 2;
 }
 
-
+message CocoEvalParameter {
+    optional float threshold = 2;
+}
 
 message ParameterGroup {
     optional string name = 1;
