@@ -1,99 +1,117 @@
 
 
-
 model {
-    name: "yolo"
-    type: "YOLO"
 
-    yolo_param {
-        backbone {
-            type: "Conv2d"
-            pretrained: "/path/to/backbone.pt"
-            
-            conv2d_param {
-                in_channels: 1
-                out_channels: 2
-                kernel_size: 3
-                stride: 2
-            }
-        }
-        neck {
-            type: "Conv2d"
-            conv2d_param {
-                in_channels: 1
-                out_channels: 2
-                kernel_size: 3
-                stride: 2
-            }
-        }
-        head {
-            type: "Conv2d"
-            conv2d_param {
-                in_channels: 1
-                out_channels: 2
-                kernel_size: 3
-                stride: 2
-            }
-        }
-        postprocess {
-            type: "Conv2d"
-            conv2d_param {
-                in_channels: 1
-                out_channels: 2
-                kernel_size: 3
-                stride: 2
-            }
-        }
+    name: "net1"
 
+    export {
+        path: "/path/to/export.onnx"
+        input: "data"
+        output: ["output", "pred"]
     }
-}
 
+    model {
+        name: "yolo"
+        type: "YOLO"
+        
+        yolo_param {
+            backbone {
+                type: "Conv2d"
+                pretrained: "/path/to/backbone.pt"
 
-model {
-    name: "model"
-    type: "ModuleList"
-
-    module_list_param {
-
-        module {
-            name: "conv"
-            type: "Conv2d"
-
-            bottom: "1"
-            top: "2"
-
-            conv2d_param {
-                in_channels: 1
-                out_channels: 2
-                kernel_size: 3
-                stride: 2
+                conv2d_param {
+                    in_channels: 1
+                    out_channels: 2
+                    kernel_size: 3
+                    stride: 2
+                }
             }
-        }
-
-        module {
-            name: "act1"
-            type: "ReLU"
-
-            bottom: "2"
-            top: "3"
-
-            relu_param {
-                inspace: false
+            neck {
+                type: "Conv2d"
+                conv2d_param {
+                    in_channels: 1
+                    out_channels: 2
+                    kernel_size: 3
+                    stride: 2
+                }
             }
-        }
-
-        module {
-            name: "test"
-            type: "Test"
-            bottom: "3"
-            top: "4"
-
-            test_param {
-                m: "act1"
+            head {
+                type: "Conv2d"
+                conv2d_param {
+                    in_channels: 1
+                    out_channels: 2
+                    kernel_size: 3
+                    stride: 2
+                }
             }
-        }
+            postprocess {
+                type: "Conv2d"
+                conv2d_param {
+                    in_channels: 1
+                    out_channels: 2
+                    kernel_size: 3
+                    stride: 2
+                }
+            }
 
+        }
     }
 
 }
+
+
+model {
+
+    name: "net2"
+
+    model {
+        name: "model"
+        type: "ModuleList"
+
+        module_list_param {
+
+            module {
+                name: "conv"
+                type: "Conv2d"
+
+                bottom: "1"
+                top: "2"
+
+                conv2d_param {
+                    in_channels: 1
+                    out_channels: 2
+                    kernel_size: 3
+                    stride: 2
+                }
+            }
+
+            module {
+                name: "act1"
+                type: "ReLU"
+
+                bottom: "2"
+                top: "3"
+
+                relu_param {
+                    inspace: false
+                }
+            }
+
+            module {
+                name: "test"
+                type: "Test"
+                bottom: "3"
+                top: "4"
+
+                test_param {
+                    m: "act1"
+                }
+            }
+
+        }
+
+    }
+    
+}
+
 

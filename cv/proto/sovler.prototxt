@@ -10,44 +10,55 @@ runtime {
 }
 
 model {
-    name: "model"
-    module_list_param {
+    name: "net2"
 
-        module {
-            name: "conv"
-            type: "Conv2d"
+    model {
+        name: "model"
+        module_list_param {
 
-            bottom: "1"
-            top: "2"
+            module {
+                name: "conv"
+                type: "Conv2d"
 
-            conv2d_param {
-                in_channels: 1
-                out_channels: 2
-                kernel_size: 100
-                stride: 2
+                bottom: "1"
+                top: "2"
+
+                conv2d_param {
+                    in_channels: 111
+                    out_channels: 111
+                    kernel_size: 100
+                    stride: 100
+                }
             }
-        }
 
+        }
     }
-} 
+}
+
 
 model {
-    name: "yolo"
-    yolo_param {
+    name: "net1"
 
-        backbone {
-            name: "backbone"
-            type: "Conv2d"
+    model {
+        name: "yolo"
+        yolo_param {
 
-            conv2d_param {
-                in_channels: 100
-                out_channels: 100
-                kernel_size: 100
-                stride: 100
+            backbone {
+                name: "backbone"
+                type: "Conv2d"
+
+                conv2d_param {
+                    in_channels: 100
+                    out_channels: 100
+                    kernel_size: 100
+                    stride: 100
+                }
             }
         }
     }
-} 
+
+}
+
 
 
 optimizer {

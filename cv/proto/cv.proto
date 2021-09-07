@@ -28,10 +28,10 @@ message Solver {
     required string name = 1;
     repeated string include = 2;
 
-    repeated Module model = 10;
+    // repeated Module model = 10;
+    repeated Model model = 10;
     repeated Reader reader = 11;
     repeated Optimizer optimizer = 12;
-    // repeated Module evaluator = 13;
 
     optional RuntimeConfig runtime = 20;
 
@@ -47,6 +47,17 @@ enum Phase {
     EVAL = 2;
 }
 
+message Model {
+    message Export {
+        optional string path = 1;
+        repeated string input = 2;
+        repeated string output = 3;
+    }
+
+    optional string name = 1;
+    optional Module model = 2;
+    optional Export export = 3;
+}
 
 message Reader {
     optional string name = 1;
@@ -105,11 +116,6 @@ message Module {
     repeated string bottom = 3;
     repeated string top = 4;
     optional Phase phase = 5;
-
-    // oneof pretrained {
-    //     string pretrained = 6;
-    //     bool use_pretrained = 7;
-    // }
     optional string pretrained = 6;
 
     oneof param {
