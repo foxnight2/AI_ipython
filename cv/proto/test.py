@@ -243,17 +243,22 @@ def build(config, mm):
 
         if m is not None:
 
-            assert not (hasattr(m, 'top') or hasattr(m, 'bottom')), f'{m} .top, .bottom'
             if 'top' in v or 'bottom' in v:
+                assert not (hasattr(m, 'top') or hasattr(m, 'bottom')), f'{m} .top, .bottom'
                 m.top = v.get('top', None)
                 m.bottom = v.get('bottom', None)
 
-            config[k if isinstance(config, dict) else i] = m
+            if 'pretrained' in v:
+                # TODO
+                # m.load_state_dict(torch.load(v))
+                pass
 
             if 'name' in v:
                 assert v['name'] not in mm, f"name {v['name']} already exists."
                 mm.update({v['name']: m})
-    
+
+            config[k if isinstance(config, dict) else i] = m
+
     # module
     if isinstance(config, dict) and 'type' in config:
         k = [k for k in config if '_param' in k]
@@ -261,7 +266,6 @@ def build(config, mm):
         v.update({_k: mm[_v] for _k, _v in v.items() if isinstance(_v, str) and _v in mm})
 
         m = build_module(modules[config['type']], v)
-
         return m
 
     # optimizer
@@ -269,6 +273,7 @@ def build(config, mm):
         locals().update(**mm)
         config['params'] = eval(config['params'])
 
+    
 
 
 

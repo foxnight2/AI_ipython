@@ -92,7 +92,7 @@ message RuntimeConfig {
     optional string device = 3;
     optional Distributed distributed = 4;
     optional string resume = 5;
-    
+
     optional PrintOptions print_option = 10;
 }
 
@@ -106,10 +106,11 @@ message Module {
     repeated string top = 4;
     optional Phase phase = 5;
 
-    oneof pretrained {
-        string pretrained_url = 6;
-        bool use_pretrained = 7;
-    }
+    // oneof pretrained {
+    //     string pretrained = 6;
+    //     bool use_pretrained = 7;
+    // }
+    optional string pretrained = 6;
 
     oneof param {
         // module

@@ -8,7 +8,7 @@ model {
     yolo_param {
         backbone {
             type: "Conv2d"
-            use_pretrained: true
+            pretrained: "/path/to/backbone.pt"
             
             conv2d_param {
                 in_channels: 1
