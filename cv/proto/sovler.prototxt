@@ -12,7 +12,7 @@ runtime {
 model {
     name: "net2"
 
-    model {
+    network {
         name: "model"
         module_list_param {
 
@@ -39,7 +39,7 @@ model {
 model {
     name: "net1"
 
-    model {
+    network {
         name: "yolo"
         yolo_param {
 

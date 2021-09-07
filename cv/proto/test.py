@@ -252,6 +252,11 @@ def build(config, mm):
                 # TODO
                 # m.load_state_dict(torch.load(v))
                 pass
+            
+            if 'export' in v and isinstance(m, torch.nn.Module):
+                # TODO
+                # m.export = v['export']
+                pass
 
             if 'name' in v:
                 assert v['name'] not in mm, f"name {v['name']} already exists."

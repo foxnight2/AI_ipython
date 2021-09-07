@@ -55,8 +55,8 @@ message Model {
     }
 
     optional string name = 1;
-    optional Module model = 2;
-    optional Export export = 3;
+    optional Export export = 2;
+    optional Module network = 3;
 }
 
 message Reader {

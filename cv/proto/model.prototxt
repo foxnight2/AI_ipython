@@ -10,7 +10,7 @@ model {
         output: ["output", "pred"]
     }
 
-    model {
+    network {
         name: "yolo"
         type: "YOLO"
         
@@ -64,7 +64,7 @@ model {
 
     name: "net2"
 
-    model {
+    network {
         name: "model"
         type: "ModuleList"
 
