@@ -108,6 +108,20 @@ model {
                 }
             }
 
+            module {
+                name: "loss"
+                type: "Test"
+                
+                phase: TRAIN
+
+                bottom: "3"
+                top: "loss"
+
+                test_param {
+                    m: "act1"
+                }
+            }
+
         }
 
     }

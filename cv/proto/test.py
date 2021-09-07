@@ -182,7 +182,7 @@ modules.update({
 
 def dict_deep_merge(*dicts, add_new_key=True):
     '''merge
-    https://gist.github.com/angstwad/bf22d1822c38a92ec0a9
+    reference discuss https://gist.github.com/angstwad/bf22d1822c38a92ec0a9
     '''
     if len(dicts) == 1:
         assert isinstance(dicts[0], dict), ''
@@ -243,7 +243,7 @@ def build(config, mm):
 
         if m is not None:
 
-            if 'top' in v or 'bottom' in v:
+            if ('top' in v or 'bottom' in v) and isinstance(m, torch.nn.Module):
                 assert not (hasattr(m, 'top') or hasattr(m, 'bottom')), f'{m} .top, .bottom'
                 m.top = v.get('top', None)
                 m.bottom = v.get('bottom', None)
