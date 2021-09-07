@@ -57,7 +57,6 @@ message Reader {
     optional Module dataloader = 5;
     repeated Module evaluator = 6;
 
-    optional uint32 epoches = 10;
 }
 
 message Optimizer {
@@ -66,13 +65,38 @@ message Optimizer {
     optional Module lr_scheduler = 3; 
 
     optional float clip_norm = 10;
+    optional uint32 epoches = 11;
+
 }
 
 message RuntimeConfig {
+
+    message PrintOptions {
+        optional uint32 precision = 1;
+        optional uint32 threshold = 2;
+        optional uint32 linewidth = 3;
+    }
+
+    message Distributed {
+        optional bool enabled = 1;
+        optional string type = 2;
+        optional string backend = 3;
+        optional string init_method = 4;
+        optional uint32 world_size = 5;
+        optional uint32 nnodes = 6;
+        optional bool find_unused_parameters = 7;
+    }
+
     optional string name = 1;
     optional string logdir = 2;
     optional string device = 3;
+    optional Distributed distributed = 4;
+    optional string resume = 5;
+    
+    optional PrintOptions print_option = 10;
 }
+
+
 
 
 message Module {
@@ -81,6 +105,11 @@ message Module {
     repeated string bottom = 3;
     repeated string top = 4;
     optional Phase phase = 5;
+
+    oneof pretrained {
+        string pretrained_url = 6;
+        bool use_pretrained = 7;
+    }
 
     oneof param {
         // module

@@ -3,6 +3,7 @@
 
 reader {
     name: "train_reader"
+    phase: TRAIN
 
     transforms {
         name: "transforms"
@@ -43,6 +44,7 @@ reader {
 
 reader {
     name: "test_reader"
+    phase: EVAL
 
     transforms {
         name: "transforms1"

@@ -8,6 +8,8 @@ model {
     yolo_param {
         backbone {
             type: "Conv2d"
+            use_pretrained: true
+            
             conv2d_param {
                 in_channels: 1
                 out_channels: 2

@@ -6,6 +6,7 @@ include: "./reader.prototxt"
 
 runtime {
     logdir: "../logs/"
+    device: "cuda"
 }
 
 model {

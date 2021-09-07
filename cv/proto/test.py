@@ -185,6 +185,7 @@ def dict_deep_merge(*dicts, add_new_key=True):
     https://gist.github.com/angstwad/bf22d1822c38a92ec0a9
     '''
     if len(dicts) == 1:
+        assert isinstance(dicts[0], dict), ''
         return dicts[0]
 
     r = copy.deepcopy(dicts[0]) 
@@ -282,7 +283,7 @@ class SolverProto(object):
     def parse(self, path):
         '''parse
         '''
-        solver = self.Parse(path)
+        solver = self.ParseFile(path)
         solver_dict = self.MessageToDict(solver)
 
         solver_dicts = [self.parse(path) for path in solver.include]
@@ -307,13 +308,17 @@ class SolverProto(object):
         mm = {}
         build(config, mm)
 
-        return config, mm
+        config = SimpleNamespace(**config)
+        config.modules = mm
+
+        return config
     
     @staticmethod
     def MessageToDict(message):
         return json_format.MessageToDict(message, 
                                          preserving_proto_field_name=True, 
-                                         including_default_value_fields=False)
+                                         including_default_value_fields=False, 
+                                         use_integers_for_enums=True)
 
     @staticmethod
     def ParseDict(message_dict):
@@ -322,7 +327,7 @@ class SolverProto(object):
         return message
 
     @staticmethod
-    def Parse(path):
+    def ParseFile(path):
         message = cvpb.Solver()
         text_format.Parse(open(path, 'rb').read(), message)
         return message
@@ -347,7 +352,11 @@ for path in solver.include:
 
 configs.append(solver)
 
-configs_dict = [json_format.MessageToDict(config, preserving_proto_field_name=True, including_default_value_fields=False) for config in configs]
+configs_dict = [json_format.MessageToDict(config, \
+    preserving_proto_field_name=True, 
+    including_default_value_fields=False,  
+    use_integers_for_enums=True) for config in configs]
+    
 # print(configs_dict)
 print('------')
 
@@ -410,14 +419,23 @@ r = dict_deep_merge(*configs_dict, add_new_key=True)
 # keep order in proto.
 s = cvpb.Solver()
 json_format.ParseDict(r, s)
-r = json_format.MessageToDict(s, preserving_proto_field_name=True, including_default_value_fields=False)
+r = json_format.MessageToDict(s, \
+    preserving_proto_field_name=True, 
+    including_default_value_fields=False, 
+    use_integers_for_enums=True)
 
 
 mm = {}
 build(r, mm) 
 print(r)
 print('----')
-print(mm)
+
+r = SimpleNamespace(**r)
+print(r.reader)
+print(r.model)
+print(r.optimizer)
+print(r.runtime)
+
 
 # for k in solver_dict:
 #     print(k, solver_dict[k])
@@ -428,14 +446,14 @@ print(mm)
 # print('-----')
 
 
-var = SimpleNamespace(**mm)
-print(var.yolo)
-print(var.dataloader1)
-print(var.coco_eval)
+# var = SimpleNamespace(**mm)
+# print(var.yolo)
+# print(var.dataloader1)
+# print(var.coco_eval)
 
 solver = SolverProto('./sovler.prototxt')
-# print(solver.prototxt)
-print(solver.merged_dict)
+# # print(solver.prototxt)
+# print(solver.merged_dict)
 
 solver = solver.build()
-print(solver[0])
+print(list(solver.modules.keys()))
