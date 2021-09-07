@@ -248,7 +248,7 @@ def build(config, mm):
                 m.top = v.get('top', None)
                 m.bottom = v.get('bottom', None)
 
-            if 'pretrained' in v:
+            if 'pretrained' in v and isinstance(m, torch.nn.Module):
                 # TODO
                 # m.load_state_dict(torch.load(v))
                 pass
