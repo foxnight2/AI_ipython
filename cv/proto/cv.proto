@@ -32,6 +32,7 @@ message Solver {
     repeated Model model = 10;
     repeated Reader reader = 11;
     repeated Optimizer optimizer = 12;
+    repeated Evaluator evaluator = 13;
 
     optional RuntimeConfig runtime = 20;
 
@@ -61,6 +62,7 @@ message Model {
     optional Module network = 3;
 }
 
+
 message Reader {
     optional string name = 1;
     optional Phase phase = 2;
@@ -68,9 +70,9 @@ message Reader {
     optional Module transforms = 3;
     optional Module dataset = 4;
     optional Module dataloader = 5;
-    repeated Module evaluator = 6;
-
+    // repeated Module evaluator = 6;
 }
+
 
 message Optimizer {
     optional string name = 1;
@@ -81,6 +83,14 @@ message Optimizer {
     optional uint32 epoches = 11;
 
 }
+
+
+message Evaluator {
+    optional string name = 1;
+    optional string reader = 2;
+    optional Module metric = 3;
+}
+
 
 message RuntimeConfig {
 

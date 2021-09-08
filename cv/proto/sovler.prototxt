@@ -83,3 +83,17 @@ optimizer {
     }
 
 }
+
+
+evaluator {
+    name: "eval1"
+    reader: "test_reader"
+    metric {
+        name: "cocoeval"
+        type: "CocoEval"
+        coco_eval_param {
+            threshold: 0.5
+        }
+    }
+
+}
