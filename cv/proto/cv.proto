@@ -57,10 +57,15 @@ message Model {
         optional bool autoshape = 5;
     }
 
+    message Quant {
+        optional string name = 1;
+    }
+
     optional string name = 1;
-    optional Export export = 2;
-    optional Module network = 3;
-}
+    optional Module network = 2;
+    optional Export export = 3;
+    optional Quant quant = 4;
+}   
 
 
 message Reader {
@@ -87,8 +92,10 @@ message Optimizer {
 
 message Evaluator {
     optional string name = 1;
-    optional string reader = 2;
-    optional Module metric = 3;
+    optional Module metric = 2;
+    optional string model = 3;
+    optional string reader = 4;
+    optional string pretrained = 5;
 }
 
 
@@ -111,10 +118,11 @@ message RuntimeConfig {
     }
 
     optional string name = 1;
-    optional string logdir = 2;
+    optional string output = 2;
     optional string device = 3;
     optional Distributed distributed = 4;
     optional string resume = 5;
+    optional bool use_amp = 6;
 
     optional PrintOptions print_option = 10;
 }

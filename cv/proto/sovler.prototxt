@@ -5,7 +5,7 @@ include: "./reader.prototxt"
 
 
 runtime {
-    logdir: "../logs/"
+    output: "../logs/"
     device: "cuda"
 }
 
@@ -87,7 +87,9 @@ optimizer {
 
 evaluator {
     name: "eval1"
+
     reader: "test_reader"
+
     metric {
         name: "cocoeval"
         type: "CocoEval"
