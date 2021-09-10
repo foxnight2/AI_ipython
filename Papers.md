@@ -31,8 +31,8 @@
 - [Instances as Queries](https://arxiv.org/pdf/2105.01928v3.pdf)
 - [Towards Open World Object Detection](https://arxiv.org/pdf/2103.02603.pdf)
 - [Conditional DETR for Fast Training Convergence](https://github.com/Atten4Vis/ConditionalDETR)
-
-
+- [Rethinking the Aligned and Misaligned Features in One-stage Object Detection](https://arxiv.org/pdf/2108.12176v1.pdf)
+- [Generalized Focal Loss V2: Learning Reliable Localization Quality Estimation for Dense Object Detection](https://arxiv.org/pdf/2011.12885.pdf)
 
 ## GAN
 - [TransGAN: Two Transformers Can Make One Strong GAN](./2102.07074.pdf)
