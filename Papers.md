@@ -24,15 +24,18 @@
 - [SSPNet: Scale Selection Pyramid Network for Tiny Person Detection from UAV Images](https://arxiv.org/pdf/2107.01548.pdf)
 - [Awesome-tiny-object-detection](https://github.com/kuanhungchen/awesome-tiny-object-detection)
 - [YOLOX: Exceeding YOLO Series in 2021](https://arxiv.org/pdf/2107.08430.pdf)
-- [Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection](https://arxiv.org/pdf/1912.02424.pdf)
-- [Generalized Focal Loss: Learning Qualified and Distributed Bounding Boxes for Dense Object Detection](https://arxiv.org/pdf/2006.04388.pdf)
 - [SOLQ: Segmenting Objects by Learning Queries](https://arxiv.org/pdf/2106.02351.pdf)
 - [PVTv2: Improved Baselines with Pyramid Vision Transformer](https://arxiv.org/pdf/2106.13797.pdf)
 - [Instances as Queries](https://arxiv.org/pdf/2105.01928v3.pdf)
 - [Towards Open World Object Detection](https://arxiv.org/pdf/2103.02603.pdf)
 - [Conditional DETR for Fast Training Convergence](https://github.com/Atten4Vis/ConditionalDETR)
 - [Rethinking the Aligned and Misaligned Features in One-stage Object Detection](https://arxiv.org/pdf/2108.12176v1.pdf)
+- [Generalized Focal Loss: Learning Qualified and Distributed Bounding Boxes for Dense Object Detection](https://arxiv.org/pdf/2006.04388.pdf)
 - [Generalized Focal Loss V2: Learning Reliable Localization Quality Estimation for Dense Object Detection](https://arxiv.org/pdf/2011.12885.pdf)
+- [Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection](https://arxiv.org/pdf/1912.02424.pdf)
+
+- [SNIPER: Efficient Multi-Scale Training](https://arxiv.org/pdf/1805.09300v3.pdf)
+- [AutoFocus: Efficient Multi-Scale Inference]()
 
 ## GAN
 - [TransGAN: Two Transformers Can Make One Strong GAN](./2102.07074.pdf)
