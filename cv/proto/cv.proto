@@ -31,6 +31,7 @@ message Solver {
     // repeated Module model = 10;
     repeated Model model = 10;
     repeated Reader reader = 11;
+
     repeated Optimizer optimizer = 12;
     repeated Evaluator evaluator = 13;
 
@@ -46,6 +47,7 @@ enum Phase {
     ALL = 0;
     TRAIN = 1;
     EVAL = 2;
+    TEST = 3;
 }
 
 message Model {
@@ -65,6 +67,7 @@ message Model {
     optional Module network = 2;
     optional Export export = 3;
     optional Quant quant = 4;
+    // optional Reader reader = 5;
 }   
 
 

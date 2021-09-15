@@ -9,7 +9,7 @@ model {
         input: "data"
         output: ["output", "pred"]
     }
-
+    
     network {
         name: "yolo"
         type: "YOLO"
