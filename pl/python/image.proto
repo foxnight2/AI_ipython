@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+
+
+
+message Images {
+    repeated Image image = 1;
+}
+
+message Image {
+    // string data = 1;
+    bytes data = 1;
+    repeated int32 shape = 2;
+    string dtype = 3;
+}
+
+
+
+message ImageV1 {
+    // string data = 1;
+    repeated uint32 data = 1;
+    repeated uint32 shape = 2;
+    string dtype = 3;
+}
