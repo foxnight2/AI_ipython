@@ -467,3 +467,7 @@ solver = SolverProto('./sovler.prototxt')
 
 solver = solver.build()
 print(list(solver.modules.keys()))
+
+print(solver.modules['yolo'])
+
+# print(solver.merged_proto.model)

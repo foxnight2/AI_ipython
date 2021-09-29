@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto2',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x08\x63v.proto\"\xb6\x01\n\x06Solver\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x0f\n\x07include\x18\x02 \x03(\t\x12\x15\n\x05model\x18\n \x03(\x0b\x32\x06.Model\x12\x17\n\x06reader\x18\x0b \x03(\x0b\x32\x07.Reader\x12\x1d\n\toptimizer\x18\x0c \x03(\x0b\x32\n.Optimizer\x12\x1d\n\tevaluator\x18\r \x03(\x0b\x32\n.Evaluator\x12\x1f\n\x07runtime\x18\x14 \x01(\x0b\x32\x0e.RuntimeConfig\"\xa7\x01\n\x05Model\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x1d\n\x06\x65xport\x18\x02 \x01(\x0b\x32\r.Model.Export\x12\x18\n\x07network\x18\x03 \x01(\x0b\x32\x07.Module\x1aW\n\x06\x45xport\x12\x0c\n\x04path\x18\x01 \x01(\t\x12\r\n\x05input\x18\x02 \x03(\t\x12\x0e\n\x06output\x18\x03 \x03(\t\x12\r\n\x05\x66used\x18\x04 \x01(\x08\x12\x11\n\tautoshape\x18\x05 \x01(\x08\"\x81\x01\n\x06Reader\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x15\n\x05phase\x18\x02 \x01(\x0e\x32\x06.Phase\x12\x1b\n\ntransforms\x18\x03 \x01(\x0b\x32\x07.Module\x12\x18\n\x07\x64\x61taset\x18\x04 \x01(\x0b\x32\x07.Module\x12\x1b\n\ndataloader\x18\x05 \x01(\x0b\x32\x07.Module\"x\n\tOptimizer\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x1a\n\toptimizer\x18\x02 \x01(\x0b\x32\x07.Module\x12\x1d\n\x0clr_scheduler\x18\x03 \x01(\x0b\x32\x07.Module\x12\x11\n\tclip_norm\x18\n \x01(\x02\x12\x0f\n\x07\x65poches\x18\x0b \x01(\r\"e\n\tEvaluator\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x17\n\x06metric\x18\x02 \x01(\x0b\x32\x07.Module\x12\r\n\x05model\x18\x03 \x01(\t\x12\x0e\n\x06reader\x18\x04 \x01(\t\x12\x12\n\npretrained\x18\x05 \x01(\t\"\xa4\x03\n\rRuntimeConfig\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06output\x18\x02 \x01(\t\x12\x0e\n\x06\x64\x65vice\x18\x03 \x01(\t\x12/\n\x0b\x64istributed\x18\x04 \x01(\x0b\x32\x1a.RuntimeConfig.Distributed\x12\x0e\n\x06resume\x18\x05 \x01(\t\x12\x0f\n\x07use_amp\x18\x06 \x01(\x08\x12\x31\n\x0cprint_option\x18\n \x01(\x0b\x32\x1b.RuntimeConfig.PrintOptions\x1aG\n\x0cPrintOptions\x12\x11\n\tprecision\x18\x01 \x01(\r\x12\x11\n\tthreshold\x18\x02 \x01(\r\x12\x11\n\tlinewidth\x18\x03 \x01(\r\x1a\x96\x01\n\x0b\x44istributed\x12\x0f\n\x07\x65nabled\x18\x01 \x01(\x08\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0f\n\x07\x62\x61\x63kend\x18\x03 \x01(\t\x12\x13\n\x0binit_method\x18\x04 \x01(\t\x12\x12\n\nworld_size\x18\x05 \x01(\r\x12\x0e\n\x06nnodes\x18\x06 \x01(\r\x12\x1e\n\x16\x66ind_unused_parameters\x18\x07 \x01(\x08\"\xb5\x05\n\x06Module\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0e\n\x06\x62ottom\x18\x03 \x03(\t\x12\x0b\n\x03top\x18\x04 \x03(\t\x12\x15\n\x05phase\x18\x05 \x01(\x0e\x32\x06.Phase\x12\x12\n\npretrained\x18\x06 \x01(\t\x12\x31\n\x11module_list_param\x18\x32 \x01(\x0b\x32\x14.ModuleListParameterH\x00\x12$\n\nyolo_param\x18\x33 \x01(\x0b\x32\x0e.YOLOParameterH\x00\x12(\n\x0c\x63onv2d_param\x18\x64 \x01(\x0b\x32\x10.Conv2dParameterH\x00\x12$\n\nrelu_param\x18\x65 \x01(\x0b\x32\x0e.ReLUParameterH\x00\x12+\n\rcompose_param\x18\xf4\x03 \x01(\x0b\x32\x11.ComposeParameterH\x00\x12)\n\x0cresize_param\x18\xf5\x03 \x01(\x0b\x32\x10.ResizeParameterH\x00\x12)\n\x0cmosaic_param\x18\xf6\x03 \x01(\x0b\x32\x10.MosaicParameterH\x00\x12,\n\x0e\x63oco_det_param\x18\xd9\x04 \x01(\x0b\x32\x11.CocoDetParameterH\x00\x12.\n\x0f\x63oco_eval_param\x18\xd8\x04 \x01(\x0b\x32\x12.CocoEvalParameterH\x00\x12\x31\n\x10\x64\x61taloader_param\x18\xbc\x05 \x01(\x0b\x32\x14.DataLoaderParameterH\x00\x12#\n\tsgd_param\x18\xa0\x06 \x01(\x0b\x32\r.SGDParameterH\x00\x12\x35\n\x13multi_step_lr_param\x18\xa1\x06 \x01(\x0b\x32\x15.MultiStepLRParameterH\x00\x12%\n\ntest_param\x18\xe8\x07 \x01(\x0b\x32\x0e.TestParameterH\x00\x42\x07\n\x05param\"<\n\x13ModuleListParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x17\n\x06module\x18\x02 \x03(\x0b\x32\x07.Module\"\x84\x01\n\rYOLOParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x19\n\x08\x62\x61\x63kbone\x18\x02 \x01(\x0b\x32\x07.Module\x12\x15\n\x04neck\x18\x03 \x01(\x0b\x32\x07.Module\x12\x15\n\x04head\x18\x04 \x01(\x0b\x32\x07.Module\x12\x1c\n\x0bpostprocess\x18\x05 \x01(\x0b\x32\x07.Module\"\xb8\x01\n\x0f\x43onv2dParameter\x12\x13\n\x0bin_channels\x18\x01 \x01(\r\x12\x14\n\x0cout_channels\x18\x02 \x01(\r\x12\x13\n\x0bkernel_size\x18\x03 \x03(\r\x12\x0e\n\x06stride\x18\x04 \x03(\r\x12\x0f\n\x07padding\x18\x05 \x03(\r\x12\x10\n\x08\x64ilation\x18\x06 \x03(\r\x12\x0e\n\x06groups\x18\x07 \x03(\r\x12\x0c\n\x04\x62ias\x18\x08 \x01(\x08\x12\x14\n\x0cpadding_mode\x18\t \x01(\t\" \n\rReLUParameter\x12\x0f\n\x07inspace\x18\x01 \x01(\x08\"3\n\x0fResizeParameter\x12\x12\n\nkeep_ratio\x18\x03 \x01(\x08\x12\x0c\n\x04size\x18\x04 \x03(\x05\"5\n\x10\x43omposeParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x02op\x18\x03 \x03(\x0b\x32\x07.Module\"\x1f\n\x0fMosaicParameter\x12\x0c\n\x04size\x18\x01 \x03(\x05\"`\n\x13\x44\x61taLoaderParameter\x12\x0f\n\x07\x64\x61taset\x18\x01 \x01(\t\x12\x12\n\nbatch_size\x18\x02 \x01(\x05\x12\x13\n\x0bnum_workers\x18\x03 \x01(\x05\x12\x0f\n\x07shuffle\x18\x04 \x01(\x08\"4\n\x10\x43ocoDetParameter\x12\x0c\n\x04path\x18\x01 \x01(\t\x12\x12\n\ntransforms\x18\x02 \x01(\t\"&\n\x11\x43ocoEvalParameter\x12\x11\n\tthreshold\x18\x02 \x01(\x02\"\x8f\x01\n\x0eParameterGroup\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06params\x18\x02 \x01(\t\x12\x14\n\x0cparams_names\x18\x03 \x03(\t\x12\x15\n\rparams_inline\x18\x04 \x01(\t\x12\n\n\x02lr\x18\x05 \x01(\x02\x12\x10\n\x08momentum\x18\x06 \x01(\x02\x12\x14\n\x0cweight_decay\x18\x07 \x01(\x02\"c\n\x0cSGDParameter\x12\x1f\n\x06params\x18\x01 \x03(\x0b\x32\x0f.ParameterGroup\x12\n\n\x02lr\x18\x03 \x01(\x02\x12\x10\n\x08momentum\x18\x04 \x01(\x02\x12\x14\n\x0cweight_decay\x18\x05 \x01(\x02\"=\n\x14MultiStepLRParameter\x12\x11\n\toptimizer\x18\x01 \x01(\t\x12\x12\n\nmilestones\x18\x02 \x03(\x05\"\x1a\n\rTestParameter\x12\t\n\x01m\x18\x01 \x01(\t*%\n\x05Phase\x12\x07\n\x03\x41LL\x10\x00\x12\t\n\x05TRAIN\x10\x01\x12\x08\n\x04\x45VAL\x10\x02'
+  serialized_pb=b'\n\x08\x63v.proto\"\xb6\x01\n\x06Solver\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x0f\n\x07include\x18\x02 \x03(\t\x12\x15\n\x05model\x18\n \x03(\x0b\x32\x06.Model\x12\x17\n\x06reader\x18\x0b \x03(\x0b\x32\x07.Reader\x12\x1d\n\toptimizer\x18\x0c \x03(\x0b\x32\n.Optimizer\x12\x1d\n\tevaluator\x18\r \x03(\x0b\x32\n.Evaluator\x12\x1f\n\x07runtime\x18\x14 \x01(\x0b\x32\x0e.RuntimeConfig\"\xf4\x01\n\x05Model\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x18\n\x07network\x18\x02 \x01(\x0b\x32\x07.Module\x12\x1d\n\x06\x65xport\x18\x03 \x01(\x0b\x32\r.Model.Export\x12\x1b\n\x05quant\x18\x04 \x01(\x0b\x32\x0c.Model.Quant\x12\x17\n\x06reader\x18\x05 \x01(\x0b\x32\x07.Reader\x1aW\n\x06\x45xport\x12\x0c\n\x04path\x18\x01 \x01(\t\x12\r\n\x05input\x18\x02 \x03(\t\x12\x0e\n\x06output\x18\x03 \x03(\t\x12\r\n\x05\x66used\x18\x04 \x01(\x08\x12\x11\n\tautoshape\x18\x05 \x01(\x08\x1a\x15\n\x05Quant\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x81\x01\n\x06Reader\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x15\n\x05phase\x18\x02 \x01(\x0e\x32\x06.Phase\x12\x1b\n\ntransforms\x18\x03 \x01(\x0b\x32\x07.Module\x12\x18\n\x07\x64\x61taset\x18\x04 \x01(\x0b\x32\x07.Module\x12\x1b\n\ndataloader\x18\x05 \x01(\x0b\x32\x07.Module\"x\n\tOptimizer\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x1a\n\toptimizer\x18\x02 \x01(\x0b\x32\x07.Module\x12\x1d\n\x0clr_scheduler\x18\x03 \x01(\x0b\x32\x07.Module\x12\x11\n\tclip_norm\x18\n \x01(\x02\x12\x0f\n\x07\x65poches\x18\x0b \x01(\r\"e\n\tEvaluator\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x17\n\x06metric\x18\x02 \x01(\x0b\x32\x07.Module\x12\r\n\x05model\x18\x03 \x01(\t\x12\x0e\n\x06reader\x18\x04 \x01(\t\x12\x12\n\npretrained\x18\x05 \x01(\t\"\xa4\x03\n\rRuntimeConfig\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06output\x18\x02 \x01(\t\x12\x0e\n\x06\x64\x65vice\x18\x03 \x01(\t\x12/\n\x0b\x64istributed\x18\x04 \x01(\x0b\x32\x1a.RuntimeConfig.Distributed\x12\x0e\n\x06resume\x18\x05 \x01(\t\x12\x0f\n\x07use_amp\x18\x06 \x01(\x08\x12\x31\n\x0cprint_option\x18\n \x01(\x0b\x32\x1b.RuntimeConfig.PrintOptions\x1aG\n\x0cPrintOptions\x12\x11\n\tprecision\x18\x01 \x01(\r\x12\x11\n\tthreshold\x18\x02 \x01(\r\x12\x11\n\tlinewidth\x18\x03 \x01(\r\x1a\x96\x01\n\x0b\x44istributed\x12\x0f\n\x07\x65nabled\x18\x01 \x01(\x08\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0f\n\x07\x62\x61\x63kend\x18\x03 \x01(\t\x12\x13\n\x0binit_method\x18\x04 \x01(\t\x12\x12\n\nworld_size\x18\x05 \x01(\r\x12\x0e\n\x06nnodes\x18\x06 \x01(\r\x12\x1e\n\x16\x66ind_unused_parameters\x18\x07 \x01(\x08\"\xb5\x05\n\x06Module\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x0e\n\x06\x62ottom\x18\x03 \x03(\t\x12\x0b\n\x03top\x18\x04 \x03(\t\x12\x15\n\x05phase\x18\x05 \x01(\x0e\x32\x06.Phase\x12\x12\n\npretrained\x18\x06 \x01(\t\x12\x31\n\x11module_list_param\x18\x32 \x01(\x0b\x32\x14.ModuleListParameterH\x00\x12$\n\nyolo_param\x18\x33 \x01(\x0b\x32\x0e.YOLOParameterH\x00\x12(\n\x0c\x63onv2d_param\x18\x64 \x01(\x0b\x32\x10.Conv2dParameterH\x00\x12$\n\nrelu_param\x18\x65 \x01(\x0b\x32\x0e.ReLUParameterH\x00\x12+\n\rcompose_param\x18\xf4\x03 \x01(\x0b\x32\x11.ComposeParameterH\x00\x12)\n\x0cresize_param\x18\xf5\x03 \x01(\x0b\x32\x10.ResizeParameterH\x00\x12)\n\x0cmosaic_param\x18\xf6\x03 \x01(\x0b\x32\x10.MosaicParameterH\x00\x12,\n\x0e\x63oco_det_param\x18\xd9\x04 \x01(\x0b\x32\x11.CocoDetParameterH\x00\x12.\n\x0f\x63oco_eval_param\x18\xd8\x04 \x01(\x0b\x32\x12.CocoEvalParameterH\x00\x12\x31\n\x10\x64\x61taloader_param\x18\xbc\x05 \x01(\x0b\x32\x14.DataLoaderParameterH\x00\x12#\n\tsgd_param\x18\xa0\x06 \x01(\x0b\x32\r.SGDParameterH\x00\x12\x35\n\x13multi_step_lr_param\x18\xa1\x06 \x01(\x0b\x32\x15.MultiStepLRParameterH\x00\x12%\n\ntest_param\x18\xe8\x07 \x01(\x0b\x32\x0e.TestParameterH\x00\x42\x07\n\x05param\"<\n\x13ModuleListParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x17\n\x06module\x18\x02 \x03(\x0b\x32\x07.Module\"\x84\x01\n\rYOLOParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x19\n\x08\x62\x61\x63kbone\x18\x02 \x01(\x0b\x32\x07.Module\x12\x15\n\x04neck\x18\x03 \x01(\x0b\x32\x07.Module\x12\x15\n\x04head\x18\x04 \x01(\x0b\x32\x07.Module\x12\x1c\n\x0bpostprocess\x18\x05 \x01(\x0b\x32\x07.Module\"\xb8\x01\n\x0f\x43onv2dParameter\x12\x13\n\x0bin_channels\x18\x01 \x01(\r\x12\x14\n\x0cout_channels\x18\x02 \x01(\r\x12\x13\n\x0bkernel_size\x18\x03 \x03(\r\x12\x0e\n\x06stride\x18\x04 \x03(\r\x12\x0f\n\x07padding\x18\x05 \x03(\r\x12\x10\n\x08\x64ilation\x18\x06 \x03(\r\x12\x0e\n\x06groups\x18\x07 \x03(\r\x12\x0c\n\x04\x62ias\x18\x08 \x01(\x08\x12\x14\n\x0cpadding_mode\x18\t \x01(\t\" \n\rReLUParameter\x12\x0f\n\x07inspace\x18\x01 \x01(\x08\"3\n\x0fResizeParameter\x12\x12\n\nkeep_ratio\x18\x03 \x01(\x08\x12\x0c\n\x04size\x18\x04 \x03(\x05\"5\n\x10\x43omposeParameter\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x02op\x18\x03 \x03(\x0b\x32\x07.Module\"\x1f\n\x0fMosaicParameter\x12\x0c\n\x04size\x18\x01 \x03(\x05\"`\n\x13\x44\x61taLoaderParameter\x12\x0f\n\x07\x64\x61taset\x18\x01 \x01(\t\x12\x12\n\nbatch_size\x18\x02 \x01(\x05\x12\x13\n\x0bnum_workers\x18\x03 \x01(\x05\x12\x0f\n\x07shuffle\x18\x04 \x01(\x08\"4\n\x10\x43ocoDetParameter\x12\x0c\n\x04path\x18\x01 \x01(\t\x12\x12\n\ntransforms\x18\x02 \x01(\t\"&\n\x11\x43ocoEvalParameter\x12\x11\n\tthreshold\x18\x02 \x01(\x02\"\x8f\x01\n\x0eParameterGroup\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06params\x18\x02 \x01(\t\x12\x14\n\x0cparams_names\x18\x03 \x03(\t\x12\x15\n\rparams_inline\x18\x04 \x01(\t\x12\n\n\x02lr\x18\x05 \x01(\x02\x12\x10\n\x08momentum\x18\x06 \x01(\x02\x12\x14\n\x0cweight_decay\x18\x07 \x01(\x02\"c\n\x0cSGDParameter\x12\x1f\n\x06params\x18\x01 \x03(\x0b\x32\x0f.ParameterGroup\x12\n\n\x02lr\x18\x03 \x01(\x02\x12\x10\n\x08momentum\x18\x04 \x01(\x02\x12\x14\n\x0cweight_decay\x18\x05 \x01(\x02\"=\n\x14MultiStepLRParameter\x12\x11\n\toptimizer\x18\x01 \x01(\t\x12\x12\n\nmilestones\x18\x02 \x03(\x05\"\x1a\n\rTestParameter\x12\t\n\x01m\x18\x01 \x01(\t*%\n\x05Phase\x12\x07\n\x03\x41LL\x10\x00\x12\t\n\x05TRAIN\x10\x01\x12\x08\n\x04\x45VAL\x10\x02'
 )
 
 _PHASE = _descriptor.EnumDescriptor(
@@ -48,8 +48,8 @@ _PHASE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2932,
-  serialized_end=2969,
+  serialized_start=3009,
+  serialized_end=3046,
 )
 _sym_db.RegisterEnumDescriptor(_PHASE)
 
@@ -189,8 +189,39 @@ _MODEL_EXPORT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=278,
-  serialized_end=365,
+  serialized_start=332,
+  serialized_end=419,
+)
+
+_MODEL_QUANT = _descriptor.Descriptor(
+  name='Quant',
+  full_name='Model.Quant',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='Model.Quant.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=421,
+  serialized_end=442,
 )
 
 _MODEL = _descriptor.Descriptor(
@@ -209,15 +240,29 @@ _MODEL = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='export', full_name='Model.export', index=1,
+      name='network', full_name='Model.network', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='network', full_name='Model.network', index=2,
+      name='export', full_name='Model.export', index=2,
       number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='quant', full_name='Model.quant', index=3,
+      number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='reader', full_name='Model.reader', index=4,
+      number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -225,7 +270,7 @@ _MODEL = _descriptor.Descriptor(
   ],
   extensions=[
   ],
-  nested_types=[_MODEL_EXPORT, ],
+  nested_types=[_MODEL_EXPORT, _MODEL_QUANT, ],
   enum_types=[
   ],
   serialized_options=None,
@@ -235,7 +280,7 @@ _MODEL = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=198,
-  serialized_end=365,
+  serialized_end=442,
 )
 
 
@@ -294,8 +339,8 @@ _READER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=368,
-  serialized_end=497,
+  serialized_start=445,
+  serialized_end=574,
 )
 
 
@@ -354,8 +399,8 @@ _OPTIMIZER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=499,
-  serialized_end=619,
+  serialized_start=576,
+  serialized_end=696,
 )
 
 
@@ -414,8 +459,8 @@ _EVALUATOR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=621,
-  serialized_end=722,
+  serialized_start=698,
+  serialized_end=799,
 )
 
 
@@ -460,8 +505,8 @@ _RUNTIMECONFIG_PRINTOPTIONS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=921,
-  serialized_end=992,
+  serialized_start=998,
+  serialized_end=1069,
 )
 
 _RUNTIMECONFIG_DISTRIBUTED = _descriptor.Descriptor(
@@ -533,8 +578,8 @@ _RUNTIMECONFIG_DISTRIBUTED = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=995,
-  serialized_end=1145,
+  serialized_start=1072,
+  serialized_end=1222,
 )
 
 _RUNTIMECONFIG = _descriptor.Descriptor(
@@ -606,8 +651,8 @@ _RUNTIMECONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=725,
-  serialized_end=1145,
+  serialized_start=802,
+  serialized_end=1222,
 )
 
 
@@ -769,8 +814,8 @@ _MODULE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1148,
-  serialized_end=1841,
+  serialized_start=1225,
+  serialized_end=1918,
 )
 
 
@@ -808,8 +853,8 @@ _MODULELISTPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1843,
-  serialized_end=1903,
+  serialized_start=1920,
+  serialized_end=1980,
 )
 
 
@@ -868,8 +913,8 @@ _YOLOPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1906,
-  serialized_end=2038,
+  serialized_start=1983,
+  serialized_end=2115,
 )
 
 
@@ -956,8 +1001,8 @@ _CONV2DPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2041,
-  serialized_end=2225,
+  serialized_start=2118,
+  serialized_end=2302,
 )
 
 
@@ -988,8 +1033,8 @@ _RELUPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2227,
-  serialized_end=2259,
+  serialized_start=2304,
+  serialized_end=2336,
 )
 
 
@@ -1027,8 +1072,8 @@ _RESIZEPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2261,
-  serialized_end=2312,
+  serialized_start=2338,
+  serialized_end=2389,
 )
 
 
@@ -1066,8 +1111,8 @@ _COMPOSEPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2314,
-  serialized_end=2367,
+  serialized_start=2391,
+  serialized_end=2444,
 )
 
 
@@ -1098,8 +1143,8 @@ _MOSAICPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2369,
-  serialized_end=2400,
+  serialized_start=2446,
+  serialized_end=2477,
 )
 
 
@@ -1151,8 +1196,8 @@ _DATALOADERPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2402,
-  serialized_end=2498,
+  serialized_start=2479,
+  serialized_end=2575,
 )
 
 
@@ -1190,8 +1235,8 @@ _COCODETPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2500,
-  serialized_end=2552,
+  serialized_start=2577,
+  serialized_end=2629,
 )
 
 
@@ -1222,8 +1267,8 @@ _COCOEVALPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2554,
-  serialized_end=2592,
+  serialized_start=2631,
+  serialized_end=2669,
 )
 
 
@@ -1296,8 +1341,8 @@ _PARAMETERGROUP = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2595,
-  serialized_end=2738,
+  serialized_start=2672,
+  serialized_end=2815,
 )
 
 
@@ -1349,8 +1394,8 @@ _SGDPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2740,
-  serialized_end=2839,
+  serialized_start=2817,
+  serialized_end=2916,
 )
 
 
@@ -1388,8 +1433,8 @@ _MULTISTEPLRPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2841,
-  serialized_end=2902,
+  serialized_start=2918,
+  serialized_end=2979,
 )
 
 
@@ -1420,8 +1465,8 @@ _TESTPARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2904,
-  serialized_end=2930,
+  serialized_start=2981,
+  serialized_end=3007,
 )
 
 _SOLVER.fields_by_name['model'].message_type = _MODEL
@@ -1430,8 +1475,11 @@ _SOLVER.fields_by_name['optimizer'].message_type = _OPTIMIZER
 _SOLVER.fields_by_name['evaluator'].message_type = _EVALUATOR
 _SOLVER.fields_by_name['runtime'].message_type = _RUNTIMECONFIG
 _MODEL_EXPORT.containing_type = _MODEL
-_MODEL.fields_by_name['export'].message_type = _MODEL_EXPORT
+_MODEL_QUANT.containing_type = _MODEL
 _MODEL.fields_by_name['network'].message_type = _MODULE
+_MODEL.fields_by_name['export'].message_type = _MODEL_EXPORT
+_MODEL.fields_by_name['quant'].message_type = _MODEL_QUANT
+_MODEL.fields_by_name['reader'].message_type = _READER
 _READER.fields_by_name['phase'].enum_type = _PHASE
 _READER.fields_by_name['transforms'].message_type = _MODULE
 _READER.fields_by_name['dataset'].message_type = _MODULE
@@ -1542,12 +1590,20 @@ Model = _reflection.GeneratedProtocolMessageType('Model', (_message.Message,), {
     # @@protoc_insertion_point(class_scope:Model.Export)
     })
   ,
+
+  'Quant' : _reflection.GeneratedProtocolMessageType('Quant', (_message.Message,), {
+    'DESCRIPTOR' : _MODEL_QUANT,
+    '__module__' : 'cv_pb2'
+    # @@protoc_insertion_point(class_scope:Model.Quant)
+    })
+  ,
   'DESCRIPTOR' : _MODEL,
   '__module__' : 'cv_pb2'
   # @@protoc_insertion_point(class_scope:Model)
   })
 _sym_db.RegisterMessage(Model)
 _sym_db.RegisterMessage(Model.Export)
+_sym_db.RegisterMessage(Model.Quant)
 
 Reader = _reflection.GeneratedProtocolMessageType('Reader', (_message.Message,), {
   'DESCRIPTOR' : _READER,
