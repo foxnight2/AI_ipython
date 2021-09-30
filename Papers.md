@@ -33,9 +33,10 @@
 - [Generalized Focal Loss: Learning Qualified and Distributed Bounding Boxes for Dense Object Detection](https://arxiv.org/pdf/2006.04388.pdf)
 - [Generalized Focal Loss V2: Learning Reliable Localization Quality Estimation for Dense Object Detection](https://arxiv.org/pdf/2011.12885.pdf)
 - [Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection](https://arxiv.org/pdf/1912.02424.pdf)
-
 - [SNIPER: Efficient Multi-Scale Training](https://arxiv.org/pdf/1805.09300v3.pdf)
 - [AutoFocus: Efficient Multi-Scale Inference]()
+- [Pix2seq: A Language Modeling Framework for Object Detection]()
+
 
 ## GAN
 - [TransGAN: Two Transformers Can Make One Strong GAN](./2102.07074.pdf)
@@ -68,6 +69,7 @@
 - [Efficient Self-supervised Vision Transformers for Representation Learning
 ](https://arxiv.org/pdf/2106.09785.pdf)
 - [MoCo v3 for Self-supervised ResNet and ViT](https://github.com/facebookresearch/moco-v3)
+- [Scaling Vision Transformers](https://arxiv.org/pdf/2106.04560.pdf)
 
 
 # 3D
@@ -103,4 +105,10 @@
 # Optimizer
 - [DECOUPLED WEIGHT DECAY REGULARIZATION, AdamW](./1711.05101.pdf)
 - [Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour](https://arxiv.org/pdf/1706.02677.pdf)
+
+
+
+# unsupervised
+- [Multi-Task Self-Training for Learning General Representations](https://arxiv.org/pdf/2108.11353.pdf)
+
 
