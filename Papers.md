@@ -115,4 +115,5 @@
 
 
 # NLP
+- [PromptPapers](https://github.com/thunlp/PromptPapers)
 - [Pre-train, Prompt, and Predict: A Systematic Survey of Prompting Methods in Natural Language Processing](https://arxiv.org/pdf/2107.13586.pdf)
