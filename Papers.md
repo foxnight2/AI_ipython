@@ -71,6 +71,7 @@
 - [MoCo v3 for Self-supervised ResNet and ViT](https://github.com/facebookresearch/moco-v3)
 - [Scaling Vision Transformers](https://arxiv.org/pdf/2106.04560.pdf)
 - [MOBILEVIT: LIGHT-WEIGHT, GENERAL-PURPOSE, AND MOBILE-FRIENDLY VISION TRANSFORMER](https://arxiv.org/pdf/2110.02178.pdf)
+- [Patches Are All You Need?](https://openreview.net/pdf?id=TVHS5Y4dNvM)
 
 
 # 3D
