@@ -70,6 +70,7 @@
 ](https://arxiv.org/pdf/2106.09785.pdf)
 - [MoCo v3 for Self-supervised ResNet and ViT](https://github.com/facebookresearch/moco-v3)
 - [Scaling Vision Transformers](https://arxiv.org/pdf/2106.04560.pdf)
+- [MOBILEVIT: LIGHT-WEIGHT, GENERAL-PURPOSE, AND MOBILE-FRIENDLY VISION TRANSFORMER](https://arxiv.org/pdf/2110.02178.pdf)
 
 
 # 3D
@@ -112,3 +113,6 @@
 - [Multi-Task Self-Training for Learning General Representations](https://arxiv.org/pdf/2108.11353.pdf)
 
 
+
+# NLP
+- [Pre-train, Prompt, and Predict: A Systematic Survey of Prompting Methods in Natural Language Processing](https://arxiv.org/pdf/2107.13586.pdf)
