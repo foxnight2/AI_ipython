@@ -117,3 +117,4 @@
 # NLP
 - [PromptPapers](https://github.com/thunlp/PromptPapers)
 - [Pre-train, Prompt, and Predict: A Systematic Survey of Prompting Methods in Natural Language Processing](https://arxiv.org/pdf/2107.13586.pdf)
+- [Learning Transferable Visual Models From Natural Language Supervision](https://arxiv.org/pdf/2103.00020.pdf)
