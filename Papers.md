@@ -36,7 +36,8 @@
 - [SNIPER: Efficient Multi-Scale Training](https://arxiv.org/pdf/1805.09300v3.pdf)
 - [AutoFocus: Efficient Multi-Scale Inference]()
 - [Pix2seq: A Language Modeling Framework for Object Detection]()
-
+- [Training Region-based Object Detectors with Online Hard Example Mining](https://arxiv.org/pdf/1604.03540.pdf)
+- [PROCESSING AT THE FEATURE PYRAMID LEVEL FOR BETTER OBJECT DETECTION](https://arxiv.org/pdf/2110.04004v1.pdf)
 
 ## GAN
 - [TransGAN: Two Transformers Can Make One Strong GAN](./2102.07074.pdf)
@@ -107,7 +108,7 @@
 # Optimizer
 - [DECOUPLED WEIGHT DECAY REGULARIZATION, AdamW](./1711.05101.pdf)
 - [Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour](https://arxiv.org/pdf/1706.02677.pdf)
-
+- [Lookahead Optimizer: k steps forward, 1 step back](https://arxiv.org/pdf/1907.08610.pdf)
 
 
 # unsupervised
