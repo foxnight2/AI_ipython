@@ -38,6 +38,8 @@
 - [Pix2seq: A Language Modeling Framework for Object Detection]()
 - [Training Region-based Object Detectors with Online Hard Example Mining](https://arxiv.org/pdf/1604.03540.pdf)
 - [PROCESSING AT THE FEATURE PYRAMID LEVEL FOR BETTER OBJECT DETECTION](https://arxiv.org/pdf/2110.04004v1.pdf)
+- [End-to-End Semi-Supervised Object Detection with Soft Teacher](https://arxiv.org/pdf/2106.09018v3.pdf)
+
 
 ## GAN
 - [TransGAN: Two Transformers Can Make One Strong GAN](./2102.07074.pdf)
