@@ -114,8 +114,16 @@
 
 
 # unsupervised
+- [Consistency-based Semi-supervised Learning for Object Detection]()
+- [A Simple Semi-Supervised Learning Framework for Object Detection](https://github.com/google-research/ssl_detection)
+- [Instant-Teaching: An End-to-End Semi-Supervised Object Detection Framework
+]()
 - [Multi-Task Self-Training for Learning General Representations](https://arxiv.org/pdf/2108.11353.pdf)
 - [UNBIASED TEACHER FOR SEMI-SUPERVISED OBJECT DETECTION](https://arxiv.org/pdf/2102.09480.pdf)
+- [End-to-End Semi-Supervised Object Detection with Soft Teacher](https://github.com/microsoft/SoftTeacher)
+- [Proposal Learning for Semi-Supervised Object Detection](https://openaccess.thecvf.com/content/WACV2021/papers/Tang_Proposal_Learning_for_Semi-Supervised_Object_Detection_WACV_2021_paper.pdf)
+- [Interactive Self-Training with Mean Teachers for Semi-supervised Object Detection](https://openaccess.thecvf.com/content/CVPR2021/papers/Yang_Interactive_Self-Training_With_Mean_Teachers_for_Semi-Supervised_Object_Detection_CVPR_2021_paper.pdf)
+- [Data-Uncertainty Guided Multi-Phase Learning for Semi-Supervised Object Detection]()
 
 
 # NLP
