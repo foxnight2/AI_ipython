@@ -1,6 +1,13 @@
 
 
-## Detection
+## Object Detection
+### Dataset
+- [coco]()
+- [voc]()
+- [obj365]()
+- [oid]()
+
+### Supervised
 - [object-detection-on-coco](https://paperswithcode.com/sota/object-detection-on-coco)
 - [instance-segmentation-on-coco](https://paperswithcode.com/sota/instance-segmentation-on-coco)
 - [Focal Loss for Dense Object Detection](./1708.02002.pdf)
@@ -8,8 +15,6 @@
 - [YOLOv4: Optimal Speed and Accuracy of Object Detection](./2004.10934.pdf)
 - [You Only Look One-level Feature](./2103.09460.pdf)
 - [Probabilistic two-stage detection](./2103.07461.pdf)
-- [UNBIASED TEACHER FOR SEMI-SUPERVISED OBJECT DETECTION](./2102.09480.pdf)
-- [Distilling Localization for Self-Supervised Representation Learning](./2004.06638.pdf)
 - [Track to Detect and Segment: An Online Multi-Object Tracker](./2103.08808.pdf)
 - [Combining detection and tracking for human pose estimation in videos](./2003.13743.pdf)
 - [Deep High-Resolution Representation Learning for Human Pose Estimation](./1902.09212.pdf)
@@ -41,12 +46,65 @@
 - [End-to-End Semi-Supervised Object Detection with Soft Teacher](https://arxiv.org/pdf/2106.09018v3.pdf)
 - [Scale-aware Automatic Augmentation for Object Detection](https://arxiv.org/pdf/2103.17220.pdf)
 
+
+### Unsupervised
+- [Consistency-based Semi-supervised Learning for Object Detection](https://papers.nips.cc/paper/2019/file/d0f4dae80c3d0277922f8371d5827292-Paper.pdf)
+- [A Simple Semi-Supervised Learning Framework for Object Detection](https://arxiv.org/pdf/2005.04757.pdf)
+- [Instant-Teaching: An End-to-End Semi-Supervised Object Detection Framework
+](https://arxiv.org/pdf/2103.11402.pdf)
+- [Multi-Task Self-Training for Learning General Representations](https://arxiv.org/pdf/2108.11353.pdf)
+- [UNBIASED TEACHER FOR SEMI-SUPERVISED OBJECT DETECTION](https://arxiv.org/pdf/2102.09480.pdf)
+- [End-to-End Semi-Supervised Object Detection with Soft Teacher](https://github.com/microsoft/SoftTeacher)
+- [Proposal Learning for Semi-Supervised Object Detection](https://openaccess.thecvf.com/content/WACV2021/papers/Tang_Proposal_Learning_for_Semi-Supervised_Object_Detection_WACV_2021_paper.pdf)
+- [Interactive Self-Training with Mean Teachers for Semi-supervised Object Detection](https://openaccess.thecvf.com/content/CVPR2021/papers/Yang_Interactive_Self-Training_With_Mean_Teachers_for_Semi-Supervised_Object_Detection_CVPR_2021_paper.pdf)
+- [Data-Uncertainty Guided Multi-Phase Learning for Semi-Supervised Object Detection]()
+- [Distilling Localization for Self-Supervised Representation Learning](./2004.06638.pdf)
+
+
+
 ## GAN
 - [TransGAN: Two Transformers Can Make One Strong GAN](./2102.07074.pdf)
 
 
-## Transfer
-- [Learning Transferable Visual Models From Natural Language Supervision](./2103.00020.pdf)
+
+## 3D
+### Dataset
+- [KITTI Dataset](http://www.cvlibs.net/publications/Geiger2013IJRR.pdf)
+- [nuScenes: A multimodal dataset for autonomous driving](https://arxiv.org/pdf/1903.11027.pdf)
+
+### Detection
+- [https://web.eecs.umich.edu/~justincj/slides/eecs498/498_FA2019_lecture17.pdf](https://web.eecs.umich.edu/~justincj/slides/eecs498/498_FA2019_lecture17.pdf)
+- [ViP-DeepLab: Learning Visual Perception with Depth-aware Video Panoptic Segmentation](https://arxiv.org/pdf/2012.05258.pdf)
+- [Bidirectional Attention Network for Monocular Depth Estimation](https://arxiv.org/pdf/2009.00743.pdf)
+- [H-Net: Unsupervised Attention-based Stereo Depth Estimation Leveraging Epipolar Geometry](./2104.11288.pdf)
+- [Fast and Accurate Single-Image Depth Estimation on Mobile Devices, Mobile AI 2021 Challenge: Report](./2105.08630.pdf)
+- [The Temporal Opportunist: Self-Supervised Multi-Frame Monocular Depth](https://arxiv.org/pdf/2104.14540.pdf)
+- [Disentangling Monocular 3D Object Detection](https://arxiv.org/pdf/1905.12365.pdf)
+- [FCOS3D: Fully Convolutional One-Stage Monocular 3D Object Detection](https://arxiv.org/pdf/2104.10956.pdf)
+- [SMOKE: Single-Stage Monocular 3D Object Detection via Keypoint Estimation](https://arxiv.org/pdf/2002.10111.pdf)
+- [Categorical Depth Distribution Network for Monocular 3D Object Detection](https://arxiv.org/pdf/2103.01100.pdf)
+- [Objects are Different: Flexible Monocular 3D Object Detection](https://arxiv.org/pdf/2104.02323.pdf)
+- [Monocular 3D Object Detection: An Extrinsic Parameter Free Approach](https://openaccess.thecvf.com/content/CVPR2021/papers/Zhou_Monocular_3D_Object_Detection_An_Extrinsic_Parameter_Free_Approach_CVPR_2021_paper.pdf)
+- [MonoRUn: Monocular 3D Object Detection by Reconstruction and Uncertainty Propagation](https://openaccess.thecvf.com/content/CVPR2021/papers/Chen_MonoRUn_Monocular_3D_Object_Detection_by_Reconstruction_and_Uncertainty_Propagation_CVPR_2021_paper.pdf)
+- [GrooMeD-NMS: Grouped Mathematically Differentiable NMS for Monocular 3D Object Detection](https://openaccess.thecvf.com/content/CVPR2021/papers/Kumar_GrooMeD-NMS_Grouped_Mathematically_Differentiable_NMS_for_Monocular_3D_Object_Detection_CVPR_2021_paper.pdf)
+- [Delving into Localization Errors for Monocular 3D Object Detection](https://openaccess.thecvf.com/content/CVPR2021/papers/Ma_Delving_Into_Localization_Errors_for_Monocular_3D_Object_Detection_CVPR_2021_paper.pdf)
+- [3D Object Detection for Autonomous Driving: A Survey](https://arxiv.org/pdf/2106.10823.pdf)
+- [Full Surround Monodepth from Multiple Cameras](https://arxiv.org/pdf/2104.00152.pdf)
+- [RTM3D: Real-time Monocular 3D Detection from Object Keypoints for Autonomous Driving](https://arxiv.org/pdf/2001.03343.pdf)
+- [2021-cvpr](https://zhuanlan.zhihu.com/p/389319123)
+- [2021-aaai](https://zhuanlan.zhihu.com/p/345240056)
+- [Improving Monocular Depth Estimation by Leveraging Structural Awareness and Complementary Datasets](https://arxiv.org/pdf/2007.11256.pdf)
+- [3D Semantic Segmentation with Submanifold Sparse Convolutional Networks](https://arxiv.org/pdf/1711.10275.pdf)
+- [SECOND: Sparsely Embedded Convolutional Detection](https://pdfs.semanticscholar.org/5125/a16039cabc6320c908a4764f32596e018ad3.pdf)
+- [MonoRec: Semi-Supervised Dense Reconstruction in Dynamic Environments from a Single Moving Camera](https://arxiv.org/pdf/2011.11814.pdf)
+- [FaPN: Feature-aligned Pyramid Network for Dense Image Prediction](https://arxiv.org/pdf/2108.07058.pdf)
+
+
+### Depth
+- [awesome-Monocular-Depth-Estimation](https://github.com/paprrik/awesome-Monocular-Depth-Estimation)
+- [Unsupervised Learning of Depth and Ego-Motion from Video]()
+- [Digging Into Self-Supervised Monocular Depth Estimation]()
+- [Unsupervised Scale-consistent Depth Learning from Video]()
 
 
 ## Network
@@ -77,61 +135,21 @@
 - [Patches Are All You Need?](https://openreview.net/pdf?id=TVHS5Y4dNvM)
 
 
-# 3D-Det
-- [KITTI Dataset](http://www.cvlibs.net/publications/Geiger2013IJRR.pdf)
-- [nuScenes: A multimodal dataset for autonomous driving](https://arxiv.org/pdf/1903.11027.pdf)
-- [https://web.eecs.umich.edu/~justincj/slides/eecs498/498_FA2019_lecture17.pdf](https://web.eecs.umich.edu/~justincj/slides/eecs498/498_FA2019_lecture17.pdf)
-- [ViP-DeepLab: Learning Visual Perception with Depth-aware Video Panoptic Segmentation](https://arxiv.org/pdf/2012.05258.pdf)
-- [Bidirectional Attention Network for Monocular Depth Estimation](https://arxiv.org/pdf/2009.00743.pdf)
-- [H-Net: Unsupervised Attention-based Stereo Depth Estimation Leveraging Epipolar Geometry](./2104.11288.pdf)
-- [Fast and Accurate Single-Image Depth Estimation on Mobile Devices, Mobile AI 2021 Challenge: Report](./2105.08630.pdf)
-- [The Temporal Opportunist: Self-Supervised Multi-Frame Monocular Depth](https://arxiv.org/pdf/2104.14540.pdf)
-- [Disentangling Monocular 3D Object Detection](https://arxiv.org/pdf/1905.12365.pdf)
-- [FCOS3D: Fully Convolutional One-Stage Monocular 3D Object Detection](https://arxiv.org/pdf/2104.10956.pdf)
-- [SMOKE: Single-Stage Monocular 3D Object Detection via Keypoint Estimation](https://arxiv.org/pdf/2002.10111.pdf)
-- [Categorical Depth Distribution Network for Monocular 3D Object Detection](https://arxiv.org/pdf/2103.01100.pdf)
-- [Objects are Different: Flexible Monocular 3D Object Detection](https://arxiv.org/pdf/2104.02323.pdf)
-- [Monocular 3D Object Detection: An Extrinsic Parameter Free Approach](https://openaccess.thecvf.com/content/CVPR2021/papers/Zhou_Monocular_3D_Object_Detection_An_Extrinsic_Parameter_Free_Approach_CVPR_2021_paper.pdf)
-- [MonoRUn: Monocular 3D Object Detection by Reconstruction and Uncertainty Propagation](https://openaccess.thecvf.com/content/CVPR2021/papers/Chen_MonoRUn_Monocular_3D_Object_Detection_by_Reconstruction_and_Uncertainty_Propagation_CVPR_2021_paper.pdf)
-- [GrooMeD-NMS: Grouped Mathematically Differentiable NMS for Monocular 3D Object Detection](https://openaccess.thecvf.com/content/CVPR2021/papers/Kumar_GrooMeD-NMS_Grouped_Mathematically_Differentiable_NMS_for_Monocular_3D_Object_Detection_CVPR_2021_paper.pdf)
-- [Delving into Localization Errors for Monocular 3D Object Detection](https://openaccess.thecvf.com/content/CVPR2021/papers/Ma_Delving_Into_Localization_Errors_for_Monocular_3D_Object_Detection_CVPR_2021_paper.pdf)
-- [3D Object Detection for Autonomous Driving: A Survey](https://arxiv.org/pdf/2106.10823.pdf)
-- [Full Surround Monodepth from Multiple Cameras](https://arxiv.org/pdf/2104.00152.pdf)
-- [RTM3D: Real-time Monocular 3D Detection from Object Keypoints for Autonomous Driving](https://arxiv.org/pdf/2001.03343.pdf)
-- [2021-cvpr](https://zhuanlan.zhihu.com/p/389319123)
-- [2021-aaai](https://zhuanlan.zhihu.com/p/345240056)
-- [Improving Monocular Depth Estimation by Leveraging Structural Awareness and Complementary Datasets](https://arxiv.org/pdf/2007.11256.pdf)
-- [3D Semantic Segmentation with Submanifold Sparse Convolutional Networks](https://arxiv.org/pdf/1711.10275.pdf)
-- [SECOND: Sparsely Embedded Convolutional Detection](https://pdfs.semanticscholar.org/5125/a16039cabc6320c908a4764f32596e018ad3.pdf)
-- [MonoRec: Semi-Supervised Dense Reconstruction in Dynamic Environments from a Single Moving Camera](https://arxiv.org/pdf/2011.11814.pdf)
-- [FaPN: Feature-aligned Pyramid Network for Dense Image Prediction](https://arxiv.org/pdf/2108.07058.pdf)
-
-
-# 3D-Depth
-- [awesome-Monocular-Depth-Estimation](https://github.com/paprrik/awesome-Monocular-Depth-Estimation)
-
-
-# Optimizer
+## Optimizer
 - [DECOUPLED WEIGHT DECAY REGULARIZATION, AdamW](./1711.05101.pdf)
 - [Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour](https://arxiv.org/pdf/1706.02677.pdf)
 - [Lookahead Optimizer: k steps forward, 1 step back](https://arxiv.org/pdf/1907.08610.pdf)
 
 
-# unsupervised
-- [Consistency-based Semi-supervised Learning for Object Detection](https://papers.nips.cc/paper/2019/file/d0f4dae80c3d0277922f8371d5827292-Paper.pdf)
-- [A Simple Semi-Supervised Learning Framework for Object Detection](https://arxiv.org/pdf/2005.04757.pdf)
-- [Instant-Teaching: An End-to-End Semi-Supervised Object Detection Framework
-](https://arxiv.org/pdf/2103.11402.pdf)
-- [Multi-Task Self-Training for Learning General Representations](https://arxiv.org/pdf/2108.11353.pdf)
-- [UNBIASED TEACHER FOR SEMI-SUPERVISED OBJECT DETECTION](https://arxiv.org/pdf/2102.09480.pdf)
-- [End-to-End Semi-Supervised Object Detection with Soft Teacher](https://github.com/microsoft/SoftTeacher)
-- [Proposal Learning for Semi-Supervised Object Detection](https://openaccess.thecvf.com/content/WACV2021/papers/Tang_Proposal_Learning_for_Semi-Supervised_Object_Detection_WACV_2021_paper.pdf)
-- [Interactive Self-Training with Mean Teachers for Semi-supervised Object Detection](https://openaccess.thecvf.com/content/CVPR2021/papers/Yang_Interactive_Self-Training_With_Mean_Teachers_for_Semi-Supervised_Object_Detection_CVPR_2021_paper.pdf)
-- [Data-Uncertainty Guided Multi-Phase Learning for Semi-Supervised Object Detection]()
 
-
-# NLP
+## NLP
 - [PromptPapers](https://github.com/thunlp/PromptPapers)
 - [Pre-train, Prompt, and Predict: A Systematic Survey of Prompting Methods in Natural Language Processing](https://arxiv.org/pdf/2107.13586.pdf)
 - [Learning Transferable Visual Models From Natural Language Supervision](https://arxiv.org/pdf/2103.00020.pdf)
 - [Towards Zero-Label Language Learning](https://arxiv.org/pdf/2109.09193.pdf)
+
+
+
+
+## Transfer
+- [Learning Transferable Visual Models From Natural Language Supervision](./2103.00020.pdf)
