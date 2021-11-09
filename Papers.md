@@ -39,7 +39,7 @@
 - [Training Region-based Object Detectors with Online Hard Example Mining](https://arxiv.org/pdf/1604.03540.pdf)
 - [PROCESSING AT THE FEATURE PYRAMID LEVEL FOR BETTER OBJECT DETECTION](https://arxiv.org/pdf/2110.04004v1.pdf)
 - [End-to-End Semi-Supervised Object Detection with Soft Teacher](https://arxiv.org/pdf/2106.09018v3.pdf)
-
+- [Scale-aware Automatic Augmentation for Object Detection](https://arxiv.org/pdf/2103.17220.pdf)
 
 ## GAN
 - [TransGAN: Two Transformers Can Make One Strong GAN](./2102.07074.pdf)
@@ -77,7 +77,7 @@
 - [Patches Are All You Need?](https://openreview.net/pdf?id=TVHS5Y4dNvM)
 
 
-# 3D
+# 3D-Det
 - [KITTI Dataset](http://www.cvlibs.net/publications/Geiger2013IJRR.pdf)
 - [nuScenes: A multimodal dataset for autonomous driving](https://arxiv.org/pdf/1903.11027.pdf)
 - [https://web.eecs.umich.edu/~justincj/slides/eecs498/498_FA2019_lecture17.pdf](https://web.eecs.umich.edu/~justincj/slides/eecs498/498_FA2019_lecture17.pdf)
@@ -107,6 +107,10 @@
 - [FaPN: Feature-aligned Pyramid Network for Dense Image Prediction](https://arxiv.org/pdf/2108.07058.pdf)
 
 
+# 3D-Depth
+- [awesome-Monocular-Depth-Estimation](https://github.com/paprrik/awesome-Monocular-Depth-Estimation)
+
+
 # Optimizer
 - [DECOUPLED WEIGHT DECAY REGULARIZATION, AdamW](./1711.05101.pdf)
 - [Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour](https://arxiv.org/pdf/1706.02677.pdf)
@@ -114,10 +118,10 @@
 
 
 # unsupervised
-- [Consistency-based Semi-supervised Learning for Object Detection]()
-- [A Simple Semi-Supervised Learning Framework for Object Detection](https://github.com/google-research/ssl_detection)
+- [Consistency-based Semi-supervised Learning for Object Detection](https://papers.nips.cc/paper/2019/file/d0f4dae80c3d0277922f8371d5827292-Paper.pdf)
+- [A Simple Semi-Supervised Learning Framework for Object Detection](https://arxiv.org/pdf/2005.04757.pdf)
 - [Instant-Teaching: An End-to-End Semi-Supervised Object Detection Framework
-]()
+](https://arxiv.org/pdf/2103.11402.pdf)
 - [Multi-Task Self-Training for Learning General Representations](https://arxiv.org/pdf/2108.11353.pdf)
 - [UNBIASED TEACHER FOR SEMI-SUPERVISED OBJECT DETECTION](https://arxiv.org/pdf/2102.09480.pdf)
 - [End-to-End Semi-Supervised Object Detection with Soft Teacher](https://github.com/microsoft/SoftTeacher)
