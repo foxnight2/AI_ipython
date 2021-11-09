@@ -47,7 +47,7 @@
 - [Scale-aware Automatic Augmentation for Object Detection](https://arxiv.org/pdf/2103.17220.pdf)
 
 
-### Unsupervised
+### Semi-supervised
 - [Consistency-based Semi-supervised Learning for Object Detection](https://papers.nips.cc/paper/2019/file/d0f4dae80c3d0277922f8371d5827292-Paper.pdf)
 - [A Simple Semi-Supervised Learning Framework for Object Detection](https://arxiv.org/pdf/2005.04757.pdf)
 - [Instant-Teaching: An End-to-End Semi-Supervised Object Detection Framework
