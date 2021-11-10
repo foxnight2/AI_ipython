@@ -108,6 +108,9 @@
 - [Unsupervised Learning of Depth and Ego-Motion from Video]()
 - [Digging Into Self-Supervised Monocular Depth Estimation]()
 - [Unsupervised Scale-consistent Depth Learning from Video]()
+- [Unsupervised Monocular Depth Learning in Dynamic Scenes](https://arxiv.org/pdf/2010.16404.pdf)
+- [Towards Robust Monocular Depth Estimation: Mixing Datasets for Zero-shot Cross-dataset Transfer](https://arxiv.org/pdf/1907.01341.pdf)
+- [Robust Consistent Video Depth Estimation](https://github.com/facebookresearch/robust_cvd)
 
 
 ## Network
