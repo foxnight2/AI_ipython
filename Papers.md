@@ -59,7 +59,10 @@
 - [Interactive Self-Training with Mean Teachers for Semi-supervised Object Detection](https://openaccess.thecvf.com/content/CVPR2021/papers/Yang_Interactive_Self-Training_With_Mean_Teachers_for_Semi-Supervised_Object_Detection_CVPR_2021_paper.pdf)
 - [Data-Uncertainty Guided Multi-Phase Learning for Semi-Supervised Object Detection]()
 - [Distilling Localization for Self-Supervised Representation Learning](./2004.06638.pdf)
+- [Bootstrap Your Object Detector via Mixed Training](https://arxiv.org/pdf/2111.03056.pdf)
 
+### Others
+- [Scale-aware Automatic Augmentation for Object Detection]()
 
 
 ## GAN
