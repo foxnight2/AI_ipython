@@ -105,21 +105,22 @@
 
 ### Depth
 - [awesome-Monocular-Depth-Estimation](https://github.com/paprrik/awesome-Monocular-Depth-Estimation)
-- [Unsupervised Learning of Depth and Ego-Motion from Video]()
-- [Digging Into Self-Supervised Monocular Depth Estimation]()
-- [Unsupervised Scale-consistent Depth Learning from Video]()
+- [Unsupervised Learning of Depth and Ego-Motion from Video](https://openaccess.thecvf.com/content_cvpr_2017/papers/Zhou_Unsupervised_Learning_of_CVPR_2017_paper.pdf)
+- [Digging Into Self-Supervised Monocular Depth Estimation](https://arxiv.org/pdf/1806.01260.pdf)
+- [Unsupervised Scale-consistent Depth Learning from Video](https://arxiv.org/pdf/2105.11610.pdf)
 - [Unsupervised Monocular Depth Learning in Dynamic Scenes](https://arxiv.org/pdf/2010.16404.pdf)
 - [Towards Robust Monocular Depth Estimation: Mixing Datasets for Zero-shot Cross-dataset Transfer](https://arxiv.org/pdf/1907.01341.pdf)
 - [Robust Consistent Video Depth Estimation](https://github.com/facebookresearch/robust_cvd)
 
 
 ## Network
+### Architecture
+- [AN IMAGE IS WORTH 16X16 WORDS: TRANSFORMERS FOR IMAGE RECOGNITION AT SCALE, ViT](./2010.11929.pdf)
+- [Swin Transformer: Hierarchical Vision Transformer using Shifted Windows](./2103.14030.pdf)
+- [DeepViT: Towards Deeper Vision Transformer](./2103.11886.pdf)
 - [Rethinking ResNets: Improved Stacking Strategies With High Order Schemes](./2103.15244.pdf)
 - [Revisiting ResNets: Improved Training and Scaling Strategies](./2103.07579.pdf)
 - [High-Performance Large-Scale Image Recognition Without Normalization](./2102.06171.pdf)
-- [AN IMAGE IS WORTH 16X16 WORDS: TRANSFORMERS FOR IMAGE RECOGNITION AT SCALE, ViT](./2010.11929.pdf)
-- [DeepViT: Towards Deeper Vision Transformer](./2103.11886.pdf)
-- [Swin Transformer: Hierarchical Vision Transformer using Shifted Windows](./2103.14030.pdf)
 - [MLP-Mixer: An all-MLP Architecture for Vision](./2105.01601.pdf)
 - [ResMLP: Feedforward networks for image classification with data-efficient training](./2105.03404.pdf)
 - [Vision Transformers are Robust Learners](./2105.07581.pdf)
@@ -128,17 +129,20 @@
 - [LeViT: a Vision Transformer in ConvNet’s Clothing for Faster Inference](./2104.01136.pdf)
 - [Scaling Vision Transformers](./2106.04560.pdf)
 - [Towards Robust Vision Transformer](./2105.07926.pdf)
-- [BEIT: BERT Pre-Training of Image Transformers](https://arxiv.org/pdf/2106.08254.pdf)
 - [Attention Is All You Need](https://arxiv.org/pdf/1706.03762.pdf)
-- [BERT: Pre-training of Deep Bidirectional Transformers](https://arxiv.org/pdf/1810.04805.pdf)
 - [Dynamic ReLU](https://arxiv.org/pdf/2003.10027.pdf)
 - [Post-Training Quantization for Vision Transformer](https://arxiv.org/pdf/2106.14156.pdf)
 - [Efficient Self-supervised Vision Transformers for Representation Learning
 ](https://arxiv.org/pdf/2106.09785.pdf)
-- [MoCo v3 for Self-supervised ResNet and ViT](https://github.com/facebookresearch/moco-v3)
-- [Scaling Vision Transformers](https://arxiv.org/pdf/2106.04560.pdf)
 - [MOBILEVIT: LIGHT-WEIGHT, GENERAL-PURPOSE, AND MOBILE-FRIENDLY VISION TRANSFORMER](https://arxiv.org/pdf/2110.02178.pdf)
 - [Patches Are All You Need?](https://openreview.net/pdf?id=TVHS5Y4dNvM)
+
+### Pretrained
+- [Masked Autoencoders Are Scalable Vision Learners](https://arxiv.org/pdf/2111.06377.pdf)
+- [BEIT: BERT Pre-Training of Image Transformers](https://arxiv.org/pdf/2106.08254.pdf)
+- [BERT: Pre-training of Deep Bidirectional Transformers](https://arxiv.org/pdf/1810.04805.pdf)
+- [MoCo v3 for Self-supervised ResNet and ViT](https://github.com/facebookresearch/moco-v3)
+
 
 
 ## Optimizer
