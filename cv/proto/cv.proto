@@ -65,9 +65,9 @@ message Model {
 
     optional string name = 1;
     optional Module network = 2;
-    optional Export export = 3;
-    optional Quant quant = 4;
-    // optional Reader reader = 5;
+
+    optional Export export = 10;
+    optional Quant quant = 11;
 }   
 
 
@@ -126,6 +126,7 @@ message RuntimeConfig {
     optional Distributed distributed = 4;
     optional string resume = 5;
     optional bool use_amp = 6;
+    optional uint32 log_steps = 7;
 
     optional PrintOptions print_option = 10;
 }

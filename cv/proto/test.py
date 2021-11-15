@@ -8,7 +8,6 @@ from google.protobuf import reflection
 
 import copy
 import inspect
-import functools
 from types import SimpleNamespace
 from collections import OrderedDict
 from typing import Optional, Iterable, Sequence, Union

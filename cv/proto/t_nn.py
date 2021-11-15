@@ -6,6 +6,20 @@ import torch.nn.functional as F
 from typing import Sequence
 
 
+MODULES = {}
+
+class Register:
+    def __init__(self) -> None:
+        pass
+
+    def register_module(self, ):
+        pass
+
+    def register_dataset(self, ):
+        pass
+    
+
+
 class ConvNorm2d(torch.nn.Module):
     def __init__(self, ):
         super().__init__()
@@ -42,3 +56,4 @@ class Detach(nn.Module):
 
     def forward(self, x):
         return x.detach()
+

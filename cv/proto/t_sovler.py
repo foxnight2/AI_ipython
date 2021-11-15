@@ -1,11 +1,5 @@
 
 
-
-
-class Logger:
-    pass
-
-
 class Solver:
     def __init__(self) -> None:
         pass
@@ -21,4 +15,3 @@ class Solver:
 
     def export(self, ):
         pass
-
