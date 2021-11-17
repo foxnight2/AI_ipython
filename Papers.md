@@ -137,12 +137,12 @@
 - [MOBILEVIT: LIGHT-WEIGHT, GENERAL-PURPOSE, AND MOBILE-FRIENDLY VISION TRANSFORMER](https://arxiv.org/pdf/2110.02178.pdf)
 - [Patches Are All You Need?](https://openreview.net/pdf?id=TVHS5Y4dNvM)
 
-### Pretrained
+### Self-Supervised
 - [Masked Autoencoders Are Scalable Vision Learners](https://arxiv.org/pdf/2111.06377.pdf)
 - [BEIT: BERT Pre-Training of Image Transformers](https://arxiv.org/pdf/2106.08254.pdf)
 - [BERT: Pre-training of Deep Bidirectional Transformers](https://arxiv.org/pdf/1810.04805.pdf)
 - [MoCo v3 for Self-supervised ResNet and ViT](https://github.com/facebookresearch/moco-v3)
-
+- [IBOT: IMAGE BERT PRE-TRAINING WITH ONLINE TOKENIZER](https://arxiv.org/pdf/2111.07832.pdf)
 
 
 ## Optimizer
