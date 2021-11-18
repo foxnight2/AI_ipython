@@ -160,3 +160,7 @@
 - [Towards Zero-Label Language Learning](https://arxiv.org/pdf/2109.09193.pdf)
 - [Learning Transferable Visual Models From Natural Language Supervision](https://arxiv.org/pdf/2103.00020.pdf)
 
+
+
+# PyTorch
+- [Cambricon PyTorch](https://www.cambricon.com/docs/pytorch/index.html)
