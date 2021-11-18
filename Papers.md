@@ -138,18 +138,19 @@
 - [Patches Are All You Need?](https://openreview.net/pdf?id=TVHS5Y4dNvM)
 
 ### Self-Supervised
+- [BERT: Pre-training of Deep Bidirectional Transformers](https://arxiv.org/pdf/1810.04805.pdf)
 - [Masked Autoencoders Are Scalable Vision Learners](https://arxiv.org/pdf/2111.06377.pdf)
 - [BEIT: BERT Pre-Training of Image Transformers](https://arxiv.org/pdf/2106.08254.pdf)
-- [BERT: Pre-training of Deep Bidirectional Transformers](https://arxiv.org/pdf/1810.04805.pdf)
 - [MoCo v3 for Self-supervised ResNet and ViT](https://github.com/facebookresearch/moco-v3)
 - [IBOT: IMAGE BERT PRE-TRAINING WITH ONLINE TOKENIZER](https://arxiv.org/pdf/2111.07832.pdf)
+- [INTERN: A New Learning Paradigm Towards General Vision](https://arxiv.org/pdf/2111.08687.pdf)
 
 
 ## Optimizer
 - [DECOUPLED WEIGHT DECAY REGULARIZATION, AdamW](./1711.05101.pdf)
 - [Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour](https://arxiv.org/pdf/1706.02677.pdf)
 - [Lookahead Optimizer: k steps forward, 1 step back](https://arxiv.org/pdf/1907.08610.pdf)
-
+- [EMA](https://zhuanlan.zhihu.com/p/68748778)
 
 
 ## NLP
@@ -157,9 +158,5 @@
 - [Pre-train, Prompt, and Predict: A Systematic Survey of Prompting Methods in Natural Language Processing](https://arxiv.org/pdf/2107.13586.pdf)
 - [Learning Transferable Visual Models From Natural Language Supervision](https://arxiv.org/pdf/2103.00020.pdf)
 - [Towards Zero-Label Language Learning](https://arxiv.org/pdf/2109.09193.pdf)
+- [Learning Transferable Visual Models From Natural Language Supervision](https://arxiv.org/pdf/2103.00020.pdf)
 
-
-
-
-## Transfer
-- [Learning Transferable Visual Models From Natural Language Supervision](./2103.00020.pdf)
