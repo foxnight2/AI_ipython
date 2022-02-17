@@ -14,3 +14,6 @@
 
 *cifar-10*
 *.tar.gz
+
+*logs/*
+*.json

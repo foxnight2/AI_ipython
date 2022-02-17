@@ -22,6 +22,8 @@
 - git clone xxx
 - git remote add upstream git@github.com:PaddlePaddle/Paddle.git
 - git remote -v
+- git remote remove upstream
+
 ---
 - git fetch upstream
 - git pull upstream develop
@@ -66,18 +68,39 @@
 
 
 ## detach
-
 - git branch -b tmp
 - git checkout dev
 - git merge tmp
 - git push /dev
+
 
 ## cherry-pick
  - git cherry-pick A^...B  [A, B]
  - git cherry-pick --continue
  - git cherry-pick --abort
 
---- 
+
+ 
+
+
+## log
+- git log --raw
+- git log --patch
+- git log --oneline
+
+
+## stash
+- Git stash saves the uncommitted changes locally (.git/refs/stash), allowing you to make changes, switch branches, and perform other Git operations.
+- save on branch A
+- git stash [save [info]]
+- git checkout B
+- edit -> add -> commit -> push 
+- git checkout A
+- git stash pop [stash@{0}]
+- git stash list
+- git stash clear
+- [git-stash](https://opensource.com/article/21/4/git-stash)
+
 
 # pre-commit
 - pip install pre-commit
@@ -100,8 +123,8 @@
 - git push origin newbranch-1:newbranch-1
 - git push origin newbranch-2:newbranch-2
 
+
 # remote
 - git remote add xxx https://github.com/xxx/Paddle.git 
 - git fetch xxx 
 - git checkout -b [new-name] [xxx/branch]
-

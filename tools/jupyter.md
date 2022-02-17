@@ -12,4 +12,4 @@ c.NotebookApp.port = 8888
 
 ```
 
-- jupter notebook
+- jupyter notebook

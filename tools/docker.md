@@ -2,6 +2,7 @@
 
 
 - sudo
+- service docker start
 - docker images
 - docker container ls
 - docker ps -a
