@@ -45,9 +45,13 @@
 - [PROCESSING AT THE FEATURE PYRAMID LEVEL FOR BETTER OBJECT DETECTION](https://arxiv.org/pdf/2110.04004v1.pdf)
 - [End-to-End Semi-Supervised Object Detection with Soft Teacher](https://arxiv.org/pdf/2106.09018v3.pdf)
 - [Scale-aware Automatic Augmentation for Object Detection](https://arxiv.org/pdf/2103.17220.pdf)
+- [Improving Object Detection With One Line of Code (sfotnms)](http://cn.arxiv.org/pdf/1704.04503v2)
+- [VarifocalNet: An IoU-aware Dense Object Detector](https://arxiv.org/pdf/2008.13367.pdf)
+- [YOLO-Z: Improving small object detection in YOLOv5 for autonomous vehicles](https://arxiv.org/pdf/2112.11798.pdf)
+- [Slicing Aided Hyper Inference and Fine-tuning for Small Object Detection](https://github.com/obss/sahi)
 
 
-### Semi-supervised
+### Semi/Self-supervised
 - [Consistency-based Semi-supervised Learning for Object Detection](https://papers.nips.cc/paper/2019/file/d0f4dae80c3d0277922f8371d5827292-Paper.pdf)
 - [A Simple Semi-Supervised Learning Framework for Object Detection](https://arxiv.org/pdf/2005.04757.pdf)
 - [Instant-Teaching: An End-to-End Semi-Supervised Object Detection Framework
@@ -60,6 +64,9 @@
 - [Data-Uncertainty Guided Multi-Phase Learning for Semi-Supervised Object Detection]()
 - [Distilling Localization for Self-Supervised Representation Learning](./2004.06638.pdf)
 - [Bootstrap Your Object Detector via Mixed Training](https://arxiv.org/pdf/2111.03056.pdf)
+- [SLIP: Self-supervision meets Language-Image Pre-training](https://arxiv.org/pdf/2112.12750.pdf)
+
+
 
 ### Others
 - [Scale-aware Automatic Augmentation for Object Detection]()
@@ -135,7 +142,11 @@
 - [Efficient Self-supervised Vision Transformers for Representation Learning
 ](https://arxiv.org/pdf/2106.09785.pdf)
 - [MOBILEVIT: LIGHT-WEIGHT, GENERAL-PURPOSE, AND MOBILE-FRIENDLY VISION TRANSFORMER](https://arxiv.org/pdf/2110.02178.pdf)
+- [Improved Multiscale Vision Transformers for Classification and Detection](https://arxiv.org/pdf/2112.01526.pdf)
+- [CSPNet: A New Backbone That Can Enhance Learning Capability of CNN](https://arxiv.org/pdf/1911.11929.pdf)
 - [Patches Are All You Need?](https://openreview.net/pdf?id=TVHS5Y4dNvM)
+- [A ConvNet for the 2020s](https://arxiv.org/pdf/2201.03545.pdf)
+- [EfficientNetV2: Smaller Models and Faster Training](https://arxiv.org/pdf/2104.00298.pdf)
 
 ### Self-Supervised
 - [BERT: Pre-training of Deep Bidirectional Transformers](https://arxiv.org/pdf/1810.04805.pdf)
@@ -144,7 +155,8 @@
 - [MoCo v3 for Self-supervised ResNet and ViT](https://github.com/facebookresearch/moco-v3)
 - [IBOT: IMAGE BERT PRE-TRAINING WITH ONLINE TOKENIZER](https://arxiv.org/pdf/2111.07832.pdf)
 - [INTERN: A New Learning Paradigm Towards General Vision](https://arxiv.org/pdf/2111.08687.pdf)
-
+- [Benchmarking Detection Transfer Learning with Vision Transformers](https://arxiv.org/pdf/2111.11429.pdf)
+- [Florence: A New Foundation Model for Computer Vision](https://arxiv.org/pdf/2111.11432.pdf)
 
 ## Optimizer
 - [DECOUPLED WEIGHT DECAY REGULARIZATION, AdamW](./1711.05101.pdf)
@@ -159,7 +171,7 @@
 - [Learning Transferable Visual Models From Natural Language Supervision](https://arxiv.org/pdf/2103.00020.pdf)
 - [Towards Zero-Label Language Learning](https://arxiv.org/pdf/2109.09193.pdf)
 - [Learning Transferable Visual Models From Natural Language Supervision](https://arxiv.org/pdf/2103.00020.pdf)
-
+- [CPT: COLORFUL PROMPT TUNING FOR PRE-TRAINED VISION-LANGUAGE MODELS](https://arxiv.org/pdf/2109.11797.pdf)
 
 
 # PyTorch
