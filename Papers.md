@@ -49,6 +49,7 @@
 - [VarifocalNet: An IoU-aware Dense Object Detector](https://arxiv.org/pdf/2008.13367.pdf)
 - [YOLO-Z: Improving small object detection in YOLOv5 for autonomous vehicles](https://arxiv.org/pdf/2112.11798.pdf)
 - [Slicing Aided Hyper Inference and Fine-tuning for Small Object Detection](https://github.com/obss/sahi)
+- [DINO: DETR with Improved DeNoising Anchor Boxes for End-to-End Object Detection](https://arxiv.org/pdf/2203.03605.pdf)
 
 
 ### Semi/Self-supervised

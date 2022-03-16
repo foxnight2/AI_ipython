@@ -1,3 +1,7 @@
+
+# https://gallery.pyecharts.org/#/README
+
+
 import random
 
 import pyecharts

@@ -14,3 +14,4 @@ Paper | Commits | Related
 [BERT](https://arxiv.org/pdf/1810.04805.pdf) | autoencoder(AE) language model; masked-lm; [bert-research by mc](http://mccormickml.com/2019/11/11/bert-research-ep-1-key-concepts-and-sources/#31-input-representation--wordpiece-embeddings); pre/post-norm | [RoBERTa: A Robustly Optimized BERT](https://arxiv.org/pdf/1907.11692.pdf); [Extreme language model compression with optimal subwords and shared projections](https://arxiv.org/pdf/1909.11687.pdf)
 [XLNet]() | autoregressive(AR) language model; Permutation Language Modeling; Two-Stream Self-Attention; [What is XLNet and why it outperforms BERT](https://towardsdatascience.com/what-is-xlnet-and-why-it-outperforms-bert-8d8fce710335); [xlnet-theory](http://fancyerii.github.io/2019/06/30/xlnet-theory/)
 [positional_encoding](https://kazemnejad.com/blog/transformer_architecture_positional_encoding/) | -- | --
+[Computational Complexity](https://zhuanlan.zhihu.com/p/264749298) | -- | --

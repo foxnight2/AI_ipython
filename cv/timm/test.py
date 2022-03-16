@@ -26,3 +26,8 @@ mm = create_feature_extractor(model, features)
 
 for k, v in mm(data).items():
     print(k, v.shape)
+
+
+
+
+# CSPResNetB_silu_large_stem_last_conv	base+multi-scale+mixup（timm）
