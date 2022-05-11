@@ -87,6 +87,7 @@
 - git log --raw
 - git log --patch
 - git log --oneline
+- git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<author:%an>%Creset' v1.0..
 
 
 ## stash

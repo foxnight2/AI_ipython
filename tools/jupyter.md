@@ -13,3 +13,5 @@ c.NotebookApp.port = 8888
 ```
 
 - jupyter notebook
+
+- python -m http.server 

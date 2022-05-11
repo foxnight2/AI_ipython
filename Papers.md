@@ -50,7 +50,7 @@
 - [YOLO-Z: Improving small object detection in YOLOv5 for autonomous vehicles](https://arxiv.org/pdf/2112.11798.pdf)
 - [Slicing Aided Hyper Inference and Fine-tuning for Small Object Detection](https://github.com/obss/sahi)
 - [DINO: DETR with Improved DeNoising Anchor Boxes for End-to-End Object Detection](https://arxiv.org/pdf/2203.03605.pdf)
-
+- [Exploring Plain Vision Transformer Backbones for Object Detection](https://arxiv.org/pdf/2203.16527)
 
 ### Semi/Self-supervised
 - [Consistency-based Semi-supervised Learning for Object Detection](https://papers.nips.cc/paper/2019/file/d0f4dae80c3d0277922f8371d5827292-Paper.pdf)
@@ -109,7 +109,7 @@
 - [SECOND: Sparsely Embedded Convolutional Detection](https://pdfs.semanticscholar.org/5125/a16039cabc6320c908a4764f32596e018ad3.pdf)
 - [MonoRec: Semi-Supervised Dense Reconstruction in Dynamic Environments from a Single Moving Camera](https://arxiv.org/pdf/2011.11814.pdf)
 - [FaPN: Feature-aligned Pyramid Network for Dense Image Prediction](https://arxiv.org/pdf/2108.07058.pdf)
-
+- 
 
 ### Depth
 - [awesome-Monocular-Depth-Estimation](https://github.com/paprrik/awesome-Monocular-Depth-Estimation)
@@ -173,7 +173,7 @@
 - [Towards Zero-Label Language Learning](https://arxiv.org/pdf/2109.09193.pdf)
 - [Learning Transferable Visual Models From Natural Language Supervision](https://arxiv.org/pdf/2103.00020.pdf)
 - [CPT: COLORFUL PROMPT TUNING FOR PRE-TRAINED VISION-LANGUAGE MODELS](https://arxiv.org/pdf/2109.11797.pdf)
-
+- [Visual Prompt Tuning](https://arxiv.org/pdf/2203.12119.pdf)
 
 # PyTorch
 - [Cambricon PyTorch](https://www.cambricon.com/docs/pytorch/index.html)

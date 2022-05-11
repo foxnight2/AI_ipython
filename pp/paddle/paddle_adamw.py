@@ -169,19 +169,22 @@ def check_optimizer(paddle_model, torch_model, optim_name):
     else:
         tp = torch_model.parameters()
         pp = paddle_model.parameters()
-        
+    
+    max_norm = 10
         
     pscheduler = paddle.optimizer.lr.MultiStepDecay(learning_rate=lr, milestones=milestones, gamma=gamma)
 
-    pclip = paddle.nn.ClipGradByGlobalNorm(0.1)
+    pclip = paddle.nn.ClipGradByGlobalNorm(max_norm)
     paddle_optimizers = {
-        'AdamW': paddle.optimizer.AdamW(learning_rate=pscheduler, parameters=pp, weight_decay=0.01, grad_clip=pclip),
-        'SGD': paddle.optimizer.SGD(learning_rate=pscheduler, parameters=pp, weight_decay=0.0),
+        'AdamW': paddle.optimizer.AdamW(learning_rate=pscheduler, parameters=pp, weight_decay=0.0005, grad_clip=pclip),
+        # 'SGD': paddle.optimizer.SGD(learning_rate=pscheduler, parameters=pp, weight_decay=0.0005, grad_clip=pclip),
+        'SGD': paddle.optimizer.Momentum(learning_rate=pscheduler, parameters=pp, momentum=0.937, weight_decay=0.0005, use_nesterov=True, grad_clip=pclip),
+
     }
     
     torch_optimizers = {
-        'AdamW': torch.optim.AdamW(tp, lr=lr, weight_decay=0.01),
-        'SGD': torch.optim.SGD(tp, lr=lr, weight_decay=0.0),
+        'AdamW': torch.optim.AdamW(tp, lr=lr, weight_decay=0.0005),
+        'SGD': torch.optim.SGD(tp, lr=lr, weight_decay=0.0005, momentum=0.937, nesterov=True),
     }
 
     toptim = torch_optimizers[optim_name]; 
@@ -219,7 +222,7 @@ def check_optimizer(paddle_model, torch_model, optim_name):
                 tout.sum().backward()
                 pout.sum().backward()
 
-                tnorm = torch.nn.utils.clip_grad_norm_(torch_model.parameters(), 0.1)
+                _ = torch.nn.utils.clip_grad_norm_(torch_model.parameters(), max_norm)
 
                 toptim.step()
                 poptim.step()
@@ -245,8 +248,8 @@ if __name__ == '__main__':
 
     reset_parameters(pm, tm)
 
-    check_optimizer(pm, tm, 'AdamW')
-    # check_optimizer(pm, tm, 'SGD')
+    # check_optimizer(pm, tm, 'AdamW')
+    check_optimizer(pm, tm, 'SGD')
 
 
 
