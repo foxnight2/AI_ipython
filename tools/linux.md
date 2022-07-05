@@ -4,7 +4,9 @@
 - find ./ -name "*.py" -or -name "*.cpp" | xargs grep "xxx" | wc 
 - sort -r -t $'\t' -k 7
 - ps aux | grep xxx | awk '{print $2}' | uniq | xargs kill -9
+- ls train_*.tar.gz | xargs -i tar -xvf {} --strip-components 1 -C train/
 
+- ldconfig
 
 ---
 - nohup command &
