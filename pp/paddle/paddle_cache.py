@@ -21,8 +21,6 @@ def decode(path, root):
         pickle.dump(im, f)
 
 
-
-
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
@@ -35,8 +33,8 @@ if __name__ == '__main__':
 
     files = glob.glob(os.path.join(args.source_root, '/'.join(['*', ] * args.max_depth) + '.jpg'))
 
-    # with futures.ThreadPoolExecutor(args.max_workers) as executor:
-    #     image_infos = executor.map(decode, files)
+    with futures.ThreadPoolExecutor(args.max_workers) as executor:
+        image_infos = executor.map(decode, files)
 
     print(args)
 

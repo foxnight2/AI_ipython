@@ -46,3 +46,4 @@
 ## kill
 - kill -9 pid
 - pkill -9 python
+- ps -A -ostat,ppid | grep -e '^[Zz]' | awk '{print $2}' | xargs kill -9
