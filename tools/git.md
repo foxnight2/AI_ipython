@@ -1,7 +1,7 @@
 
 ## ssh
 - ls ~/.ssh/
-- ssh-keygen -t rsa -b 2048 -C “xxx@gmail.com”
+- ssh-keygen -t rsa -b 2048 -C "xxx@gmail.com"
 - eval "$(ssh-agent -s)"
 - ssh-add ~/.ssh/id_rsa
 ---

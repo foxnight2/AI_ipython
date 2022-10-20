@@ -51,6 +51,10 @@
 - [Slicing Aided Hyper Inference and Fine-tuning for Small Object Detection](https://github.com/obss/sahi)
 - [DINO: DETR with Improved DeNoising Anchor Boxes for End-to-End Object Detection](https://arxiv.org/pdf/2203.03605.pdf)
 - [Exploring Plain Vision Transformer Backbones for Object Detection](https://arxiv.org/pdf/2203.16527)
+- [Localization Distillation for Dense Object Detection](https://openaccess.thecvf.com/content/CVPR2022/papers/Zheng_Localization_Distillation_for_Dense_Object_Detection_CVPR_2022_paper.pdf)
+
+
+
 
 ### Semi/Self-supervised
 - [Consistency-based Semi-supervised Learning for Object Detection](https://papers.nips.cc/paper/2019/file/d0f4dae80c3d0277922f8371d5827292-Paper.pdf)
@@ -149,7 +153,7 @@
 - [A ConvNet for the 2020s](https://arxiv.org/pdf/2201.03545.pdf)
 - [EfficientNetV2: Smaller Models and Faster Training](https://arxiv.org/pdf/2104.00298.pdf)
 
-### Self-Supervised
+### SSL
 - [BERT: Pre-training of Deep Bidirectional Transformers](https://arxiv.org/pdf/1810.04805.pdf)
 - [Masked Autoencoders Are Scalable Vision Learners](https://arxiv.org/pdf/2111.06377.pdf)
 - [BEIT: BERT Pre-Training of Image Transformers](https://arxiv.org/pdf/2106.08254.pdf)
@@ -158,6 +162,7 @@
 - [INTERN: A New Learning Paradigm Towards General Vision](https://arxiv.org/pdf/2111.08687.pdf)
 - [Benchmarking Detection Transfer Learning with Vision Transformers](https://arxiv.org/pdf/2111.11429.pdf)
 - [Florence: A New Foundation Model for Computer Vision](https://arxiv.org/pdf/2111.11432.pdf)
+
 
 ## Optimizer
 - [DECOUPLED WEIGHT DECAY REGULARIZATION, AdamW](./1711.05101.pdf)
