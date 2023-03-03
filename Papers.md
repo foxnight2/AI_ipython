@@ -52,6 +52,8 @@
 - [DINO: DETR with Improved DeNoising Anchor Boxes for End-to-End Object Detection](https://arxiv.org/pdf/2203.03605.pdf)
 - [Exploring Plain Vision Transformer Backbones for Object Detection](https://arxiv.org/pdf/2203.16527)
 - [Localization Distillation for Dense Object Detection](https://openaccess.thecvf.com/content/CVPR2022/papers/Zheng_Localization_Distillation_for_Dense_Object_Detection_CVPR_2022_paper.pdf)
+- [Enhanced Training of Query-Based Object Detection via Selective Query Recollection](https://arxiv.org/pdf/2212.07593.pdf)
+- [Fast training convergence with decoupled one-to-many label assignment](https://arxiv.org/abs/2207.13085)
 
 
 

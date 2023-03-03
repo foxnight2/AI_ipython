@@ -130,3 +130,11 @@
 - git remote add xxx https://github.com/xxx/Paddle.git 
 - git fetch xxx 
 - git checkout -b [new-name] [xxx/branch]
+
+
+
+# submodules
+- git submodule add xxx
+- git submodule init
+- git submodule update
+- git submodule update --init --recursive
