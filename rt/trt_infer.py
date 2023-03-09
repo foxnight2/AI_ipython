@@ -48,6 +48,8 @@ class TRTInference(object):
         '''load engine
         '''
         logger = trt.Logger(trt.Logger.INFO)
+        trt.init_libnvinfer_plugins(logger, '')
+
         with open(path, 'rb') as f, trt.Runtime(logger) as runtime:
             return runtime.deserialize_cuda_engine(f.read())
     
@@ -266,6 +268,20 @@ class Dataset(data.Dataset):
 
 
 
+def draw_result():
+    '''show result
+    '''
+    outputs = m(blob)
+    preds = outputs['reshape2_94.tmp_0']
+    preds = preds[preds[:, 1] > 0.5]
+
+    im = (blob['image'][0] * 255).to(torch.uint8)
+    im = torchvision.utils.draw_bounding_boxes(im, boxes=preds[:, 2:], width=2)
+    # torchvision.utils.save_image(im, 'test.jpg')
+    Image.fromarray(im.permute(1, 2, 0).cpu().numpy()).save(f'test_{i}.jpg')
+
+
+
 if __name__ == '__main__':
     
     import argparse
@@ -295,7 +311,6 @@ if __name__ == '__main__':
             'scale_factor': np.array([[1., 1.]]).astype(np.float32),
         }
 
-
     m = TRTInference(path=args.path, backend=args.backend)
     
     preprocess = T.Compose([
@@ -320,15 +335,6 @@ if __name__ == '__main__':
         with time_profile:
             _ = m.warmup(blob, n=args.repeats)
 
-
-        outputs = m(blob)
-        preds = outputs['reshape2_94.tmp_0']
-        preds = preds[preds[:, 1] > 0.5]
-
-        im = (blob['image'][0] * 255).to(torch.uint8)
-        im = torchvision.utils.draw_bounding_boxes(im, boxes=preds[:, 2:], width=2)
-        torchvision.utils.save_image(im, 'test.jpg')
-        Image.fromarray(im.permute(1, 2, 0).cpu().numpy()).save(f'test_{i}.jpg')
 
 
     print(time_profile.total / len(dataloader) / args.repeats * 1000)    
