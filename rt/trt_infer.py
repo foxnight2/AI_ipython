@@ -18,11 +18,7 @@ import torchvision.transforms.functional as F
 
 from typing import List, Tuple
 
-# try:
-#     import pycuda.autoinit
-#     import pycuda.driver as cuda
-# except:
-#     pass
+
 
 class TRTInference(object):
     def __init__(self, path='dino.engine', device='cuda:0', backend='torch'):
@@ -83,9 +79,6 @@ class TRTInference(object):
             if -1 in shape:  # dynamic
                 dynamic = True
 
-            if dtype == np.float16:
-                fp16 = True
-            
             if self.backend == 'cuda':
                 if engine.get_tensor_mode(name) == trt.TensorIOMode.INPUT:
                     data = np.random.randn(*shape).astype(dtype)
@@ -196,6 +189,7 @@ class PadToSize(T.Pad):
     def __init__(self, size, fill=0, padding_mode="constant"):
         super().__init__(0, fill, padding_mode)
         self.size = size
+        self.fill = fill
 
     def __call__(self, img):
         """
@@ -219,9 +213,9 @@ class Dataset(data.Dataset):
 
         if preprocess is None: 
             self.preprocess = T.Compose([
-                    T.Resize(size=320, max_size=640),
+                    T.Resize(size=639, max_size=640),
+                    PadToSize(size=(640, 640), fill=114),
                     ToTensor(),
-                    PadToSize(size=(640, 640)),
                     T.ConvertImageDtype(torch.float),
             ])
         else:
@@ -255,20 +249,8 @@ class Dataset(data.Dataset):
     def collate_fn():
         pass
 
-    @staticmethod
-    def draw(blob, outputs, thr=0.5):
-        outputs = m(blob)
-        preds = outputs['reshape2_94.tmp_0']
-        preds = preds[preds[:, 1] > thr]
 
-        im = (blob['image'][0] * 255).to(torch.uint8)
-        im = torchvision.utils.draw_bounding_boxes(im, boxes=preds[:, 2:], width=2)
-        torchvision.utils.save_image(im, 'test.jpg')
-        Image.fromarray(im.permute(1, 2, 0).cpu().numpy()).save(f'test_{i}.jpg')
-
-
-
-def draw_result():
+def draw_result_ppdetr(m, blob):
     '''show result
     '''
     outputs = m(blob)
@@ -282,22 +264,29 @@ def draw_result():
 
 
 
-if __name__ == '__main__':
+def draw_result_yolo(outputs, name=''):
+    '''show result
+    Keys:
+        'num_dets', 'det_boxes', 'det_scores', 'det_classes'
+    '''
+    # outputs = m(blob)
+    # print(outputs['num_dets'].shape)
     
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--path', type=str, default='')
-    parser.add_argument('--backend', type=str, default='torch')
-    parser.add_argument('--warmup_steps', type=int, default=10)
-    parser.add_argument('--repeats', type=int, default=100)
+    for i in range(outputs['num_dets'].shape[0]):
+        det_scores = outputs['det_scores'][i]
+        det_boxes = outputs['det_boxes'][i][det_scores > 0.25]
+        # print(det_boxes)
+        
+        im = (blob['image'][i] * 255).to(torch.uint8)
+        im = torchvision.utils.draw_bounding_boxes(im, boxes=det_boxes, width=2)
+        Image.fromarray(im.permute(1, 2, 0).cpu().numpy()).save(f'test_{name}_{i}.jpg')
 
-    parser.add_argument('--img_dir', type=str, default='')
 
 
-    args = parser.parse_args()
-
-    
-    if args.backend == 'torch':
+def dummy_blob(backend='torch'):
+    '''
+    '''
+    if backend == 'torch':
         blob = {
             'image': torch.rand(1, 3, 640, 640).to('cuda:0'),
             'im_shape': torch.tensor([[640., 640.]]).to('cuda:0'),
@@ -310,8 +299,23 @@ if __name__ == '__main__':
             'im_shape': np.array([[640., 640.]]).astype(np.float32),
             'scale_factor': np.array([[1., 1.]]).astype(np.float32),
         }
+    return blob
 
-    m = TRTInference(path=args.path, backend=args.backend)
+
+if __name__ == '__main__':
+    
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--path', type=str, default='')
+    parser.add_argument('--backend', type=str, default='torch')
+    parser.add_argument('--warmup_steps', type=int, default=10)
+    parser.add_argument('--repeats', type=int, default=10)
+    parser.add_argument('--img_dir', type=str, default='')
+    args = parser.parse_args()
+
+
+
+    m = TRTInference(args.path, backend=args.backend)
     
     preprocess = T.Compose([
         T.Resize(size=(640, 640)),
@@ -322,21 +326,24 @@ if __name__ == '__main__':
     dataset = Dataset(img_dir=args.img_dir, preprocess=preprocess)
     dataloader = data.DataLoader(dataset, batch_size=1, shuffle=False)
 
+
+    blob = dummy_blob(backend=args.backend)
     m.warmup(blob, args.warmup_steps)
 
     time_profile = TimeProfiler()
-    times = []
+    # times = []
 
     for i, blob in enumerate(dataloader):
-
-        t = m.speed(blob, n=args.repeats)
-        times.append(t)
+        # t = m.speed(blob, n=args.repeats)
+        # times.append(t)
 
         with time_profile:
             _ = m.warmup(blob, n=args.repeats)
 
 
+        outputs = m(blob)
+        draw_result_yolo(outputs, i)
 
+    # print(np.mean(times) * 1000)
     print(time_profile.total / len(dataloader) / args.repeats * 1000)    
-    print(np.mean(times) * 1000)
 

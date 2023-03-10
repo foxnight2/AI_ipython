@@ -32,7 +32,7 @@
 
 /opt/nvidia/nsight-systems/2021.2.1/bin/nsys profile --stats=True --trace='nvtx,cuda,osrt,cudnn' --force_overwrite -o state_report
 
-
+https://forums.developer.nvidia.com/t/about-loadinputs-in-trtexec/218880
 
 
 ## 测速
@@ -44,3 +44,5 @@ c. https://github.com/ultralytics/ultralytics/blob/main/ultralytics/yolo/utils/o
 
 
 ```
+
+
