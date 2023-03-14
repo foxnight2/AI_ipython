@@ -21,15 +21,23 @@ from typing import List, Tuple
 
 
 class TRTInference(object):
-    def __init__(self, path='dino.engine', device='cuda:0', backend='torch'):
-        self.path = path
+    def __init__(self, engine_path='dino.engine', device='cuda:0', backend='torch', onnx_path='', verbose=False):
+        self.engine_path = engine_path
         self.device = device
         self.backend = backend
         
-        self.engine = self.load_engine(path)
+        self.logger = trt.Logger(trt.Logger.VERBOSE) if verbose else trt.Logger(trt.Logger.INFO)  
+
+        self.engine = self.load_engine(engine_path)
+
+        # if engine_path:
+        #     self.engine = self.load_engine(engine_path)
+        # else:
+        #     self.engine = self.build_engine(onnx_path, engine_path)
+
         self.context = self.engine.create_execution_context()
 
-        self.bindings = self.get_bindings(self.engine, self.device)
+        self.bindings = self.get_bindings(self.engine, self.context, self.device)
         self.bindings_addr = OrderedDict((n, v.ptr) for n, v in self.bindings.items())
 
         self.input_names = self.get_input_names()
@@ -40,19 +48,21 @@ class TRTInference(object):
 
         self.time_profile = TimeProfiler()
 
+    def init(self, ):
+        self.dynamic = False 
+
+        
     def load_engine(self, path):
         '''load engine
         '''
-        logger = trt.Logger(trt.Logger.INFO)
-        trt.init_libnvinfer_plugins(logger, '')
-
-        with open(path, 'rb') as f, trt.Runtime(logger) as runtime:
+        trt.init_libnvinfer_plugins(self.logger, '')
+        with open(path, 'rb') as f, trt.Runtime(self.logger) as runtime:
             return runtime.deserialize_cuda_engine(f.read())
     
     
     def get_input_names(self, ):
         names = []
-        for i, name in enumerate(self.engine):
+        for _, name in enumerate(self.engine):
             if self.engine.get_tensor_mode(name) == trt.TensorIOMode.INPUT:
                 names.append(name)
         return names
@@ -60,24 +70,31 @@ class TRTInference(object):
 
     def get_output_names(self, ):
         names = []
-        for i, name in enumerate(self.engine):
+        for _, name in enumerate(self.engine):
             if self.engine.get_tensor_mode(name) == trt.TensorIOMode.OUTPUT:
                 names.append(name)
         return names
 
     
-    def get_bindings(self, engine, device=None):
+    def get_bindings(self, engine, context, device=None):
         '''build binddings
         '''
         Binding = namedtuple('Binding', ('name', 'dtype', 'shape', 'data', 'ptr'))
         bindings = OrderedDict()
-        
-        for _, name in enumerate(engine):
+        max_batch_size = 1
+
+        for i, name in enumerate(engine):
             shape = engine.get_tensor_shape(name)
             dtype = trt.nptype(engine.get_tensor_dtype(name))
 
-            if -1 in shape:  # dynamic
-                dynamic = True
+            if -1 in shape:
+                dynamic = True 
+                if engine.get_tensor_mode(name) == trt.TensorIOMode.INPUT:  # dynamic
+                    shape = engine.get_tensor_profile_shape(name, i)[2]
+                    context.set_input_shape(name, shape)
+                    max_batch_size = shape[0]
+                else:                    
+                    shape[0] = max_batch_size
 
             if self.backend == 'cuda':
                 if engine.get_tensor_mode(name) == trt.TensorIOMode.INPUT:
@@ -88,7 +105,7 @@ class TRTInference(object):
                     data = cuda.pagelocked_empty(trt.volume(shape), dtype)
                     ptr = cuda.mem_alloc(data.nbytes)
                     bindings[name] = Binding(name, dtype, shape, data, ptr) 
-                    
+
             else:
                 data = torch.from_numpy(np.empty(shape, dtype=dtype)).to(device)
                 bindings[name] = Binding(name, dtype, shape, data, data.data_ptr())
@@ -99,12 +116,17 @@ class TRTInference(object):
     def run_torch(self, blob):
         '''torch input
         '''
+        for n in self.input_names:
+            if self.bindings[n].shape != blob[n].shape:
+                self.context.set_input_shape(n, blob[n].shape) 
+                self.bindings[n] = self.bindings[n]._replace(shape=blob[n].shape)
+
         self.bindings_addr.update({n: blob[n].data_ptr() for n in self.input_names})
         self.context.execute_v2(list(self.bindings_addr.values()))
         outputs = {n: self.bindings[n].data for n in self.output_names}
 
         return outputs
-        
+
 
     def async_run_cuda(self, blob):
         '''numpy input
@@ -125,6 +147,14 @@ class TRTInference(object):
         return outputs
     
 
+    def __call__(self, blob):
+        if self.backend == 'torch':
+            return self.run_torch(blob)
+
+        elif self.backend == 'cuda':
+            return self.async_run_cuda(blob)
+                
+    
     def synchronize(self, ):
         if self.backend == 'torch' and torch.cuda.is_available():
             torch.cuda.synchronize()
@@ -137,6 +167,7 @@ class TRTInference(object):
         for _ in range(n):
             _ = self(blob)
 
+
     def speed(self, blob, n):
         self.time_profile.reset()
         for _ in range(n):
@@ -146,13 +177,48 @@ class TRTInference(object):
         return self.time_profile.total / n 
 
 
-    def __call__(self, blob):
-        if self.backend == 'torch':
-            return self.run_torch(blob)
+    def build_engine(self, onnx_file_path, engine_file_path, max_batch_size=32):
+        '''Takes an ONNX file and creates a TensorRT engine to run inference with
+        http://gitlab.baidu.com/paddle-inference/benchmark/blob/main/backend_trt.py#L57
+        '''
+        EXPLICIT_BATCH = 1 << (int)(trt.NetworkDefinitionCreationFlag.EXPLICIT_BATCH)
+        with trt.Builder(self.logger) as builder, \
+            builder.create_network(EXPLICIT_BATCH) as network, \
+            trt.OnnxParser(network, self.logger) as parser, \
+            builder.create_builder_config() as builder_config:
+            
+            builder_config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, 1 << 30) # 1024 MiB
+            builder_config.set_flag(trt.BuilderFlag.FP16)
 
-        elif self.backend == 'cuda':
-            return self.async_run_cuda(blob)
-                
+            with open(onnx_file_path, 'rb') as model:
+                if not parser.parse(model.read()):
+                    print('ERROR: Failed to parse the ONNX file.')
+                    for error in range(parser.num_errors):
+                        print(parser.get_error(error))
+                    return None
+
+            # import onnx 
+            # model = onnx.load(onnx_file_path)
+            # input_all = [node.name for node in model.graph.input]
+            # input_initializer = [node.name for node in model.graph.initializer]
+            # input_names = list(set(input_all)  - set(input_initializer))
+            # input_nodes = [node for node in model.graph.input if node.name in input_name]
+
+            # https://docs.nvidia.com/deeplearning/tensorrt/api/python_api/infer/Graph/Network.html
+            for i in range(network.num_inputs):
+                shape = network.get_input(i).shape
+                if shape[0] == -1:
+                    network.get_input(i).shape = tuple([max_batch_size, ] + list(shape)[1:])
+
+            serialized_engine = builder.build_serialized_network(network, builder_config)
+            with open(engine_file_path, 'wb') as f:
+                f.write(serialized_engine)
+
+            return serialized_engine
+
+
+# ----------
+
 
 class TimeProfiler(contextlib.ContextDecorator):
     def __init__(self, ):
@@ -186,7 +252,7 @@ class ToTensor(T.ToTensor):
 
 
 class PadToSize(T.Pad):
-    def __init__(self, size, fill=0, padding_mode="constant"):
+    def __init__(self, size, fill=0, padding_mode='constant'):
         super().__init__(0, fill, padding_mode)
         self.size = size
         self.fill = fill
@@ -254,7 +320,7 @@ def draw_result_ppdetr(m, blob):
     '''show result
     '''
     outputs = m(blob)
-    preds = outputs['reshape2_94.tmp_0']
+    preds = outputs.values()[0]
     preds = preds[preds[:, 1] > 0.5]
 
     im = (blob['image'][0] * 255).to(torch.uint8)
@@ -264,18 +330,14 @@ def draw_result_ppdetr(m, blob):
 
 
 
-def draw_result_yolo(outputs, name=''):
+def draw_result_yolo(blob, outputs, draw_score_threshold=0.25, name=''):
     '''show result
     Keys:
         'num_dets', 'det_boxes', 'det_scores', 'det_classes'
-    '''
-    # outputs = m(blob)
-    # print(outputs['num_dets'].shape)
-    
-    for i in range(outputs['num_dets'].shape[0]):
+    '''    
+    for i in range(blob['image'].shape[0]):
         det_scores = outputs['det_scores'][i]
-        det_boxes = outputs['det_boxes'][i][det_scores > 0.25]
-        # print(det_boxes)
+        det_boxes = outputs['det_boxes'][i][det_scores > draw_score_threshold]
         
         im = (blob['image'][i] * 255).to(torch.uint8)
         im = torchvision.utils.draw_bounding_boxes(im, boxes=det_boxes, width=2)
@@ -283,21 +345,21 @@ def draw_result_yolo(outputs, name=''):
 
 
 
-def dummy_blob(backend='torch'):
+def dummy_blob(batch_size=1, backend='torch'):
     '''
     '''
     if backend == 'torch':
         blob = {
-            'image': torch.rand(1, 3, 640, 640).to('cuda:0'),
-            'im_shape': torch.tensor([[640., 640.]]).to('cuda:0'),
-            'scale_factor': torch.tensor([[1., 1.]]).to('cuda:0'),
+            'image': torch.rand(batch_size, 3, 640, 640).to('cuda:0'),
+            'im_shape': torch.tensor([[640., 640.]]).tile(batch_size, 1).to('cuda:0'),
+            'scale_factor': torch.tensor([[1., 1.]]).tile(batch_size, 1).to('cuda:0'),
         }
         
     else:
         blob = {
-            'image': np.random.rand(1, 3, 640, 640).astype(np.float32),
-            'im_shape': np.array([[640., 640.]]).astype(np.float32),
-            'scale_factor': np.array([[1., 1.]]).astype(np.float32),
+            'image': np.random.rand(batch_size, 3, 640, 640).astype(np.float32),
+            'im_shape': np.array([[640., 640.]]).repeat(batch_size, 0).astype(np.float32),
+            'scale_factor': np.array([[1., 1.]]).repeat(batch_size, 0).astype(np.float32),
         }
     return blob
 
@@ -308,14 +370,17 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--path', type=str, default='')
     parser.add_argument('--backend', type=str, default='torch')
-    parser.add_argument('--warmup_steps', type=int, default=10)
+    parser.add_argument('--warmup_steps', type=int, default=20)
     parser.add_argument('--repeats', type=int, default=10)
     parser.add_argument('--img_dir', type=str, default='')
+    parser.add_argument('--img_file', type=str, default='')
+    parser.add_argument('--batch_size', type=int, default=1)
+    parser.add_argument('--draw', action='store_true')
+    parser.add_argument('--device_id', type=int, default=0)
+
     args = parser.parse_args()
 
-
-
-    m = TRTInference(args.path, backend=args.backend)
+    m = TRTInference(args.path, backend=args.backend, device=f'cuda:{args.device_id}')
     
     preprocess = T.Compose([
         T.Resize(size=(640, 640)),
@@ -324,10 +389,9 @@ if __name__ == '__main__':
     ])
 
     dataset = Dataset(img_dir=args.img_dir, preprocess=preprocess)
-    dataloader = data.DataLoader(dataset, batch_size=1, shuffle=False)
+    dataloader = data.DataLoader(dataset, batch_size=args.batch_size, shuffle=False)
 
-
-    blob = dummy_blob(backend=args.backend)
+    blob = dummy_blob(args.batch_size, backend=args.backend)
     m.warmup(blob, args.warmup_steps)
 
     time_profile = TimeProfiler()
@@ -340,9 +404,8 @@ if __name__ == '__main__':
         with time_profile:
             _ = m.warmup(blob, n=args.repeats)
 
-
-        outputs = m(blob)
-        draw_result_yolo(outputs, i)
+        if args.draw:
+            draw_result_yolo(blob, m(blob), 0.25, i)
 
     # print(np.mean(times) * 1000)
     print(time_profile.total / len(dataloader) / args.repeats * 1000)    

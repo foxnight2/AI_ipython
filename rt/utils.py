@@ -10,7 +10,9 @@ import os
 import glob
 import time 
 import contextlib
+import numpy as np
 from PIL import Image 
+
 
 
 class TimeProfiler(contextlib.ContextDecorator):
@@ -45,7 +47,7 @@ class ToTensor(T.ToTensor):
 
 
 class PadToSize(T.Pad):
-    def __init__(self, size, fill=0, padding_mode="constant"):
+    def __init__(self, size, fill=0, padding_mode='constant'):
         super().__init__(0, fill, padding_mode)
         self.size = size
         self.fill = fill
@@ -113,7 +115,7 @@ def draw_result_ppdetr(m, blob):
     '''show result
     '''
     outputs = m(blob)
-    preds = outputs['reshape2_94.tmp_0']
+    preds = outputs.values()[0]
     preds = preds[preds[:, 1] > 0.5]
 
     im = (blob['image'][0] * 255).to(torch.uint8)
@@ -123,19 +125,35 @@ def draw_result_ppdetr(m, blob):
 
 
 
-def draw_result_yolo(outputs, name=''):
+def draw_result_yolo(blob, outputs, draw_score_threshold=0.25, name=''):
     '''show result
     Keys:
         'num_dets', 'det_boxes', 'det_scores', 'det_classes'
-    '''
-    # outputs = m(blob)
-    # print(outputs['num_dets'].shape)
-    
-    for i in range(outputs['num_dets'].shape[0]):
+    '''    
+    for i in range(blob['image'].shape[0]):
         det_scores = outputs['det_scores'][i]
-        det_boxes = outputs['det_boxes'][i][det_scores > 0.1]
-        # print(det_boxes)
+        det_boxes = outputs['det_boxes'][i][det_scores > draw_score_threshold]
         
         im = (blob['image'][i] * 255).to(torch.uint8)
         im = torchvision.utils.draw_bounding_boxes(im, boxes=det_boxes, width=2)
         Image.fromarray(im.permute(1, 2, 0).cpu().numpy()).save(f'test_{name}_{i}.jpg')
+
+
+
+def dummy_blob(batch_size=1, backend='torch'):
+    '''
+    '''
+    if backend == 'torch':
+        blob = {
+            'image': torch.rand(batch_size, 3, 640, 640).to('cuda:0'),
+            'im_shape': torch.tensor([[640., 640.]]).tile(batch_size, 1).to('cuda:0'),
+            'scale_factor': torch.tensor([[1., 1.]]).tile(batch_size, 1).to('cuda:0'),
+        }
+        
+    else:
+        blob = {
+            'image': np.random.rand(batch_size, 3, 640, 640).astype(np.float32),
+            'im_shape': np.array([[640., 640.]]).repeat(batch_size, 0).astype(np.float32),
+            'scale_factor': np.array([[1., 1.]]).repeat(batch_size, 0).astype(np.float32),
+        }
+    return blob
