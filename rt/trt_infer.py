@@ -431,8 +431,9 @@ if __name__ == '__main__':
             draw_result_yolo(blob, m(blob), 0.25, i)
 
     # print(np.mean(times) * 1000)
-    print('total time: ', time_profile.total)
-    print('fps: ', 1. / (time_profile.total / args.repeats / len(dataset) * 1000))
+    print(f'total time {time_profile.total} for {len(dataset)} images with batch_size={args.batch_size}', )
+
+    print('fps: ', 1000. / (time_profile.total / args.repeats / len(dataset)))
 
     print(time_profile.total / len(dataloader) / args.repeats * 1000)    
 
