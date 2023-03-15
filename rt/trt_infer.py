@@ -396,7 +396,7 @@ if __name__ == '__main__':
     parser.add_argument('--warmup_steps', type=int, default=20)
     parser.add_argument('--repeats', type=int, default=10)
     parser.add_argument('--img_dir', type=str, default='')
-    parser.add_argument('--img_file', type=str, default='')
+    # parser.add_argument('--img_file', type=str, default='')
     parser.add_argument('--batch_size', type=int, default=1)
     parser.add_argument('--draw', action='store_true')
     parser.add_argument('--device_id', type=int, default=0)
@@ -431,5 +431,8 @@ if __name__ == '__main__':
             draw_result_yolo(blob, m(blob), 0.25, i)
 
     # print(np.mean(times) * 1000)
+    print('total time: ', time_profile.total)
+    print('fps: ', 1. / (time_profile.total / args.repeats / len(dataset)) )
+
     print(time_profile.total / len(dataloader) / args.repeats * 1000)    
 

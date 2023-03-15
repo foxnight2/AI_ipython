@@ -134,3 +134,4 @@ if __name__ == '__main__':
 
     export_onnx(name=args.name)
     onnx_insert_nms(name=args.name, score_threshold=args.score_threshold, iou_threshold=args.iou_threshold, max_output_boxes=args.max_output_boxes)
+
