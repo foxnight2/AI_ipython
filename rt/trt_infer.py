@@ -433,7 +433,7 @@ if __name__ == '__main__':
     # print(np.mean(times) * 1000)
     print(f'total time {time_profile.total} for {len(dataset)} images with batch_size={args.batch_size}', )
 
-    print('fps: ', 1000. / (time_profile.total / args.repeats / len(dataset)))
+    print('fps: ', 1. / (time_profile.total / args.repeats / len(dataset)))
 
     print(time_profile.total / len(dataloader) / args.repeats * 1000)    
 
