@@ -432,7 +432,7 @@ if __name__ == '__main__':
 
     # print(np.mean(times) * 1000)
     print('total time: ', time_profile.total)
-    print('fps: ', 1. / (time_profile.total / args.repeats / len(dataset)) * 1000 )
+    print('fps: ', 1. / (time_profile.total / args.repeats / len(dataset) * 1000))
 
     print(time_profile.total / len(dataloader) / args.repeats * 1000)    
 
