@@ -18,7 +18,7 @@ import torchvision.transforms.functional as F
 
 from typing import List, Tuple
 
-
+# from utils import *
 
 class TRTInference(object):
     def __init__(self, engine_path='dino.engine', device='cuda:0', backend='torch', onnx_path='', verbose=False):
@@ -295,13 +295,17 @@ class Dataset(data.Dataset):
         # im = Image.open(self.img_path_list[index]).convert('RGB')
         im = torchvision.io.read_file(self.im_path_list[index])
         im = torchvision.io.decode_jpeg(im, mode=torchvision.io.ImageReadMode.RGB, device=self.device)
+        orig_shape = im.shape # c,h,w
 
         im = self.preprocess(im)
-        
+        cur_shape = im.shape 
+
         blob = {
             'image': im, 
             'im_shape': torch.tensor([640., 640.]).to(im.device),
             'scale_factor': torch.tensor([1., 1.]).to(im.device),
+            'orig_size': torch.tensor([orig_shape[2], orig_shape[1]]).to(im.device),
+            # 'ratio': torch.tensor().to(im.device),
         }
 
         return blob
@@ -343,6 +347,25 @@ def draw_result_yolo(blob, outputs, draw_score_threshold=0.25, name=''):
         im = torchvision.utils.draw_bounding_boxes(im, boxes=det_boxes, width=2)
         Image.fromarray(im.permute(1, 2, 0).cpu().numpy()).save(f'test_{name}_{i}.jpg')
 
+
+def save_result_json(blob, outputs, path='result.json'):
+    import json 
+    results = []
+
+    for i in range(blob['image'].shape[0]):
+        det_scores = outputs['det_scores'][i]
+        det_boxes = outputs['det_boxes'][i]
+
+        for j in range(len(det_scores)):
+            results.append({
+                'image_id': None,
+                'category_id': None,
+                'bbox': det_boxes[j],
+                'score': det_scores[j], 
+            })
+
+    with open(path, 'wb') as f:
+        json.dump(results, f)
 
 
 def dummy_blob(batch_size=1, backend='torch'):

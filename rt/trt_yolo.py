@@ -57,6 +57,7 @@ def export_onnx(name='yolov8n'):
     _ = sess.run(output_names=None, input_feed={'image': data})
     
 
+
 def onnx_insert_nms(name, score_threshold=0.01, iou_threshold=0.7, max_output_boxes=300, simplify=False):
     '''http://www.xavierdupre.fr/app/onnxcustom/helpsphinx/api/onnxops/onnx__EfficientNMS_TRT.html
     '''
@@ -127,8 +128,9 @@ if __name__ == '__main__':
     parser.add_argument('--score_threshold', type=float, default=0.01)
     parser.add_argument('--iou_threshold', type=float, default=0.7)
     parser.add_argument('--max_output_boxes', type=int, default=300)
+    parser.add_argument('--onnx_simplify', action='stor_true')
 
     args = parser.parse_args()
 
     export_onnx(name=args.name)
-    onnx_insert_nms(name=args.name)
+    onnx_insert_nms(name=args.name, score_threshold=args.score_threshold, iou_threshold=args.iou_threshold, max_output_boxes=args.max_output_boxes)
