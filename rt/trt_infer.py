@@ -90,9 +90,9 @@ class TRTInference(object):
 
             if shape[0] == -1:
                 dynamic = True 
+                shape[0] = max_batch_size
                 if engine.get_tensor_mode(name) == trt.TensorIOMode.INPUT:  # dynamic
                     context.set_input_shape(name, shape)
-                shape[0] = max_batch_size
 
             # if -1 in shape:
             #     dynamic = True 
