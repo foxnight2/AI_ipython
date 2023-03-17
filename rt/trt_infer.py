@@ -21,10 +21,11 @@ from typing import List, Tuple
 # from utils import *
 
 class TRTInference(object):
-    def __init__(self, engine_path='dino.engine', device='cuda:0', backend='torch', onnx_path='', verbose=False):
+    def __init__(self, engine_path='dino.engine', device='cuda:0', backend='torch', onnx_path='', max_batch_size=32, verbose=False):
         self.engine_path = engine_path
         self.device = device
         self.backend = backend
+        self.max_batch_size = max_batch_size
         
         self.logger = trt.Logger(trt.Logger.VERBOSE) if verbose else trt.Logger(trt.Logger.INFO)  
 
@@ -37,7 +38,7 @@ class TRTInference(object):
 
         self.context = self.engine.create_execution_context()
 
-        self.bindings = self.get_bindings(self.engine, self.context, self.device)
+        self.bindings = self.get_bindings(self.engine, self.context, self.max_batch_size, self.device)
         self.bindings_addr = OrderedDict((n, v.ptr) for n, v in self.bindings.items())
 
         self.input_names = self.get_input_names()
@@ -76,25 +77,31 @@ class TRTInference(object):
         return names
 
     
-    def get_bindings(self, engine, context, device=None):
+    def get_bindings(self, engine, context, max_batch_size=32, device=None):
         '''build binddings
         '''
         Binding = namedtuple('Binding', ('name', 'dtype', 'shape', 'data', 'ptr'))
         bindings = OrderedDict()
-        max_batch_size = 1
+        # max_batch_size = 1
 
         for i, name in enumerate(engine):
             shape = engine.get_tensor_shape(name)
             dtype = trt.nptype(engine.get_tensor_dtype(name))
 
-            if -1 in shape:
+            if shape[0] == -1:
                 dynamic = True 
                 if engine.get_tensor_mode(name) == trt.TensorIOMode.INPUT:  # dynamic
-                    shape = engine.get_tensor_profile_shape(name, i)[2]
                     context.set_input_shape(name, shape)
-                    max_batch_size = shape[0]
-                else:                    
-                    shape[0] = max_batch_size
+                shape[0] = max_batch_size
+
+            # if -1 in shape:
+            #     dynamic = True 
+            #     if engine.get_tensor_mode(name) == trt.TensorIOMode.INPUT:  # dynamic
+            #         shape = engine.get_tensor_profile_shape(name, i)[2]
+            #         context.set_input_shape(name, shape)
+            #         max_batch_size = shape[0]
+            #     else:
+            #         shape[0] = max_batch_size
 
             if self.backend == 'cuda':
                 if engine.get_tensor_mode(name) == trt.TensorIOMode.INPUT:

@@ -80,9 +80,10 @@
 
 
 ## GAN
-- [TransGAN: Two Transformers Can Make One Strong GAN](./2102.07074.pdf)
+- [GAN](./agi/Papers.md)
 
-
+## Diffusion
+- [Diffusion](./agi/Papers.md)
 
 ## 3D
 ### Dataset
