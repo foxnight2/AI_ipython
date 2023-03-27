@@ -14,6 +14,13 @@
 ## CLIP
 - 
 
+## Prompt 
+- [Pre-train, Prompt, and Predict: A Systematic Survey of Prompting Methods in Natural Language Processing](https://arxiv.org/pdf/2107.13586.pdf)
+ - [The Prompt Artists](https://arxiv.org/pdf/2303.12253.pdf)
+
 
 ## Multi-modal
 - Multimodality Helps Unimodality: Cross-Modal Few-Shot Learning with Multimodal Models
+
+
+## 

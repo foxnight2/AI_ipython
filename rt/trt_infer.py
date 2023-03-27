@@ -192,10 +192,10 @@ class TRTInference(object):
         with trt.Builder(self.logger) as builder, \
             builder.create_network(EXPLICIT_BATCH) as network, \
             trt.OnnxParser(network, self.logger) as parser, \
-            builder.create_builder_config() as builder_config:
+            builder.create_builder_config() as config:
             
-            builder_config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, 1 << 30) # 1024 MiB
-            builder_config.set_flag(trt.BuilderFlag.FP16)
+            config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, 1 << 30) # 1024 MiB
+            config.set_flag(trt.BuilderFlag.FP16)
 
             with open(onnx_file_path, 'rb') as model:
                 if not parser.parse(model.read()):
@@ -210,14 +210,25 @@ class TRTInference(object):
             # input_initializer = [node.name for node in model.graph.initializer]
             # input_names = list(set(input_all)  - set(input_initializer))
             # input_nodes = [node for node in model.graph.input if node.name in input_name]
-
-            # https://docs.nvidia.com/deeplearning/tensorrt/api/python_api/infer/Graph/Network.html
+            inputs = [network.get_input(i) for i in range(network.num_inputs)]
+            outputs = [network.get_output(i) for i in range(network.num_outputs)]
+            
+            # https://github.com/ultralytics/ultralytics/blob/main/ultralytics/yolo/engine/exporter.py#L482
+            profile = builder.create_optimization_profile()
             for i in range(network.num_inputs):
                 shape = network.get_input(i).shape
                 if shape[0] == -1:
-                    network.get_input(i).shape = tuple([max_batch_size, ] + list(shape)[1:])
+                    profile.set_shape(network.get_input(i).name, (1, *shape[1:]), (max_batch_size//2, *shape[1:]), (max_batch_size, *shape[1:]))
+            config.add_optimization_profile(profile)
 
-            serialized_engine = builder.build_serialized_network(network, builder_config)
+
+            # # https://docs.nvidia.com/deeplearning/tensorrt/api/python_api/infer/Graph/Network.html
+            # for i in range(network.num_inputs):
+            #     shape = network.get_input(i).shape
+            #     if shape[0] == -1:
+            #         network.get_input(i).shape = tuple([max_batch_size, ] + list(shape)[1:])
+
+            serialized_engine = builder.build_serialized_network(network, config)
             with open(engine_file_path, 'wb') as f:
                 f.write(serialized_engine)
 
@@ -407,10 +418,11 @@ if __name__ == '__main__':
     parser.add_argument('--batch_size', type=int, default=1)
     parser.add_argument('--draw', action='store_true')
     parser.add_argument('--device_id', type=int, default=0)
+    parser.add_argument('--max_batch_size', type=int, default=32)
 
     args = parser.parse_args()
 
-    m = TRTInference(args.path, backend=args.backend, device=f'cuda:{args.device_id}')
+    m = TRTInference(args.path, backend=args.backend, device=f'cuda:{args.device_id}', max_batch_size=args.max_batch_size)
     
     preprocess = T.Compose([
         T.Resize(size=(640, 640)),
