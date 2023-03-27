@@ -184,7 +184,7 @@ class TRTInference(object):
         return self.time_profile.total / n 
 
 
-    def build_engine(self, onnx_file_path, engine_file_path, max_batch_size=32):
+    def build_engine(self, onnx_file_path, engine_file_path, max_batch_size=32, dynamic=True):
         '''Takes an ONNX file and creates a TensorRT engine to run inference with
         http://gitlab.baidu.com/paddle-inference/benchmark/blob/main/backend_trt.py#L57
         '''
@@ -214,12 +214,13 @@ class TRTInference(object):
             outputs = [network.get_output(i) for i in range(network.num_outputs)]
             
             # https://github.com/ultralytics/ultralytics/blob/main/ultralytics/yolo/engine/exporter.py#L482
-            profile = builder.create_optimization_profile()
-            for i in range(network.num_inputs):
-                shape = network.get_input(i).shape
-                if shape[0] == -1:
-                    profile.set_shape(network.get_input(i).name, (1, *shape[1:]), (max_batch_size//2, *shape[1:]), (max_batch_size, *shape[1:]))
-            config.add_optimization_profile(profile)
+            if dynamic:
+                profile = builder.create_optimization_profile()
+                for i in range(network.num_inputs):
+                    shape = network.get_input(i).shape
+                    if shape[0] == -1:
+                        profile.set_shape(network.get_input(i).name, (1, *shape[1:]), (max_batch_size//2, *shape[1:]), (max_batch_size, *shape[1:]))
+                config.add_optimization_profile(profile)
 
 
             # # https://docs.nvidia.com/deeplearning/tensorrt/api/python_api/infer/Graph/Network.html
