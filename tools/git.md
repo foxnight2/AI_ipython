@@ -134,7 +134,9 @@
 
 
 # submodules
-- git submodule add xxx
+- git submodule add url [path/name]
 - git submodule init
 - git submodule update
 - git submodule update --init --recursive
+- git submodule foreach git pull
+- git submodule add https://github.com/IDEA-Research/GroundingDINO.git uaig/grounding_dino
