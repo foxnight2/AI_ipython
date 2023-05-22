@@ -339,7 +339,7 @@ class Dataset(data.Dataset):
         pass
 
 
-def draw_result_ppdetr(m, blob):
+def draw_result_rtdetr(m, blob):
     '''show result
     '''
     outputs = m(blob)

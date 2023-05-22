@@ -41,3 +41,7 @@
 ## PEFT
 - [State-of-the-art Parameter-Efficient Fine-Tuning (PEFT) methods](https://github.com/huggingface/peft)
 - [LoRA: Low-Rank Adaption of Large Language Models](https://arxiv.org/pdf/2106.09685.pdf)
+
+
+## Others 
+- [RGB no more: Minimally-decoded JPEG Vision Transformers](https://arxiv.org/abs/2211.16421)

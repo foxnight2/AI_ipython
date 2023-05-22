@@ -1,8 +1,8 @@
 
 # paper reading
 
-Paper | Commits | Related  
----|---|---
+Paper | Commits | Related 
+---|---|---|
 [Processing]() | -- | [the wonderful world of preprocessing in nlp](https://mlexplained.com/2019/11/06/a-deep-dive-into-the-wonderful-world-of-preprocessing-in-nlp/)
 [Word2vec]()| distributionl representation; cbow, skip-gram | [How to Train word2vec](http://jalammar.github.io/illustrated-word2vec/)
 [GloVe]() | global information, coocurrent maxtrix|
@@ -15,3 +15,19 @@ Paper | Commits | Related
 [XLNet]() | autoregressive(AR) language model; Permutation Language Modeling; Two-Stream Self-Attention; [What is XLNet and why it outperforms BERT](https://towardsdatascience.com/what-is-xlnet-and-why-it-outperforms-bert-8d8fce710335); [xlnet-theory](http://fancyerii.github.io/2019/06/30/xlnet-theory/)
 [positional_encoding](https://kazemnejad.com/blog/transformer_architecture_positional_encoding/) | -- | --
 [Computational Complexity](https://zhuanlan.zhihu.com/p/264749298) | -- | --
+
+
+## Processing
+
+
+## Tokenizer
+
+
+## Generation Strategies
+- [generation_strategies](https://huggingface.co/docs/transformers/v4.29.1/en/generation_strategies)
+- [Greedy Search]()
+- [Contrastive search]()
+- [Multinomial sampling]()
+
+
+## Model 
