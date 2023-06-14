@@ -7,5 +7,5 @@
 - [MiniGPT-4: Enhancing Vision-Language Understanding with Advanced Large Language Models](https://arxiv.org/pdf/2304.10592.pdf)
 - [InstructBLIP: Towards General-purpose Vision-Language Models with Instruction Tuning](https://arxiv.org/pdf/2305.06500.pdf)
 - [Too Large; Data Reduction for Vision-Language Pre-Training](https://arxiv.org/pdf/2305.20087.pdf)
-- [LLaVA: Large Language and Vision Assistant](https://llava-vl.github.io/5)
+- [LLaVA: Large Language and Vision Assistant](https://llava-vl.github.io/)
 - [X-LLM: Bootstrapping Advanced Large Language Models by Treating Multi-Modalities as Foreign Languages](https://arxiv.org/pdf/2305.04160.pdf)
