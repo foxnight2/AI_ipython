@@ -35,22 +35,26 @@ if __name__ == '__main__':
 
 
 
-    for i, (images, tokens) in enumerate(dataloader):
-        
-        images = images.to(device) 
-        tokens = tokens.to(device)
-        
-        y_input = tokens[:, :-1]
-        y_expect = tokens[:, 1:]
-        
-        preds = m(images, y_input)
+    for e in range(12):
+        for i, (images, tokens) in enumerate(dataloader):
+            
+            images = images.to(device) 
+            tokens = tokens.to(device)
+            
+            y_input = tokens[:, :-1]
+            y_expect = tokens[:, 1:]
+            
+            preds: torch.Tensor = m(images, y_input)
 
-        loss = criterion(preds.flatten(0, 1),  y_expect.flatten())
-        
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+            loss = criterion(preds.permute(0, 2, 1),  y_expect)
+            
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
 
-        if i % 10 == 0:
-            print(loss)
+            if i % 10 == 0:
+                print(e, i, loss)
     
+
+        if e % 2 == 0:
+            torch.save(m.state_dict(), f'{e}.pth')

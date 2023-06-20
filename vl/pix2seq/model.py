@@ -4,17 +4,23 @@ import timm
 # from timm.models import trunc_normal_
 import math
 
+import torchvision.models as models 
 
 class Encoder(torch.nn.Module):
-    def __init__(self, name='deit3_small_patch16_384_in21ft1k', pretrained=False, out_dim=256) -> None:
+    def __init__(self, name='deit3_small_patch16_384_in21ft1k', pretrained=False, out_dim=256, freeze=False) -> None:
         super().__init__()
-        self.model = timm.create_model(name, num_classes=0, global_pool='', pretrained=pretrained)
-        self.bottleneck = nn.AdaptiveAvgPool1d(out_dim)
 
+        self.model: nn.Module = timm.create_model(name, num_classes=0, global_pool='', pretrained=pretrained)
+        self.bottleneck = nn.AdaptiveAvgPool1d(out_dim)
+        self.freeze = freeze
+
+        if self.freeze:
+            for p in self.model.parameters():
+                p.requires_grad = False
+        
     def forward(self, x):
         features = self.model(x)
         return self.bottleneck(features[:, 1:])
-
 
 
 class Decoder(torch.nn.Module):
