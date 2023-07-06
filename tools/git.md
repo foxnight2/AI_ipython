@@ -140,3 +140,9 @@
 - git submodule update --init --recursive
 - git submodule foreach git pull
 - git submodule add https://github.com/IDEA-Research/GroundingDINO.git uaig/grounding_dino
+
+
+
+# github
+- https://shields.io/badges
+- https://star-history.com/
