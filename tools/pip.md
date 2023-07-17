@@ -19,3 +19,6 @@
 - python -m venv venv
 - source venv/bin/activate 
 - deactivate
+
+
+= bash ~/anaconda3.sh -b -p $HOME/anaconda3
