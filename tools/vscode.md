@@ -25,6 +25,10 @@
             
             "justMyCode": false,
 
+            "env": {
+                "CUDA_VISIBLE_DEVICES": "0",
+            }
+
             "args": [
                 "--c", "x",
                 "--o", "xx"

@@ -2,7 +2,7 @@
 - pip install -r requirements.txt
 
 
-
+- conda create -n py3 --clone root
 - conda create -n py3 python=3.8.10 numpy scipy pandas cython matplotlib
 - conda remove -n xx --all 
 - conda env list 
@@ -21,4 +21,6 @@
 - deactivate
 
 
-= bash ~/anaconda3.sh -b -p $HOME/anaconda3
+- bash ~/anaconda3.sh -b -p $HOME/anaconda3
+- export PATH=$HOME/anaconda3/bin:$HOME/anaconda3/condabin:$PATH
+- source ~/.bashrc

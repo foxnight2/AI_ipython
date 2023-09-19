@@ -36,3 +36,8 @@ Paper | Commits | Related
 ## Others
 - [stemming]()
 - [lemmatization]()
+
+
+
+- key_padding_mask  (QK.T -> mask_fill -> softmax)
+- attn_mask ((QK.T + attn_mask) -> softmax)

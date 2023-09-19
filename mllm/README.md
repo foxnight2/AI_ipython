@@ -9,3 +9,8 @@
 - [Too Large; Data Reduction for Vision-Language Pre-Training](https://arxiv.org/pdf/2305.20087.pdf)
 - [LLaVA: Large Language and Vision Assistant](https://llava-vl.github.io/)
 - [X-LLM: Bootstrapping Advanced Large Language Models by Treating Multi-Modalities as Foreign Languages](https://arxiv.org/pdf/2305.04160.pdf)
+- [InstructionGPT-4: A 200-Instruction Paradigm for Fine-Tuning MiniGPT-4](https://arxiv.org/abs/2308.12067)
+- [CLIPScore: A Reference-free Evaluation Metric for Image Captioning](https://arxiv.org/abs/2104.08718)
+
+
+- https://paperswithcode.com/datasets

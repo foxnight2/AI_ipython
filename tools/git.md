@@ -80,7 +80,9 @@
  - git cherry-pick --abort
 
 
- 
+## rebase
+- git fetch,  git rebase <remote>/<branch>
+- git rebase -i  id  
 
 
 ## log
@@ -146,3 +148,40 @@
 # github
 - https://shields.io/badges
 - https://star-history.com/
+
+
+
+# cancle
+- git reset --soft HEAD^   # cancle commit, keep add 
+- git reset --hard HEAD^   # cancle commit and add
+- git reset                # cancle add
+
+
+# Received HTTP code 503 from proxy after CONNECT
+```
+git config --unset http.proxy
+git config --unset https.proxy
+git config --unset core.gitproxy
+```
+
+---
+
+```
+# github-recovery-codes.txt
+8b5ed-bc1d0
+34ef6-de515
+4171e-87915
+ada7f-6de7c
+a0b3e-2bcb8
+528ba-fb3e0
+06bbe-1381f
+ece42-8f86c
+19141-20493
+e152e-0e748
+ab1ce-18dd6
+40ee3-f69d0
+6ac07-ddbe0
+9a353-7dc34
+af017-88249
+6ac01-1fbeb
+```

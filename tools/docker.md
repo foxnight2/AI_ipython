@@ -6,6 +6,7 @@
 - docker images
 - docker container ls
 - docker ps -a
+- systemctl start docker
 
 ---
 
